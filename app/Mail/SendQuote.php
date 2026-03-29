@@ -23,7 +23,7 @@ class SendQuote extends Mailable
      * We are going to use private and use viewData array. 
      */
     public function __construct(
-        private string $action,
+        private string $state,
         private string $description,
         private string $projectName,
         private string $technicianName
@@ -46,7 +46,7 @@ class SendQuote extends Mailable
     public function content(): Content
     {
         $viewData = [];
-        $viewData['action'] = $this->action;
+        $viewData['state'] = $this->state;
         $viewData['description'] = $this->description;
         $viewData['projectName'] = $this->projectName;
         $viewData['technicianName'] = $this->technicianName;

@@ -9,6 +9,7 @@
         name="email"
         value="{{ old('email') }}"
         placeholder="Correo electronico..."
+        required="true"
         >
     </div>
     

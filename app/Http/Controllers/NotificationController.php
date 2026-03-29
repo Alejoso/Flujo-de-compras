@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use \Exception;
+
 use App\Mail\SendQuote;
 use Illuminate\Support\Facades\Mail;
-
 
 class NotificationController extends Controller
 {
@@ -16,10 +17,9 @@ class NotificationController extends Controller
         return view('notification.index');
     }
 
-    public function send(Request $request)
+    public function send(Request $request): RedirectResponse
     {
         $email = $request->input("email");
-        session()->flash("success","Una notificacion ha sido enviada");
     
         $action = 'Actualizacion';
         $description = 'Se ha actualizado la cotizacion numero 10';
@@ -27,8 +27,16 @@ class NotificationController extends Controller
         $technicianName = 'Pacho';
         $sendQuote = new SendQuote($action , $description , $projectName , $technicianName);
 
-        Mail::to($email)->send($sendQuote);
+        try {
+            Mail::to($email)->send($sendQuote);
+            session()->flash("success","Una notificacion ha sido enviada");
+            
+            return back();
+        } 
+        catch (Exception $e) {
+            session()->flash('error', $e->getMessage());
 
-        return back();
+            return back();
+        }
     }
 }

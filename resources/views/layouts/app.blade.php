@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
-    <title>@yield('title', __('layout.appTitle'))</title>
+    <title>@yield('title', 'Notificaciones')</title>
 
 </head>
 
@@ -26,23 +26,37 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                <a class="nav-link active" href="#">Nop hago nada xd</a>
+                <a class="nav-link active" href="#">No hago nada xd</a>
             </div>
         </div>
     </div>
 </nav>
 
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
+<!-- Block for showing session messages -->
+@if (session('success') || session('error'))
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+    <div class="toast show bg-white" role="alert" style="min-width: 600px;">
+        <div class="toast-header
+            @if(session('success')) bg-success text-white
+            @else bg-warning
+            @endif">
+            <strong class="me-auto">
+                {{ session('success') ? 'Éxito' : 'Advertencia' }}
+            </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+        </div>
+        <div class="toast-body">
+            {{ session('success') ?? session('error') }}
+        </div>
     </div>
-@endif
+</div>
 
-@if (session('error'))
-    <div class="alert alert-warning">
-        {{ session('error') }}
-    </div>
+<script>
+    const toastEl = document.querySelector('.toast');
+    toast.show();
+</script>
 @endif
+<!-- End block of session messages -->
 
 <div class="container my-4">
     @yield('content')

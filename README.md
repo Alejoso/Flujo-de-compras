@@ -19,6 +19,7 @@
 # Links interesantes
 [Enviar un archivo sin escribirlo a disco, solo con los bytes](https://laravel.com/docs/12.x/mail#raw-data-attachments)
 [Poner imagenes embebidas en el correo](https://laravel.com/docs/12.x/mail#inline-attachments)
+[Queues](https://laravel.com/docs/12.x/queues)
 
 # Congiraciones extra
 - Se tuvo que configurar el archivo ``config/app.php`` para ajustar la zona horaria `'timezone' => 'America/Bogota',` 

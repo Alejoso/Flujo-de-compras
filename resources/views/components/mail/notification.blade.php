@@ -11,7 +11,7 @@
  
     <x-mail.card title="Detalles del evento">
         <div class="data-grid">
-            <x-mail.dataRow label="Acción"       :value="$viewData['action']"     type="badge"      />
+            <x-mail.dataRow label="Estado"       :value="$viewData['state']"     type="badge"      />
             <x-mail.dataRow label="Fecha y hora" :value="$viewData['timestamp']"  type="timestamp"  />
             <x-mail.dataRow label="Técnico"      :value="$viewData['technicianName']" type="technician" />
             <x-mail.dataRow label="Proyecto"     :value="$viewData['projectName']"    type="project"    />
