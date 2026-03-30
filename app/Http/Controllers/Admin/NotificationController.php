@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -19,7 +20,7 @@ class NotificationController extends Controller
         $viewData["usersWithNoNotifications"] = User::where('recibeNotificaciones' , false)->get();
         $viewData['userWithNotifications'] = User::where('recibeNotificaciones' , true)->get();
 
-        return view('notification.index')->with('viewData' , $viewData);
+        return view('admin.notification.index')->with('viewData', $viewData);
     }
 
     public function save(Request $request): RedirectResponse

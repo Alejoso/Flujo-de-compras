@@ -1,0 +1,49 @@
+/* ── Tecnico Layout ── */
+.tecnico-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.tecnico-sidebar {
+    width: 240px;
+    min-height: 100vh;
+    background-color: #0a120a;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.tecnico-main {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.tecnico-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    background-color: rgba(10, 18, 10, 0.8);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.tecnico-badge {
+    background-color: rgba(255, 215, 0, 0.12);
+    color: var(--primary);
+}
+
+.tecnico-content {
+    padding: 1.5rem;
+    flex: 1;
+}

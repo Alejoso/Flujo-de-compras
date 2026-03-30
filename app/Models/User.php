@@ -5,13 +5,14 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * USER ATTRIBUTES
@@ -56,24 +57,25 @@ class User extends Authenticatable
     }
 
     // name
-    public function setName(string $name): void
-    {
-        $this->attributes['name'] = $name;
-    }
-
     public function getName(): string
     {
         return $this->attributes['name'];
     }
 
-    // email
-    public function setEmail( string $email): void
+    public function setName(string $name): void
     {
-        $this->attributes['email'] = $email;
+        $this->attributes['name'] = $name;
     }
+
+    // email
     public function getEmail(): string
     {
         return $this->attributes['email'];
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->attributes['email'] = $email;
     }
 
     // email_verified_at
@@ -89,58 +91,56 @@ class User extends Authenticatable
     }
 
     // rol
-    public function setRol(string $rol): void
-    {
-        $this->attributes['rol'] = $rol;
-    }
-
     public function getRol(): string
     {
         return $this->attributes['rol'];
     }
-
-    // cedula
-    public function setCedula (string $cedula): void
+  
+    public function setRol(string $rol): void
     {
-        $this->attributes['cedula'] = $cedula;
+        $this->attributes['rol'] = $rol;
     }
-
+  
+    // cedula
     public function getCedula(): string
     {
         return $this->attributes['cedula'];
     }
-
-    // sueldo
-    public function setSueldo (string $sueldo): void
+    public function setCedula(string $cedula): void
     {
-        $this->attributes['sueldo'] = $sueldo;
+        $this->attributes['cedula'] = $cedula;
     }
 
+    // sueldo
     public function getSueldo(): string
     {
         return $this->attributes['sueldo'];
     }
-
-    // numeroTelefono
-    public function setNumeroTelefono(string $numeroTelefono): void
+    public function setSueldo(string $sueldo): void
     {
-        $this->attributes['numeroTelefono'] = $numeroTelefono;
+        $this->attributes['sueldo'] = $sueldo;
     }
 
+    // numeroTelefono
     public function getNumeroTelefono(): string
     {
         return $this->attributes['numeroTelefono'];
     }
 
-    // recibeNotificaciones
-    public function setRecibeNotificaciones(bool $recibeNotificaciones): void
+    public function setNumeroTelefono(string $numeroTelefono): void
     {
-        $this->attributes['recibeNotificaciones'] = $recibeNotificaciones;
+        $this->attributes['numeroTelefono'] = $numeroTelefono;
     }
 
+    // recibe_notificaciones
     public function getRecibeNotificaciones(): bool
     {
         return $this->attributes['recibeNotificaciones'];
+    }
+
+    public function setRecibeNotificaciones(bool $recibeNotificaciones): void
+    {
+        $this->attributes['recibeNotificaciones'] = $recibeNotificaciones;
     }
 
     // timestamps
@@ -155,20 +155,20 @@ class User extends Authenticatable
     }
 
     // Relations
-    // public function cotizaciones(): HasMany
-    // {
-    //     return $this->hasMany(Cotizaciones::class);
-    // }
-
-    // Relatiosn setters and getters
-    public function setCotizaciones(Collection $cotizaciones): void
+    public function cotizaciones(): HasMany
     {
-        $this->cotizaciones = $cotizaciones;
+        return $this->hasMany(Cotizacion::class);
     }
 
+    // Relations setters and getters
     public function getCotizaciones(): Collection
     {
         return $this->cotizaciones;
+    }
+
+    public function setCotizaciones(Collection $cotizaciones): void
+    {
+        $this->cotizaciones = $cotizaciones;
     }
     
 }

@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('title', 'Gestión de usuarios')
+@extends('layouts.admin')
+@section('page-title', 'Notificaciones')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('/css/notification.css') }}">
@@ -10,9 +10,9 @@
 
     {{-- Header --}}
     <div class="um-header">
-        <h1 class="um-title">Gestión de usuarios</h1>
+        <h1 class="um-title">Gestión de notificaciones</h1>
     </div>
- 
+
     {{-- Card --}}
     <div class="um-card">
         <div class="um-card-header">
@@ -27,7 +27,7 @@
                 Agregar usuario
             </a>
         </div>
- 
+
         {{-- Table --}}
         <div class="um-table-wrapper">
             <table class="um-table">
@@ -46,23 +46,21 @@
                         <td>
                             <div class="um-user-cell">
                                 <div class="um-avatar">
-                                    {{ strtoupper(substr($user['name'], 0, 1)) }}{{ strtoupper(substr(strstr($user['name'], ' '), 1, 1)) }}
+                                    {{ strtoupper(substr($user->getName(), 0, 1)) }}{{ strtoupper(substr(strstr($user->getName(), ' '), 1, 1)) }}
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <span class="um-user-name">
-                                {{ $user->getName() }}
-                            </span>
+                            <span class="um-user-name">{{ $user->getName() }}</span>
                         </td>
-                        <td class="um-email">{{ $user['email'] }}</td>
+                        <td class="um-email">{{ $user->getEmail() }}</td>
                         <td>
                             <span class="um-badge um-badge--{{ $user->getRol() }}">
                                 {{ ucfirst($user->getRol()) }}
                             </span>
                         </td>
                         <td>
-                            <form action="{{ route('notification.destroy' , ['id' => $user->getId()]) }}" method="POST"
+                            <form action="{{ route('admin.notification.destroy', ['id' => $user->getId()]) }}" method="POST"
                                 onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?')">
                                 @csrf
                                 @method('PATCH')
@@ -95,7 +93,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="{{ route('notification.save') }}" method="POST">
+            <form action="{{ route('admin.notification.save') }}" method="POST">
                 @csrf
                 @method('PATCH')
                 @if(count($viewData['usersWithNoNotifications']) == 0)
