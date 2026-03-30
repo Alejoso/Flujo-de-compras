@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('cotizaciones', function (Blueprint $table) {
-            $table->foreignId('factura_id')->nullable()->constrained('facturas')->nullOnDelete();
+            $table->foreignId('facturaId')->nullable()->constrained('facturas')->nullOnDelete();
         });
     }
 
@@ -22,8 +22,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('cotizaciones', function (Blueprint $table) {
-            $table->dropForeign(['factura_id']);
-            $table->dropColumn('factura_id');
+            $table->dropForeign(['facturaId']);
+            $table->dropColumn('facturaId');
         });
     }
 };

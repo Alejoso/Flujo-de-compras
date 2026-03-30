@@ -12,8 +12,8 @@ class TipoMaterial extends Model
     /**
      * TIPO MATERIAL ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['material_id'] - int - contains the foreign key of the material
-     * $this->attributes['tipo_id'] - int - contains the foreign key of the type
+     * $this->attributes['materialId'] - int - contains the foreign key of the material
+     * $this->attributes['tipoId'] - int - contains the foreign key of the type
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->material - Material - contains the material associated
@@ -22,8 +22,8 @@ class TipoMaterial extends Model
      * $this->tipoMaterialVersionCotizaciones - TipoMaterialVersionCotizacion[] - contains the quotation version materials associated
      */
     protected $fillable = [
-        'material_id',
-        'tipo_id',
+        'materialId',
+        'tipoId',
     ];
 
     // id

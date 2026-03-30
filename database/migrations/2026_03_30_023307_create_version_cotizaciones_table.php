@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('version_cotizaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_version');
-            $table->boolean('es_la_mas_reciente')->default(true);
-            $table->foreignId('cotizacion_id')->constrained('cotizaciones')->cascadeOnDelete();
+            $table->string('numeroVersion');
+            $table->boolean('esLaMasReciente')->default(true);
+            $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();
             $table->timestamps();
         });
     }

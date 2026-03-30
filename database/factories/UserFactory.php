@@ -33,8 +33,8 @@ class UserFactory extends Factory
             'rol' => 'admin',
             'cedula' => '1234567890',
             'sueldo' => 5000000,
-            'numero_telefono' => '3001234567',
-            'recibe_notificaciones' => true,
+            'numeroTelefono' => '3001234567',
+            'recibeNotificaciones' => true,
         ];
     }
 

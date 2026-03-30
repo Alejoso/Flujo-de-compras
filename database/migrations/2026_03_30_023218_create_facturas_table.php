@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
-            $table->integer('valor_total');
+            $table->integer('valorTotal');
             $table->string('estado');
-            $table->foreignId('proyecto_id')->constrained('proyectos')->cascadeOnDelete();
-            $table->foreignId('cotizacion_id')->constrained('cotizaciones')->cascadeOnDelete();
+            $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
+            $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();
             $table->timestamps();
         });
     }

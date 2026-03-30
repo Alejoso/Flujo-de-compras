@@ -12,18 +12,18 @@ class VersionCotizacion extends Model
     /**
      * VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['numero_version'] - string - contains the version number
-     * $this->attributes['es_la_mas_reciente'] - bool - indicates if this is the most recent version
-     * $this->attributes['cotizacion_id'] - int - contains the foreign key of the quotation
+     * $this->attributes['numeroVersion'] - string - contains the version number
+     * $this->attributes['esLaMasReciente'] - bool - indicates if this is the most recent version
+     * $this->attributes['cotizacionId'] - int - contains the foreign key of the quotation
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->cotizacion - Cotizacion - contains the quotation associated
      * $this->tipoMaterialVersionCotizaciones - TipoMaterialVersionCotizacion[] - contains the materials of this version
      */
     protected $fillable = [
-        'numero_version',
-        'es_la_mas_reciente',
-        'cotizacion_id',
+        'numeroVersion',
+        'esLaMasReciente',
+        'cotizacionId',
     ];
 
     // id
@@ -32,26 +32,26 @@ class VersionCotizacion extends Model
         return $this->attributes['id'];
     }
 
-    // numero_version
+    // numeroVersion
     public function getNumeroVersion(): string
     {
-        return $this->attributes['numero_version'];
+        return $this->attributes['numeroVersion'];
     }
 
     public function setNumeroVersion(string $numeroVersion): void
     {
-        $this->attributes['numero_version'] = $numeroVersion;
+        $this->attributes['numeroVersion'] = $numeroVersion;
     }
 
-    // es_la_mas_reciente
+    // esLaMasReciente
     public function getEsLaMasReciente(): bool
     {
-        return $this->attributes['es_la_mas_reciente'];
+        return $this->attributes['esLaMasReciente'];
     }
 
     public function setEsLaMasReciente(bool $esLaMasReciente): void
     {
-        $this->attributes['es_la_mas_reciente'] = $esLaMasReciente;
+        $this->attributes['esLaMasReciente'] = $esLaMasReciente;
     }
 
     // timestamps

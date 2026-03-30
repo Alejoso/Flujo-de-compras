@@ -12,10 +12,10 @@ class Factura extends Model
     /**
      * FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['valor_total'] - int - contains the total value of the invoice
+     * $this->attributes['valorTotal'] - int - contains the total value of the invoice
      * $this->attributes['estado'] - string - contains the state of the invoice
-     * $this->attributes['proyecto_id'] - int - contains the foreign key of the project
-     * $this->attributes['cotizacion_id'] - int|null - contains the foreign key of the quotation
+     * $this->attributes['proyectoId'] - int - contains the foreign key of the project
+     * $this->attributes['cotizacionId'] - int|null - contains the foreign key of the quotation
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->proyecto - Proyecto - contains the project associated
@@ -23,10 +23,10 @@ class Factura extends Model
      * $this->materialFacturas - MaterialFactura[] - contains the invoice materials associated
      */
     protected $fillable = [
-        'valor_total',
+        'valorTotal',
         'estado',
-        'proyecto_id',
-        'cotizacion_id',
+        'proyectoId',
+        'cotizacionId',
     ];
 
     // id
@@ -35,15 +35,15 @@ class Factura extends Model
         return $this->attributes['id'];
     }
 
-    // valor_total
+    // valorTotal
     public function getValorTotal(): int
     {
-        return $this->attributes['valor_total'];
+        return $this->attributes['valorTotal'];
     }
 
     public function setValorTotal(int $valorTotal): void
     {
-        $this->attributes['valor_total'] = $valorTotal;
+        $this->attributes['valorTotal'] = $valorTotal;
     }
 
     // estado

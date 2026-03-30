@@ -11,8 +11,8 @@ class TipoMaterialVersionCotizacion extends Model
      * TIPO MATERIAL VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['cantidad'] - float - contains the quantity of the material in this version
-     * $this->attributes['version_cotizacion_id'] - int - contains the foreign key of the quotation version
-     * $this->attributes['tipo_material_id'] - int - contains the foreign key of the type material
+     * $this->attributes['versionCotizacionId'] - int - contains the foreign key of the quotation version
+     * $this->attributes['tipoMaterialId'] - int - contains the foreign key of the type material
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->versionCotizacion - VersionCotizacion - contains the quotation version associated
@@ -20,8 +20,8 @@ class TipoMaterialVersionCotizacion extends Model
      */
     protected $fillable = [
         'cantidad',
-        'version_cotizacion_id',
-        'tipo_material_id',
+        'versionCotizacionId',
+        'tipoMaterialId',
     ];
 
     // id

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
             $table->string('estado')->default('Tecnico');
-            $table->foreignId('proyecto_id')->constrained('proyectos')->cascadeOnDelete();
-            $table->foreignId('creado_por')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
+            $table->foreignId('creadoPor')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

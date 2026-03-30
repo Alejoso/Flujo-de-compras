@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('tipo_material_version_cotizaciones', function (Blueprint $table) {
             $table->id();
             $table->float('cantidad');
-            $table->foreignId('version_cotizacion_id')->constrained('version_cotizaciones')->cascadeOnDelete();
-            $table->foreignId('tipo_material_id')->constrained('tipo_materiales')->cascadeOnDelete();
+            $table->foreignId('versionCotizacionId')->constrained('version_cotizaciones')->cascadeOnDelete();
+            $table->foreignId('tipoMaterialId')->constrained('tipo_materiales')->cascadeOnDelete();
             $table->timestamps();
         });
     }

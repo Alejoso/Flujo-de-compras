@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('material_facturas', function (Blueprint $table) {
             $table->id();
-            $table->double('precio_unitario', 15, 0);
+            $table->double('precioUnitario', 15, 0);
             $table->integer('cantidad');
-            $table->foreignId('factura_id')->constrained('facturas')->cascadeOnDelete();
-            $table->foreignId('tipo_material_id')->constrained('tipo_materiales')->cascadeOnDelete();
+            $table->foreignId('facturaId')->constrained('facturas')->cascadeOnDelete();
+            $table->foreignId('tipoMaterialId')->constrained('tipo_materiales')->cascadeOnDelete();
             $table->timestamps();
         });
     }

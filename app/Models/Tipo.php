@@ -13,7 +13,7 @@ class Tipo extends Model
      * TIPO ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['especificacion'] - string - contains the specification of the type
-     * $this->attributes['unidad_medida_id'] - int - contains the foreign key of the unit of measure
+     * $this->attributes['unidadMedidaId'] - int - contains the foreign key of the unit of measure
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->unidadMedida - UnidadMedida - contains the unit of measure associated with this type
@@ -21,7 +21,7 @@ class Tipo extends Model
      */
     protected $fillable = [
         'especificacion',
-        'unidad_medida_id',
+        'unidadMedidaId',
     ];
 
     // id

@@ -13,9 +13,9 @@ class Cotizacion extends Model
      * COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['estado'] - string - contains the state of the quotation  ['Tecnico', 'Tecnico Editada', 'Pendiente', 'Admin Editada', 'En Proceso', 'Facturada', 'Cancelada'])
-     * $this->attributes['proyecto_id'] - int - contains the foreign key of the project
-     * $this->attributes['creado_por'] - int - contains the foreign key of the user who created it
-     * $this->attributes['factura_id'] - int|null - contains the foreign key of the invoice
+     * $this->attributes['proyectoId'] - int - contains the foreign key of the project
+     * $this->attributes['creadoPor'] - int - contains the foreign key of the user who created it
+     * $this->attributes['facturaId'] - int|null - contains the foreign key of the invoice
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->proyecto - Proyecto - contains the project associated
@@ -25,9 +25,9 @@ class Cotizacion extends Model
      */
     protected $fillable = [
         'estado',
-        'proyecto_id',
-        'creado_por',
-        'factura_id',
+        'proyectoId',
+        'creadoPor',
+        'facturaId',
     ];
 
     // id
@@ -66,7 +66,7 @@ class Cotizacion extends Model
 
     public function creadoPor(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'creado_por');
+        return $this->belongsTo(User::class);
     }
 
     public function factura(): BelongsTo

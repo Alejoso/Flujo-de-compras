@@ -121,7 +121,7 @@ class User extends Authenticatable
         $this->attributes['sueldo'] = $sueldo;
     }
 
-    // numero_telefono
+    // numeroTelefono
     public function getNumeroTelefono(): string
     {
         return $this->attributes['numeroTelefono'];

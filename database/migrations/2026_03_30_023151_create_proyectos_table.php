@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('direccion');
             $table->string('ciudad');
-            $table->double('costo_total', 15, 0)->default(0);
+            $table->double('costoTotal', 15, 0)->default(0);
             $table->timestamps();
         });
     }

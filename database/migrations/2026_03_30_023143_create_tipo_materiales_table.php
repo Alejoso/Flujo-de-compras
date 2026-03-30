@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tipo_materiales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('material_id')->constrained('materiales')->cascadeOnDelete();
-            $table->foreignId('tipo_id')->constrained('tipos')->cascadeOnDelete();
+            $table->foreignId('materialId')->constrained('materiales')->cascadeOnDelete();
+            $table->foreignId('tipoId')->constrained('tipos')->cascadeOnDelete();
             $table->timestamps();
         });
     }

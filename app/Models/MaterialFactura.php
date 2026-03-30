@@ -10,20 +10,20 @@ class MaterialFactura extends Model
     /**
      * MATERIAL FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['precio_unitario'] - float - contains the unit price of the material
+     * $this->attributes['precioUnitario'] - float - contains the unit price of the material
      * $this->attributes['cantidad'] - int - contains the quantity of the material
-     * $this->attributes['factura_id'] - int - contains the foreign key of the invoice
-     * $this->attributes['tipo_material_id'] - int - contains the foreign key of the type material
+     * $this->attributes['facturaId'] - int - contains the foreign key of the invoice
+     * $this->attributes['tipoMaterialId'] - int - contains the foreign key of the type material
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->factura - Factura - contains the invoice associated
      * $this->tipoMaterial - TipoMaterial - contains the type material associated
      */
     protected $fillable = [
-        'precio_unitario',
+        'precioUnitario',
         'cantidad',
-        'factura_id',
-        'tipo_material_id',
+        'facturaId',
+        'tipoMaterialId',
     ];
 
     // id
@@ -32,15 +32,15 @@ class MaterialFactura extends Model
         return $this->attributes['id'];
     }
 
-    // precio_unitario
+    // precioUnitario
     public function getPrecioUnitario(): float
     {
-        return $this->attributes['precio_unitario'];
+        return $this->attributes['precioUnitario'];
     }
 
     public function setPrecioUnitario(float $precioUnitario): void
     {
-        $this->attributes['precio_unitario'] = $precioUnitario;
+        $this->attributes['precioUnitario'] = $precioUnitario;
     }
 
     // cantidad

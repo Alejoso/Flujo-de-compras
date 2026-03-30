@@ -14,7 +14,7 @@ class Proyecto extends Model
      * $this->attributes['nombre'] - string - contains the name of the project
      * $this->attributes['direccion'] - string - contains the address of the project
      * $this->attributes['ciudad'] - string - contains the city of the project
-     * $this->attributes['costo_total'] - float - contains the total cost of the project
+     * $this->attributes['costoTotal'] - float - contains the total cost of the project
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->facturas - Factura[] - contains the invoices associated with this project
@@ -24,7 +24,7 @@ class Proyecto extends Model
         'nombre',
         'direccion',
         'ciudad',
-        'costo_total',
+        'costoTotal',
     ];
 
     // id
@@ -66,15 +66,15 @@ class Proyecto extends Model
         $this->attributes['ciudad'] = $ciudad;
     }
 
-    // costo_total
+    // costoTotal
     public function getCostoTotal(): float
     {
-        return $this->attributes['costo_total'];
+        return $this->attributes['costoTotal'];
     }
 
     public function setCostoTotal(float $costoTotal): void
     {
-        $this->attributes['costo_total'] = $costoTotal;
+        $this->attributes['costoTotal'] = $costoTotal;
     }
 
     // timestamps
