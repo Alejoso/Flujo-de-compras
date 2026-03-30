@@ -7,7 +7,6 @@
     <title>{{ config('app.name', 'Laravel') }} | Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
@@ -24,24 +23,29 @@
             <nav class="sidebar-nav">
                 <div class="nav-section-label">General</div>
 
-                <a href="#" class="sidebar-link active">
+                <a href="#" class="sidebar-link {{ request()->routeIs('admin.project*') ? 'active' : '' }}">
                     <i class="bi bi-folder2-open"></i>
                     <span>Proyectos</span>
                 </a>
 
                 <div class="nav-section-label mt-3">Administración</div>
 
-                <a href="{{ route('admin.user.index') }}" class="sidebar-link">
+                <a href="{{ route('admin.user.index') }}" class="sidebar-link {{ request()->routeIs('admin.user*') ? 'active' : '' }}">
                     <i class="bi bi-people-fill"></i>
                     <span>Usuarios</span>
                 </a>
 
-                <a href="{{ route('admin.notification.index') }}" class="sidebar-link">
+                <a href="{{ route('admin.notification.index') }}" class="sidebar-link {{ request()->routeIs('admin.notification*') ? 'active' : '' }}">
                     <i class="bi bi-bell-fill"></i>
                     <span>Notificaciones</span>
                 </a>
 
-                <a href="#" class="sidebar-link">
+                <a href="{{ route('admin.invoice.index') }}" class="sidebar-link {{ request()->routeIs('admin.invoice*') ? 'active' : '' }}">
+                    <i class="bi bi-bell-fill"></i>
+                    <span>Facturas</span>
+                </a>
+
+                <a href="#" class="sidebar-link {{ request()->routeIs('admin.config*') ? 'active' : '' }}">
                     <i class="bi bi-gear-fill"></i>
                     <span>Configuración</span>
                 </a>
@@ -74,6 +78,7 @@
 
             <main class="admin-content">
 
+                {{-- Message popup --}}
                 @if (session('success') || session('error'))
                 <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1100;">
                     <div class="toast show" role="alert" style="min-width: 600px; background-color: #1a1a1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.1);">
@@ -96,6 +101,9 @@
                     toastEl && new bootstrap.Toast(toastEl).show();
                 </script>
                 @endif
+
+                {{-- End Message popup --}}
+
 
                 @yield('content')
             </main>
