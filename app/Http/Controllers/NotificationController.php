@@ -52,19 +52,21 @@ class NotificationController extends Controller
         return back();
     }
 
-    public function send(Request $request): RedirectResponse
+    public function send(): RedirectResponse
     {
-        $email = $request->input("email");
-    
+        $emails = User::where('recibeNotificaciones', true)->pluck('email')->toArray();
+        
         $action = 'Actualizacion';
         $description = 'Se ha actualizado la cotizacion numero 10';
         $projectName = 'Casa 12';
         $technicianName = 'Pacho';
         $version = 'v.1';
-        $sendQuote = new SendQuote($action , $description , $projectName , $technicianName , $version);
 
         try {
-            Mail::to($email)->send($sendQuote);
+            foreach( $emails as $email ) {
+                $sendQuote = new SendQuote($action , $description , $projectName , $technicianName , $version);
+                Mail::to($email)->send($sendQuote);
+            }
             session()->flash("success","Una notificacion ha sido enviada");
         } 
         catch (Exception $e) {

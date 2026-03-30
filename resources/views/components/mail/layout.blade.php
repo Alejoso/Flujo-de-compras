@@ -1,10 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta name="color-scheme" content="light dark">
+    <meta name="supported-color-schemes" content="light dark">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Notificación' }}</title>
     <style>
+
+        @media (prefers-color-scheme: dark) {
+            body, .wrapper, .card, .card-header, .card-body, .data-row {
+                background-color: unset !important;
+                color: unset !important;
+            }
+        }
+
+        :root {
+            color-scheme: light dark;
+            supported-color-schemes: light dark;
+        }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -39,7 +53,6 @@
         .header h1 {
             font-size: 22px;
             font-weight: 700;
-            color: #FFFFFF;
             line-height: 1.3;
         }
 
