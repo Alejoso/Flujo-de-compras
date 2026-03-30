@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('rol');
             $table->string('cedula')->unique();
             $table->integer('sueldo')->nullable();
-            $table->string('numero_telefono');
-            $table->boolean('recibe_notificaciones')->default(false);
+            $table->string('numeroTelefono');
+            $table->boolean('recibeNotificaciones')->default(false);
             $table->timestamps();
         });
 

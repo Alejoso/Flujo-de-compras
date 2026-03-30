@@ -1,59 +1,29 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Usar Resend para el envio de correos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- Se hace el siguiente comando para los drives de Resend `composer require resend/resend-php`
+- Utilizando este recurso tuvo en cuenta para la configuracion de Resend [Laravel Resend config](https://laravel.com/docs/12.x/mail#resend-driver)
+- Se añadio la API key de Resend al env *RESEND_API_KEY=* (Variable de entorno)
+- Se configuro `MAIL_MAILER` para que el servicio por defecto fuera Resend. (Variable de entorno)
 
-## About Laravel
+# ¿Como configurar los correos ?(Evelope function)
+[Laravel wreiting mailables](https://laravel.com/docs/12.x/mail#writing-mailables)
+- Podemos utilizar este archivo para crear calses de correos `php artisan make:mail SendQuote`
+- Definimos en mail.php un ``from`` global. De este modo, no hay que especificar nada en la funcion ``envelope```y se va a utilizar el from por defecto del env.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# ¿Como se manda el cuerpo de un correo? (Content function)
+- Al igual que las vistas, se debe de crear un tipo de layout. Este esta creada en `views/components/mail`.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# ¿Como se envia un correo?
+- [Enviar un correo](https://laravel.com/docs/12.x/mail#sending-mail)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Links interesantes
+[Enviar un archivo sin escribirlo a disco, solo con los bytes](https://laravel.com/docs/12.x/mail#raw-data-attachments)
+[Poner imagenes embebidas en el correo](https://laravel.com/docs/12.x/mail#inline-attachments)
+[Queues](https://laravel.com/docs/12.x/queues)
 
-## Learning Laravel
+# Congiraciones extra
+- Se tuvo que configurar el archivo ``config/app.php`` para ajustar la zona horaria `'timezone' => 'America/Bogota',` 
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+# Cuanto es la disponibilidad de la API de Resend?
+- Se puede consultar aqui: [Link](https://resend-status.com/)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

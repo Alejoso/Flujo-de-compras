@@ -27,12 +27,13 @@ class User extends Authenticatable
      * $this->attributes['rol'] - string - contains the role of the user (Can be admin or técnico)
      * $this->attributes['cedula'] - string - contains the document number of the user
      * $this->attributes['sueldo'] - string - contains the salary of the user
-     * $this->attributes['numero_telefono'] - string - contains the phone number
-     * $this->attributes['recibe_notificaciones'] - bool - Is true or false. True if the user will recieve email quotes
+     * $this->attributes['numeroTelefono'] - string - contains the phone number
+     * $this->attributes['recibeNotificaciones'] - bool - Is true or false. True if the user will recieve email quotes
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->cotizaciones - Cotizacion[] - contains the quotations that the user has done
      */
+
     protected $fillable = [
         'name',
         'email',
@@ -40,8 +41,8 @@ class User extends Authenticatable
         'rol',
         'cedula',
         'sueldo',
-        'numero_telefono',
-        'recibe_notificaciones',
+        'numeroTelefono',
+        'recibeNotificaciones',
     ];
 
     protected $hidden = [
@@ -50,7 +51,7 @@ class User extends Authenticatable
     ];
 
     // id
-    public function getId(): int
+    public function getId(): string
     {
         return $this->attributes['id'];
     }
@@ -94,18 +95,17 @@ class User extends Authenticatable
     {
         return $this->attributes['rol'];
     }
-
+  
     public function setRol(string $rol): void
     {
         $this->attributes['rol'] = $rol;
     }
-
+  
     // cedula
     public function getCedula(): string
     {
         return $this->attributes['cedula'];
     }
-
     public function setCedula(string $cedula): void
     {
         $this->attributes['cedula'] = $cedula;
@@ -116,7 +116,6 @@ class User extends Authenticatable
     {
         return $this->attributes['sueldo'];
     }
-
     public function setSueldo(string $sueldo): void
     {
         $this->attributes['sueldo'] = $sueldo;
@@ -125,23 +124,23 @@ class User extends Authenticatable
     // numero_telefono
     public function getNumeroTelefono(): string
     {
-        return $this->attributes['numero_telefono'];
+        return $this->attributes['numeroTelefono'];
     }
 
     public function setNumeroTelefono(string $numeroTelefono): void
     {
-        $this->attributes['numero_telefono'] = $numeroTelefono;
+        $this->attributes['numeroTelefono'] = $numeroTelefono;
     }
 
     // recibe_notificaciones
     public function getRecibeNotificaciones(): bool
     {
-        return $this->attributes['recibe_notificaciones'];
+        return $this->attributes['recibeNotificaciones'];
     }
 
     public function setRecibeNotificaciones(bool $recibeNotificaciones): void
     {
-        $this->attributes['recibe_notificaciones'] = $recibeNotificaciones;
+        $this->attributes['recibeNotificaciones'] = $recibeNotificaciones;
     }
 
     // timestamps
@@ -171,4 +170,5 @@ class User extends Authenticatable
     {
         $this->cotizaciones = $cotizaciones;
     }
+    
 }

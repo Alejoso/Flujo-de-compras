@@ -7,6 +7,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 <body>
     <nav class="navbar navbar-expand-lg app-navbar">
@@ -40,6 +41,31 @@
             </div>
         </div>
     </nav>
+
+    <!-- Block for showing session messages -->
+    @if (session('success') || session('error'))
+    <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+        <div class="toast show bg-white" role="alert" style="min-width: 600px;">
+            <div class="toast-header
+                @if(session('success')) bg-success text-white
+                @else bg-warning
+                @endif">
+                <strong class="me-auto">
+                    {{ session('success') ? 'Éxito' : 'Advertencia' }}
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                {{ session('success') ?? session('error') }}
+            </div>
+        </div>
+    </div>
+    <script>
+        const toastEl = document.querySelector('.toast');
+        toastEl && new bootstrap.Toast(toastEl).show();
+    </script>
+    @endif
+    <!-- End block of session messages -->
 
     <main class="py-4">
         @yield('content')
