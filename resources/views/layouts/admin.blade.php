@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 <body>
     <div class="admin-wrapper">
@@ -30,9 +31,14 @@
 
                 <div class="nav-section-label mt-3">Administración</div>
 
-                <a href="#" class="sidebar-link">
+                <a href="{{ route('admin.user.index') }}" class="sidebar-link">
                     <i class="bi bi-people-fill"></i>
                     <span>Usuarios</span>
+                </a>
+
+                <a href="{{ route('admin.notification.index') }}" class="sidebar-link">
+                    <i class="bi bi-bell-fill"></i>
+                    <span>Notificaciones</span>
                 </a>
 
                 <a href="#" class="sidebar-link">
@@ -67,6 +73,30 @@
             </header>
 
             <main class="admin-content">
+
+                @if (session('success') || session('error'))
+                <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1100;">
+                    <div class="toast show" role="alert" style="min-width: 600px; background-color: #1a1a1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.1);">
+                        <div class="toast-header
+                            @if(session('success')) bg-success text-white
+                            @else bg-warning
+                            @endif">
+                            <strong class="me-auto">
+                                {{ session('success') ? 'Éxito' : 'Advertencia' }}
+                            </strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div class="toast-body" style="color: #ffffff;">
+                            {{ session('success') ?? session('error') }}
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    const toastEl = document.querySelector('.toast');
+                    toastEl && new bootstrap.Toast(toastEl).show();
+                </script>
+                @endif
+
                 @yield('content')
             </main>
         </div>
