@@ -5,13 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Notificación' }}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+        
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: linear-gradient(135deg, #0A0A0A 0%, #0F2A1F 50%, #0A0A0A 100%);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             color: #A0A0A0;
             padding: 40px 16px;
         }
@@ -74,7 +73,7 @@
             font-size: 11px;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #5A5A5A;
+            color: #FFFFFF;
             font-weight: 500;
         }
 
@@ -95,28 +94,30 @@
             display: table;
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .data-row {
             display: table-row;
         }
 
-        .data-row + .data-row .data-label,
-        .data-row + .data-row .data-value {
-            border-top: 1px solid rgba(255,255,255,0.08);
+        .data-row {
+            border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .data-label {
             display: table-cell;
             padding: 12px 16px 12px 0;
             font-size: 11px;
-            color: #5A5A5A;
+            color: #FFFFFF;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             white-space: nowrap;
             vertical-align: middle;
-            width: 140px;
+            width: 120px;
             font-weight: 500;
+            white-space: nowrap;
+            padding: 12px 12px 12px 16px;
         }
 
         .data-value {
@@ -125,6 +126,8 @@
             font-size: 14px;
             color: #A0A0A0;
             vertical-align: middle;
+            white-space: nowrap;
+            padding: 12px 16px 12px 12px;
         }
 
         /* Variantes de valor */
@@ -155,6 +158,11 @@
             color: #FFFFFF;
         }
 
+        .version {
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+
         /* Footer */
         .footer {
             border-top: 1px solid rgba(255,255,255,0.08);
@@ -171,10 +179,10 @@
             color: #F5C800;
             font-weight: 600;
         }
-    </style>
+</style>
 </head>
-<body>
-    <div class="wrapper">
+<body style="margin:0; padding:0; background-color: transparent;">
+    <div class="wrapper" style="background: linear-gradient(135deg, #0A0A0A 0%, #0F2A1F 50%, #0A0A0A 100%); padding: 40px 16px; max-width: 600px; margin: 0 auto;">
         {{ $slot }}
     </div>
 </body>

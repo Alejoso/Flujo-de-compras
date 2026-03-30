@@ -26,7 +26,8 @@ class SendQuote extends Mailable
         private string $state,
         private string $description,
         private string $projectName,
-        private string $technicianName
+        private string $technicianName,
+        private string $version
     ){ }
 
     /**
@@ -51,6 +52,7 @@ class SendQuote extends Mailable
         $viewData['projectName'] = $this->projectName;
         $viewData['technicianName'] = $this->technicianName;
         $viewData['timestamp'] = now()->toDateTimeString(); // e.g., "2025-04-20 15:30:00"
+        $viewData['version'] = $this->version;
         
         return new Content(
             view:'components.mail.notification',

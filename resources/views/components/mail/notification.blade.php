@@ -8,15 +8,18 @@
     <x-mail.card title="Descripción de la acción">
         <p class="action-description">{{ $viewData['description'] }}</p>
     </x-mail.card>
- 
-    <x-mail.card title="Detalles del evento">
-        <div class="data-grid">
+    
+    <div style="border-radius: 8px; overflow: hidden;">
+
+        <table class="data-grid" style="background-color: #161616;" width="100%" cellpadding="0" cellspacing="0">
             <x-mail.dataRow label="Estado"       :value="$viewData['state']"     type="badge"      />
             <x-mail.dataRow label="Fecha y hora" :value="$viewData['timestamp']"  type="timestamp"  />
             <x-mail.dataRow label="Técnico"      :value="$viewData['technicianName']" type="technician" />
             <x-mail.dataRow label="Proyecto"     :value="$viewData['projectName']"    type="project"    />
-        </div>
-    </x-mail.card>
+            <x-mail.dataRow label="Versión"     :value="$viewData['version']"    type="version"    />
+        </table>
+
+    </div>
  
     <x-mail.footer />
  
