@@ -29,3 +29,5 @@ Route::middleware('tecnico')->group(function () use ($controllerRoute) {
 
 Auth::routes(['register' => false]);
 
+Route::redirect('/', '/login');
+
