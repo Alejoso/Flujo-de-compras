@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Proyecto extends Model
 {
+    protected $table = 'proyectos';
     /**
      * PROYECTO ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -15,8 +17,13 @@ class Proyecto extends Model
      * $this->attributes['direccion'] - string - contains the address of the project
      * $this->attributes['ciudad'] - string - contains the city of the project
      * $this->attributes['costoTotal'] - float - contains the total cost of the project
+     * $this->attributes['estado'] - string - contains the state ('En Negociación', 'En Ejecución', 'Finalizado')
+     * $this->attributes['clienteId'] - int - contains the foreign key of the client
+     * $this->attributes['creadoPor'] - int - contains the foreign key of the user who created it
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
+     * $this->cliente - Cliente - contains the client associated
+     * $this->creadoPorUser - User - contains the user who created the project
      * $this->facturas - Factura[] - contains the invoices associated with this project
      * $this->cotizaciones - Cotizacion[] - contains the quotations associated with this project
      */
@@ -25,6 +32,9 @@ class Proyecto extends Model
         'direccion',
         'ciudad',
         'costoTotal',
+        'estado',
+        'clienteId',
+        'creadoPor',
     ];
 
     // id
@@ -77,6 +87,17 @@ class Proyecto extends Model
         $this->attributes['costoTotal'] = $costoTotal;
     }
 
+    // estado
+    public function getEstado(): string
+    {
+        return $this->attributes['estado'];
+    }
+
+    public function setEstado(string $estado): void
+    {
+        $this->attributes['estado'] = $estado;
+    }
+
     // timestamps
     public function getCreatedAt(): string
     {
@@ -89,17 +110,47 @@ class Proyecto extends Model
     }
 
     // Relations
+    public function cliente(): BelongsTo
+    {
+        return $this->belongsTo(Cliente::class, 'clienteId');
+    }
+
+    public function creadoPorUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creadoPor');
+    }
+
     public function facturas(): HasMany
     {
-        return $this->hasMany(Factura::class);
+        return $this->hasMany(Factura::class, 'proyectoId');
     }
 
     public function cotizaciones(): HasMany
     {
-        return $this->hasMany(Cotizacion::class);
+        return $this->hasMany(Cotizacion::class, 'proyectoId');
     }
 
     // Relations setters and getters
+    public function getCliente(): Cliente
+    {
+        return $this->cliente;
+    }
+
+    public function setCliente(Cliente $cliente): void
+    {
+        $this->cliente = $cliente;
+    }
+
+    public function getCreadoPorUser(): User
+    {
+        return $this->creadoPorUser;
+    }
+
+    public function setCreadoPorUser(User $user): void
+    {
+        $this->creadoPorUser = $user;
+    }
+
     public function getFacturas(): Collection
     {
         return $this->facturas;

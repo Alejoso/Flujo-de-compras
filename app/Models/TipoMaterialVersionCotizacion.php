@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TipoMaterialVersionCotizacion extends Model
 {
+    protected $table = 'tipo_material_version_cotizaciones';
     /**
      * TIPO MATERIAL VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -55,12 +56,12 @@ class TipoMaterialVersionCotizacion extends Model
     // Relations
     public function versionCotizacion(): BelongsTo
     {
-        return $this->belongsTo(VersionCotizacion::class);
+        return $this->belongsTo(VersionCotizacion::class, 'versionCotizacionId');
     }
 
     public function tipoMaterial(): BelongsTo
     {
-        return $this->belongsTo(TipoMaterial::class);
+        return $this->belongsTo(TipoMaterial::class, 'tipoMaterialId');
     }
 
     // Relations setters and getters

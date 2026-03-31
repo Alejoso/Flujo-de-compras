@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MaterialFactura extends Model
 {
+    protected $table = 'material_facturas';
     /**
      * MATERIAL FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -68,12 +69,12 @@ class MaterialFactura extends Model
     // Relations
     public function factura(): BelongsTo
     {
-        return $this->belongsTo(Factura::class);
+        return $this->belongsTo(Factura::class, 'facturaId');
     }
 
     public function tipoMaterial(): BelongsTo
     {
-        return $this->belongsTo(TipoMaterial::class);
+        return $this->belongsTo(TipoMaterial::class, 'tipoMaterialId');
     }
 
     // Relations setters and getters

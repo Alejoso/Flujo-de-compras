@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VersionCotizacion extends Model
 {
+    protected $table = 'version_cotizaciones';
     /**
      * VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -68,12 +69,12 @@ class VersionCotizacion extends Model
     // Relations
     public function cotizacion(): BelongsTo
     {
-        return $this->belongsTo(Cotizacion::class);
+        return $this->belongsTo(Cotizacion::class, 'cotizacionId');
     }
 
     public function tipoMaterialVersionCotizaciones(): HasMany
     {
-        return $this->hasMany(TipoMaterialVersionCotizacion::class);
+        return $this->hasMany(TipoMaterialVersionCotizacion::class, 'versionCotizacionId');
     }
 
     // Relations setters and getters

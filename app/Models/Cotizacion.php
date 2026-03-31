@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cotizacion extends Model
 {
+    protected $table = 'cotizaciones';
     /**
      * COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -61,22 +62,22 @@ class Cotizacion extends Model
     // Relations
     public function proyecto(): BelongsTo
     {
-        return $this->belongsTo(Proyecto::class);
+        return $this->belongsTo(Proyecto::class, 'proyectoId');
     }
 
     public function creadoPor(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creadoPor');
     }
 
     public function factura(): BelongsTo
     {
-        return $this->belongsTo(Factura::class);
+        return $this->belongsTo(Factura::class, 'facturaId');
     }
 
     public function versionCotizaciones(): HasMany
     {
-        return $this->hasMany(VersionCotizacion::class);
+        return $this->hasMany(VersionCotizacion::class, 'cotizacionId');
     }
 
     // Relations setters and getters

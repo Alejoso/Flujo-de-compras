@@ -85,7 +85,7 @@ class User extends Authenticatable
     }
 
     // remember_token
-    public function getRememberToken(): string
+    public function getRememberToken(): ?string
     {
         return $this->attributes['remember_token'];
     }
@@ -157,7 +157,7 @@ class User extends Authenticatable
     // Relations
     public function cotizaciones(): HasMany
     {
-        return $this->hasMany(Cotizacion::class);
+        return $this->hasMany(Cotizacion::class, 'creadoPor');
     }
 
     // Relations setters and getters

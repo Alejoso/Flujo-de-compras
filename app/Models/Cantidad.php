@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cantidad extends Model
 {
+    protected $table = 'cantidades';
     /**
      * COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -37,6 +37,31 @@ class Cantidad extends Model
     }
   
 
+    // timestamps
+    public function getCreatedAt(): string
+    {
+        return $this->attributes['created_at'];
+    }
+
+    public function getUpdatedAt(): string
+    {
+        return $this->attributes['updated_at'];
+    }
+
+    // Relations
+    public function unidadMedidaCantidades(): HasMany
+    {
+        return $this->hasMany(UnidadMedidaCantidad::class, 'cantidadId');
+    }
+
     // Relations setters and getters
-   
+    public function getUnidadMedidaCantidades(): Collection
+    {
+        return $this->unidadMedidaCantidades;
+    }
+
+    public function setUnidadMedidaCantidades(Collection $unidadMedidaCantidades): void
+    {
+        $this->unidadMedidaCantidades = $unidadMedidaCantidades;
+    }
 }

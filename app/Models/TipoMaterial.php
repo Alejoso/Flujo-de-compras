@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TipoMaterial extends Model
 {
+    protected $table = 'tipo_materiales';
+    
     /**
      * TIPO MATERIAL ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -46,22 +48,22 @@ class TipoMaterial extends Model
     // Relations
     public function material(): BelongsTo
     {
-        return $this->belongsTo(Material::class);
+        return $this->belongsTo(Material::class, 'materialId');
     }
 
     public function tipo(): BelongsTo
     {
-        return $this->belongsTo(Tipo::class);
+        return $this->belongsTo(Tipo::class, 'tipoId');
     }
 
     public function materialFacturas(): HasMany
     {
-        return $this->hasMany(MaterialFactura::class);
+        return $this->hasMany(MaterialFactura::class, 'tipoMaterialId');
     }
 
     public function tipoMaterialVersionCotizaciones(): HasMany
     {
-        return $this->hasMany(TipoMaterialVersionCotizacion::class);
+        return $this->hasMany(TipoMaterialVersionCotizacion::class, 'tipoMaterialId');
     }
 
     // Relations setters and getters
