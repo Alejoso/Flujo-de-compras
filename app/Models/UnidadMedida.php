@@ -16,6 +16,7 @@ class UnidadMedida extends Model
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->tipos - Tipo[] - contains the types associated with this unit
+     * $this->uniadadesMedidasCantidadaes - unidad_medida_cantidad[] - contains they unit of measurement and quantity related
      */
     protected $fillable = [
         'nombre',

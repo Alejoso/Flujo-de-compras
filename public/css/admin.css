@@ -84,6 +84,7 @@ body {
     background-color: var(--dark-green);
     color: var(--light);
     min-height: 100vh;
+    font-size: 16px;
 }
 
 /* ── Sidebar shared ── */
@@ -301,22 +302,6 @@ body {
     font-weight: 600;
 }
 
-/* ── Buttons ── */
-.btn-primary {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    font-weight: 600;
-    border-radius: 50px;
-    padding: 0.5rem 1.5rem;
-    transition: var(--transition);
-}
-
-.btn-primary:hover {
-    background-color: #e55a26;
-    border-color: #e55a26;
-    transform: translateY(-1px);
-}
-
 /* ── Forms ── */
 .form-control {
     background-color: rgba(255,255,255,0.05);
@@ -346,4 +331,444 @@ body {
     background-color: rgba(40, 167, 69, 0.15);
     border-color: rgba(40, 167, 69, 0.3);
     color: #7dda8a;
+}
+
+.um-wrapper {
+    padding: 2rem 2.5rem;
+    font-family: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+}
+
+/* Header */
+.um-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+
+.um-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+/* Card */
+.um-card {
+    background-color: #161616;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.um-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.um-card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.um-card-subtitle {
+    font-size: 1rem;
+    color: #5A5A5A;
+    margin-top: 2px;
+}
+
+/* Button primary */
+.um-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #F5C800;
+    color: #000000;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.15s ease;
+}
+
+.um-btn-primary:hover {
+    background-color: #E0B000;
+    color: #000000;
+}
+
+/* Table */
+.um-table-wrapper {
+    overflow-x: auto;
+}
+
+.um-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.um-table thead tr {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.um-table th {
+    padding: 12px 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+}
+
+.um-row {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background-color 0.12s ease;
+}
+
+.um-row:last-child {
+    border-bottom: none;
+}
+
+.um-row:hover {
+    background-color: rgba(255,255,255,0.03);
+}
+
+.um-table td {
+    padding: 14px 20px;
+    vertical-align: middle;
+}
+
+/* User cell */
+.um-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.um-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+}
+
+.um-user-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.um-email {
+    font-size: 0.875rem;
+    color: #ffffff;
+}
+
+/* Badges - role */
+.um-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.um-badge--admin {
+    background-color: rgba(124, 58, 237, 0.2);
+    color: #a78bfa;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+}
+
+.um-badge--technician,
+.um-badge--técnico {
+    background-color: rgba(37, 99, 235, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+/* Status */
+.um-status {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.um-status--1,
+.um-status--activo {
+    background-color: rgba(22, 163, 74, 0.2);
+    color: #4ade80;
+    border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.um-status--0,
+.um-status--inactivo {
+    background-color: rgba(90, 90, 90, 0.2);
+    color: #A0A0A0;
+    border: 1px solid rgba(90, 90, 90, 0.3);
+}
+
+/* Delete button */
+.um-btn-delete {
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.um-btn-delete:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+}
+
+/* Action buttons */
+.um-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.um-btn-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    text-decoration: none;
+}
+
+.um-btn-icon--edit {
+    color: #60a5fa;
+}
+
+.um-btn-icon--edit:hover {
+    background-color: rgba(96, 165, 250, 0.15);
+    color: #93c5fd;
+}
+
+.um-btn-icon--delete {
+    color: #ef4444;
+}
+
+.um-btn-icon--delete:hover {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+}
+
+/* Empty state */
+.um-empty {
+    text-align: center;
+    color: #5A5A5A;
+    font-size: 0.875rem;
+    padding: 2.5rem !important;
+}
+
+    /* Modal overlay */
+.modal-content {
+    background-color: #161616;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.modal-title {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.modal-footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Select */
+.form-label {
+    color: #A0A0A0;
+    font-size: 0.85rem;
+}
+
+.form-select {
+    background-color: #1F1F1F;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    color: #ffffff;
+}
+
+.form-select:focus {
+    border-color: #F5C800;
+    box-shadow: 0 0 0 3px rgba(245,200,0,0.15);
+}
+
+/* Botón cancelar */
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: #A0A0A0;
+    border-radius: 8px;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(255,255,255,0.05);
+    color: #ffffff;
+}
+
+/* Botón agregar */
+.btn-primary {
+    background-color: #F5C800;
+    border: none;
+    color: #000000;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.btn-primary:hover {
+    background-color: #E0B000;
+    color: #000000;
+}
+
+.btn-close {
+    filter: invert(1);
+}
+
+/* ── Input group dark ── */
+.input-group-text {
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5);
+}
+
+/* ── Filter button (outline) ── */
+.um-btn-filter {
+    background-color: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.um-btn-filter:hover,
+.um-btn-filter.active {
+    border-color: #F5C800;
+    color: #F5C800;
+    background-color: rgba(245, 200, 0, 0.08);
+}
+
+/* ── Card project view button ── */
+.um-btn-icon--view {
+    color: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+}
+
+.um-btn-icon--view:hover {
+    background-color: rgba(255,255,255,0.06);
+    color: #ffffff;
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* Ajuste edit button para usarlo como bloque */
+.um-btn-icon--edit {
+    border: 1px solid rgba(96,165,250,0.2);
+    border-radius: 8px;
+}
+
+/* ── Projects View (pj-) ── */
+.pj-wrapper {
+    padding: 2rem 2.5rem;
+}
+
+.pj-card {
+    background-color: #161616;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pj-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 0.25rem;
+}
+
+.pj-code {
+    font-size: 0.95rem;
+    color: #5A5A5A;
+    margin-bottom: 0.5rem;
+}
+
+.pj-location {
+    font-size: 1rem;
+    color: #5A5A5A;
+    margin-bottom: 0.75rem;
+}
+
+.pj-meta-label {
+    font-size: 1rem;
+    color: #5A5A5A;
+}
+
+.pj-meta-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+/* ── Project badges ── */
+.pj-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.pj-badge--negociacion {
+    background-color: rgba(245, 200, 0, 0.15);
+    color: #F5C800;
+    border: 1px solid rgba(245, 200, 0, 0.3);
+}
+
+.pj-badge--ejecucion {
+    background-color: rgba(22, 163, 74, 0.15);
+    color: #4ade80;
+    border: 1px solid rgba(22, 163, 74, 0.3);
+}
+
+.pj-badge--finalizado {
+    background-color: rgba(90, 90, 90, 0.2);
+    color: #A0A0A0;
+    border: 1px solid rgba(90, 90, 90, 0.3);
 }

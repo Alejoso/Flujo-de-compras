@@ -32,6 +32,13 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
 
     // Invoice routes
     Route::get('/admin/invoice', $controllerRoute.'\Admin\InvoiceController@index')->name('admin.invoice.index');
+
+    // Project routes
+    Route::get('/admin/project', $controllerRoute.'\Admin\ProjectController@index')->name('admin.project.index');
+    Route::get('/admin/project/create', $controllerRoute.'\Admin\ProjectController@create')->name('admin.project.create');
+    Route::get('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@show')->name('admin.project.show');
+    Route::post('/admin/project/save', $controllerRoute.'\Admin\ProjectController@save')->name('admin.project.save');
+    Route::post('/admin/project/{id}\edit', $controllerRoute.'\Admin\ProjectController@update')->name('admin.project.edit');
 });
 
 // Rutas exclusivamente para tecnico

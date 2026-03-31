@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proyectos', function (Blueprint $table) {
+        Schema::create('unidad_medida_cantidades', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('direccion');
-            $table->string('ciudad');
-            $table->double('costoTotal')->default(0);
+            $table->foreign('cantidadId')->constrained('cantidades')->cascadeOnDelete();
+            $table->foreign('unidadMedidasId')->constrained('unidad_medidas')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proyectos');
+        Schema::dropIfExists('unidad_medida_cantidades');
     }
 };

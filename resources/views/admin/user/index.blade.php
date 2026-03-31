@@ -1,10 +1,6 @@
 @extends('layouts.admin')
 @section('page-title', 'Usuarios')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('/css/notification.css') }}">
-@endpush
-
 @section('content')
 <div class="um-wrapper">
 

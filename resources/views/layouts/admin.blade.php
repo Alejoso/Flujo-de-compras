@@ -23,7 +23,7 @@
             <nav class="sidebar-nav">
                 <div class="nav-section-label">General</div>
 
-                <a href="#" class="sidebar-link {{ request()->routeIs('admin.project*') ? 'active' : '' }}">
+                <a href="{{ route('admin.project.index') }}" class="sidebar-link {{ request()->routeIs('admin.project*') ? 'active' : '' }}">
                     <i class="bi bi-folder2-open"></i>
                     <span>Proyectos</span>
                 </a>

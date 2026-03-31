@@ -1,10 +1,6 @@
 @extends('layouts.admin')
 @section('page-title', 'Notificaciones')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('/css/notification.css') }}">
-@endpush
-
 @section('content')
 <div class="um-wrapper">
 
@@ -58,8 +54,7 @@
                             </span>
                         </td>
                         <td>
-                            <form action="{{ route('admin.notification.destroy', ['id' => $user->getId()]) }}" method="POST"
-                                onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?')">
+                            <form action="{{ route('admin.notification.destroy', ['id' => $user->getId()]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" class="um-btn-delete" title="Eliminar">

@@ -91,7 +91,7 @@ class OCRSercive
         if (!empty($markdownJSONData['items'])) {
             $sumItems = collect($markdownJSONData['items'])->sum('valor_total'); // Sum every item total value. Same as a foreach but cleaner
             
-            $validationItems = abs($sumItems - $subtotal) <= $tolerance;
+            $validationItems = abs($sumItems - $total) <= $tolerance;
 
             // Try to see if the provider does not have IVA included in the product prices
             if($validationItems == false) {
@@ -130,19 +130,21 @@ Estructura requerida:
       "codigo": string o null,
       "descripcion": string,
       "cantidad": number,
-      "valor_unitario": number,
-      "valor_total": number
+      "valor_unitario": float,
+      "valor_total": float
     }
   ],
-  "subtotal": number
-  "iva": number
-  "total": number
+  "subtotal": float
+  "iva": float
+  "total": float
 }
 
 Reglas:
 - Valores numéricos sin símbolos ($, puntos de miles, comas)
+- Los valores flotantes deben estar sin símbolos. Se separan los decimeles con un punto.
 - Fechas siempre en formato YYYY-MM-DD
 - Si el IVA no aparece explícito, calcularlo como total - subtotal
+- Es importante que el nit conserve los simbolos de guion (-) que estan casi al final
         ';
     }
 }
