@@ -47,3 +47,263 @@
     padding: 1.5rem;
     flex: 1;
 }
+
+/* ── Cotización Form ── */
+.cot-header-card {
+    background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,107,53,0.04));
+    border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.cot-project-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.cot-project-meta {
+    font-size: 0.83rem;
+    color: rgba(255,255,255,0.45);
+    margin: 0.25rem 0 0;
+}
+
+.cot-table-wrap {
+    background: #161616;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.cot-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cot-table thead tr {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.cot-table th {
+    padding: 11px 16px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: left;
+}
+
+.cot-table td {
+    padding: 8px 12px;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.cot-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.cot-table tbody tr.material-row:hover {
+    background-color: rgba(255,255,255,0.02);
+}
+
+.cot-select,
+.cot-input {
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.88rem;
+    padding: 0.5rem 0.7rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cot-select:focus,
+.cot-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255,215,0,0.12);
+}
+
+.cot-select option {
+    background: #1a1a1a;
+}
+
+.cot-input {
+    max-width: 130px;
+}
+
+.cot-btn-delete {
+    background: none;
+    border: none;
+    color: rgba(239,68,68,0.6);
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 7px;
+    font-size: 1rem;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s;
+}
+
+.cot-btn-delete:hover {
+    background: rgba(239,68,68,0.12);
+    color: #f87171;
+}
+
+.cot-unidad-label {
+    font-size: 0.83rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 500;
+}
+
+.cot-icon-primary {
+    color: #FFD700;
+}
+
+.cot-alert-error {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: #f87171;
+    border-radius: 10px;
+}
+
+.cot-alert-success {
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.3);
+    color: #86efac;
+    border-radius: 10px;
+}
+
+.cot-section-label {
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+}
+
+.cot-empty-icon {
+    font-size: 1.5rem;
+}
+
+.cot-td-actions {
+    text-align: right;
+}
+
+.cot-td-date {
+    color: rgba(255,255,255,0.45);
+    font-size: 0.82rem;
+}
+
+.cot-version-number {
+    color: #fff;
+    font-weight: 600;
+}
+
+.cot-td-material {
+    color: #fff;
+}
+
+.cot-td-tipo {
+    color: rgba(255,255,255,0.6);
+}
+
+.cot-td-unidad {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+}
+
+.cot-td-cantidad {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.cot-col-material { width: 45%; }
+.cot-col-unidad   { width: 20%; }
+.cot-col-cantidad { width: 20%; }
+.cot-col-action   { width: 15%; }
+
+.cot-col-show-material { width: 35%; }
+.cot-col-show-tipo     { width: 25%; }
+.cot-col-show-unidad   { width: 20%; }
+.cot-col-show-cantidad { width: 20%; }
+
+.cot-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: rgba(255,255,255,0.2);
+    font-size: 0.88rem;
+}
+
+.cot-btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: rgba(255,215,0,0.06);
+    border: 1px dashed rgba(255,215,0,0.3);
+    color: var(--primary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.65rem 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    margin-bottom: 1.5rem;
+}
+
+.cot-btn-add:hover {
+    background: rgba(255,215,0,0.12);
+    border-color: rgba(255,215,0,0.55);
+}
+
+.cot-counter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,215,0,0.15);
+    color: var(--primary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: 50px;
+    min-width: 22px;
+    padding: 2px 8px;
+    margin-left: 8px;
+}
+
+.cot-footer {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+/* Responsive móvil */
+@media (max-width: 576px) {
+    .cot-table thead { display: none; }
+    .cot-table tr {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .cot-table td {
+        display: block;
+        padding: 0;
+        border: none;
+        width: 100%;
+    }
+    .cot-table td:last-child {
+        width: auto;
+        display: flex;
+        justify-content: flex-end;
+    }
+    .cot-input { max-width: 100%; }
+    .cot-footer { justify-content: stretch; }
+    .cot-footer a,
+    .cot-footer button { flex: 1; text-align: center; justify-content: center; }
+}

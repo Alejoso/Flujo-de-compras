@@ -7,8 +7,9 @@
     <title>{{ config('app.name', 'Laravel') }} | Técnico</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/tecnico.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 <body>
     <div class="tecnico-wrapper">
@@ -22,7 +23,7 @@
             <nav class="sidebar-nav">
                 <div class="nav-section-label">Menú</div>
 
-                <a href="#" class="sidebar-link active">
+                <a href="{{ route('tecnico.project.index')}}" class="sidebar-link active">
                     <i class="bi bi-file-earmark-text-fill"></i>
                     <span>Proyectos</span>
                 </a>
