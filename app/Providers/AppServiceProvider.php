@@ -24,10 +24,10 @@ class AppServiceProvider extends ServiceProvider
             $user = auth()->user();
 
             if ($user->getRol() === 'admin') {
-                return route('admin.home');
+                return route('admin.project.index');
             }
 
-            return route('tecnico.home');
+            return route('tecnico.project.index');
         });
     }
 }

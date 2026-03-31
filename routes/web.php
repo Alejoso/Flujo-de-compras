@@ -7,7 +7,6 @@ $controllerRoute = 'App\Http\Controllers';
 
 // Rutas exclusivamente para admin
 Route::middleware('admin')->group(function () use ($controllerRoute) {
-    Route::get('/admin', $controllerRoute.'\Admin\AdminHomeController@index')->name('admin.home');
 
     // User routes
     Route::get('/admin/user', $controllerRoute.'\Admin\UserController@index')->name('admin.user.index');
@@ -43,7 +42,11 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
 
 // Rutas exclusivamente para tecnico
 Route::middleware('tecnico')->group(function () use ($controllerRoute) {
-    Route::get('/tecnico', $controllerRoute.'\Tecnico\TecnicoHomeController@index')->name('tecnico.home');
+    Route::get('/tecnico/project', $controllerRoute.'\Tecnico\ProjectController@index')->name('tecnico.project.index');
+    Route::get('/tecnico/project/{id}/cotizacion', $controllerRoute.'\Tecnico\CotizacionController@index')->name('tecnico.cotizacion.index');
+    Route::get('/tecnico/project/{id}/cotizacion/create', $controllerRoute.'\Tecnico\CotizacionController@create')->name('tecnico.cotizacion.create');
+    Route::post('/tecnico/project/{id}/cotizacion', $controllerRoute.'\Tecnico\CotizacionController@store')->name('tecnico.cotizacion.store');
+    Route::get('/tecnico/project/{id}/cotizacion/{versionId}', $controllerRoute.'\Tecnico\CotizacionController@show')->name('tecnico.cotizacion.show');
 });
 
 Auth::routes(['register' => false]);
