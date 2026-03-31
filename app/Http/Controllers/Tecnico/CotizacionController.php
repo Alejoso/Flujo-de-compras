@@ -10,6 +10,7 @@ use App\Models\VersionCotizacion;
 use App\Models\TipoMaterialVersionCotizacion;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreCotizacionRequest;
+use App\Http\Requests\UpdateCotizacionRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -96,5 +97,65 @@ class CotizacionController extends Controller
         session()->flash('success', 'Cotización enviada correctamente para el proyecto "' . $project->getNombre() . '".');
 
         return redirect()->route('tecnico.project.index');
+    }
+
+    public function edit(string $projectId, string $versionId): View
+    {
+        $viewData = [];
+        $viewData['project'] = Proyecto::findOrFail($projectId);
+        
+        $viewData['version'] = VersionCotizacion::with('tipoMaterialVersionCotizaciones')
+            ->findOrFail($versionId);
+
+        $tipoMateriales = TipoMaterial::with([
+            'material',
+            'tipo.unidadMedidaCantidades.unidadMedida',
+        ])->get();
+
+        $viewData['tipoMateriales'] = $tipoMateriales;
+        $viewData['tipoMaterialesJson'] = $tipoMateriales->map(function ($tm) {
+            $unidades = $tm->getTipo()->getUnidadMedidaCantidades()
+                ->map(fn($umc) => $umc->getUnidadMedida()->getAbreviatura())
+                ->unique()->values();
+
+            return [
+                'id'       => $tm->getId(),
+                'label'    => $tm->getMaterial()->getDescripcion() . ' — ' . $tm->getTipo()->getEspecificacion(),
+                'unidades' => $unidades,
+            ];
+        });
+
+        return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
+    }
+
+    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId): RedirectResponse
+    {
+        $project = Proyecto::findOrFail($projectId);
+        $versionActual = VersionCotizacion::findOrFail($versionId);
+        $cotizacion = $versionActual->cotizacion;
+
+        Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion) {
+            $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
+
+            $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
+
+            $nuevaVersion = VersionCotizacion::create([
+                'numeroVersion'   => (string) $nuevoNumeroVersion,
+                'esLaMasReciente' => true,
+                'cotizacionId'    => $cotizacion->getId(),
+            ]);
+
+            foreach ($request->materiales as $item) {
+                TipoMaterialVersionCotizacion::create([
+                    'cantidad'            => $item['cantidad'],
+                    'versionCotizacionId' => $nuevaVersion->getId(),
+                    'tipoMaterialId'      => $item['tipoMaterialId'],
+                ]);
+            }
+        });
+
+        session()->flash('success', 'Nueva versión de la cotización creada correctamente.');
+
+        return redirect()->route('tecnico.cotizacion.index', $project->getId());
     }
 }
