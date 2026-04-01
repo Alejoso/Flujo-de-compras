@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SaveProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\Proyecto\SaveProyectoRequest;
+use App\Http\Requests\Proyecto\UpdateProyectoRequest;
+use App\Models\Cliente;
 use App\Models\Proyecto;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -22,12 +23,16 @@ class ProjectController extends Controller
 
     public function create(): View
     {
-        return view('admin.project.create');
+        $viewData = [];
+        $viewData['clients'] = Cliente::orderBy('nombre','asc')->get();
+
+        return view('admin.project.create')->with('viewData' , $viewData);
     }
 
-    public function save(SaveProjectRequest $request): RedirectResponse
+    public function save(SaveProyectoRequest $request): RedirectResponse
     {
         $validatedProjectData = $request->validated();
+        $validatedProjectData['creadoPor'] = auth()->user()->getId();
 
         try {
             $project = Proyecto::create($validatedProjectData);
@@ -36,7 +41,7 @@ class ProjectController extends Controller
             session()->flash('error', $e->getMessage());
         }
 
-        return back();
+        return redirect()->route('admin.project.index');
     }
 
     public function show(string $id): View
@@ -47,16 +52,28 @@ class ProjectController extends Controller
         return view('admin.project.show');
     }
 
-    public function update(string $id): View
+    public function edit(string $id): View
     {
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
+        $viewData['clients'] = Cliente::orderBy('nombre','asc')->get();
 
-        return view('admin.project.edit');
+        return view('admin.project.edit')->with('viewData', $viewData);
     }
 
-    public function patch(UpdateProjectRequest $request): RedirectResponse
+    public function update(UpdateProyectoRequest $request , string $id): RedirectResponse
     {
-        return back();
+        $validatedProjectData = $request->validated();
+
+        try{
+            $project = Proyecto::findOrFail($id);
+            $project->update($validatedProjectData);
+            session()->flash('success','Se ha actualizado el proyecto '. $project->getNombre());
+        }
+        catch (Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
+
+        return redirect()->route('admin.project.index');
     }
 }

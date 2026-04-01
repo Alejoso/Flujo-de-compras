@@ -77,7 +77,7 @@ class NotificationController extends Controller
 
     public function test(): View
     {
-        return view('notification.test');
+        return view('admin.notification.test');
     }
 
     // Vista para probar si el correo se ve bien

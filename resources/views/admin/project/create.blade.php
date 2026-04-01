@@ -60,10 +60,10 @@
                                 <label class="form-label">Ciudad</label>
                                 <input type="text"
                                        name="ciudad"
-                                       class="form-control @error('cuidad') is-invalid @enderror"
-                                       value="{{ old('cuidad') }}"
+                                       class="form-control @error('ciudad') is-invalid @enderror"
+                                       value="{{ old('ciudad') }}"
                                        placeholder="Ej: Medellín">
-                                @error('cuidad')
+                                @error('ciudad')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -84,6 +84,24 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+                            </div>
+
+                            {{-- Cliente --}}
+                            <div class="col-md-6">
+                                <label class="form-label">Cliente</label>
+                                <select name="clienteId"
+                                        class="form-select @error('clienteId') is-invalid @enderror">
+                                    <option value="" disabled selected>Selecciona un cliente</option>
+                                    @foreach($viewData['clients'] as $client)
+                                        <option value="{{ $client->getId() }}"
+                                            {{ old('clienteId') == $client->getId() ? 'selected' : '' }}>
+                                            {{ $client->getNombre() }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('clienteId')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                         </div>
