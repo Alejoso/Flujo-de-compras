@@ -40,7 +40,7 @@
     </div>
 
     <div class="cot-table-wrap">
-      <table class="cot-table">
+      <table class="cot-table cot-show-table">
         <thead>
           <tr>
             <th class="cot-col-show-material">Material</th>
@@ -61,16 +61,16 @@
                   ->implode(' / ');
             @endphp
             <tr>
-              <td class="cot-td-material">
+              <td class="cot-td-material" data-label="Material">
                 {{ $item->getTipoMaterial()->getMaterial()->getDescripcion() }}
               </td>
-              <td class="cot-td-tipo">
+              <td class="cot-td-tipo" data-label="Tipo / Especificación">
                 {{ $item->getTipoMaterial()->getTipo()->getEspecificacion() }}
               </td>
-              <td class="cot-td-unidad">
+              <td class="cot-td-unidad" data-label="Unidad">
                 {{ $unidades ?: '—' }}
               </td>
-              <td class="cot-td-cantidad">
+              <td class="cot-td-cantidad" data-label="Cantidad">
                 {{ number_format($item->getCantidad(), 2) }}
               </td>
             </tr>

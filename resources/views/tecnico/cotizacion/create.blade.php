@@ -53,7 +53,7 @@
         </div>
 
         <div class="cot-table-wrap">
-            <table class="cot-table" id="tabla-materiales">
+            <table class="cot-table cot-edit-table" id="tabla-materiales">
                 <thead>
                     <tr>
                         <th>Material / Especificación</th>

@@ -42,7 +42,7 @@
     @endif
 
     <div class="cot-table-wrap">
-        <table class="cot-table">
+        <table class="cot-table cot-versions-table">
             <thead>
                 <tr>
                     <th>Versión</th>
@@ -54,19 +54,19 @@
             <tbody>
                 @forelse($viewData['versiones'] as $version)
                 <tr>
-                    <td>
+                    <td data-label="Versión">
                         <span class="cot-version-number">V{{ $version->getNumeroVersion() }}</span>
                         @if($version->getEsLaMasReciente())
                             <span class="cot-counter ms-1">Actual</span>
                         @endif
                     </td>
-                    <td>
+                    <td data-label="Estado">
                         <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($viewData['cotizacion']->getEstado())) }}">
                             {{ $viewData['cotizacion']->getEstado() }}
                         </span>
                     </td>
-                    <td class="cot-td-date">{{ $version->getCreatedAt() }}</td>
-                    <td class="cot-td-actions">
+                    <td class="cot-td-date" data-label="Fecha">{{ $version->getCreatedAt() }}</td>
+                    <td class="cot-td-actions" data-label="Acciones">
                         <a href="{{ route('tecnico.cotizacion.show', [$viewData['project']->getId(), $version->getId()]) }}"
                            class="um-btn-icon um-btn-icon--edit px-3 py-1">
                             <i class="bi bi-eye me-1"></i> Ver detalle

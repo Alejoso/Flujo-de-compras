@@ -45,9 +45,16 @@
             </div>
         </aside>
 
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
         <div class="tecnico-main">
             <header class="tecnico-topbar">
-                <h5 class="topbar-title">@yield('page-title', 'Formulario')</h5>
+                <div class="d-flex align-items-center gap-3">
+                    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menú">
+                        <i class="bi bi-list"></i>
+                    </button>
+                    <h5 class="topbar-title">@yield('page-title', 'Formulario')</h5>
+                </div>
                 <div class="topbar-right">
                     <span class="topbar-badge tecnico-badge">Técnico</span>
                 </div>
@@ -61,5 +68,35 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    (function () {
+        const toggle = document.getElementById('sidebarToggle');
+        const sidebar = document.querySelector('.tecnico-sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', function () {
+            sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+        });
+        overlay.addEventListener('click', closeSidebar);
+
+        // Close sidebar on nav link click (mobile UX)
+        sidebar.querySelectorAll('.sidebar-link').forEach(function (link) {
+            link.addEventListener('click', function () {
+                if (window.innerWidth < 768) closeSidebar();
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
