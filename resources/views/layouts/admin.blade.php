@@ -45,6 +45,11 @@
                     <span>Facturas</span>
                 </a>
 
+                <a href="{{ route('admin.client.index') }}" class="sidebar-link {{ request()->routeIs('admin.client*') ? 'active' : '' }}">
+                    <i class="bi bi-person-heart"></i>
+                    <span>Clientes</span>
+                </a>
+
                 <a href="#" class="sidebar-link {{ request()->routeIs('admin.config*') ? 'active' : '' }}">
                     <i class="bi bi-gear-fill"></i>
                     <span>Configuración</span>

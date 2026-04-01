@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\Proyecto;
-use App\Http\Requests\SaveProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\Proyecto\SaveProyectoRequest;
+use App\Http\Requests\Proyecto\UpdateProyectoRequest;
 use Exception;
 
 class ProjectController extends Controller
@@ -25,7 +25,7 @@ class ProjectController extends Controller
         return view('admin.project.create');
     }
 
-    public function save(SaveProjectRequest $request): RedirectResponse
+    public function save(SaveProyectoRequest $request): RedirectResponse
     {
         $validatedProjectData = $request->validated();
 
@@ -48,7 +48,7 @@ class ProjectController extends Controller
         return view('admin.project.show');
     }
 
-    public function update(string $id): View
+    public function edit(string $id): View
     {
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
@@ -56,7 +56,7 @@ class ProjectController extends Controller
         return view('admin.project.edit');
     }
 
-    public function patch(UpdateProjectRequest $request): RedirectResponse
+    public function patch(UpdateProyectoRequest $request): RedirectResponse
     {
         return back();
     }

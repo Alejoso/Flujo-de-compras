@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Cliente;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateProjectRequest extends FormRequest
+class UpdateClienteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255',
-            'direccion'=> 'required|max:255',
-            'ciudad'=> 'required|max:255',
-            'costoTotal'=> 'numeric',
+            'cedula'=> 'required|string|max:255',
+            'correo'=> 'required|string|max:255',
+            'celular'=> 'required|string|max:255',
         ];
     }
 }

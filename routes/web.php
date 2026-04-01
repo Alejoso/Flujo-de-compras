@@ -35,9 +35,20 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     // Project routes
     Route::get('/admin/project', $controllerRoute.'\Admin\ProjectController@index')->name('admin.project.index');
     Route::get('/admin/project/create', $controllerRoute.'\Admin\ProjectController@create')->name('admin.project.create');
-    Route::get('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@show')->name('admin.project.show');
     Route::post('/admin/project/save', $controllerRoute.'\Admin\ProjectController@save')->name('admin.project.save');
-    Route::post('/admin/project/{id}\edit', $controllerRoute.'\Admin\ProjectController@update')->name('admin.project.edit');
+    Route::get('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@show')->name('admin.project.show');
+    Route::patch('/admin/project/{id}\edit', $controllerRoute.'\Admin\ProjectController@edit')->name('admin.project.edit');
+
+    // Client routes
+    Route::get('/admin/client', $controllerRoute.'\Admin\ClientController@index')->name('admin.client.index');
+    Route::get('/admin/client/create', $controllerRoute.'\Admin\ClientController@create')->name('admin.client.create');
+    Route::post('/admin/client/save', $controllerRoute.'\Admin\ClientController@save')->name('admin.client.save');
+    Route::get('/admin/client/{id}/edit', $controllerRoute.'\Admin\ClientController@edit')->name('admin.client.edit');
+    Route::get('/admin/client/{id}', $controllerRoute.'\Admin\ClientController@show')->name('admin.client.show');
+    Route::patch('/admin/client/{id}', $controllerRoute.'\Admin\ClientController@update')->name('admin.client.update');
+    Route::delete('/admin/client/{id}', $controllerRoute.'\Admin\ClientController@destroy')->name('admin.client.destroy');
+
+
 });
 
 // Rutas exclusivamente para tecnico
