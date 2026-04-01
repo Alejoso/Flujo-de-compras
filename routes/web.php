@@ -50,6 +50,8 @@ Route::middleware('tecnico')->group(function () use ($controllerRoute) {
     Route::get('/tecnico/project/{id}/cotizacion/{versionId}', $controllerRoute.'\Tecnico\CotizacionController@show')->name('tecnico.cotizacion.show');
     Route::get('/tecnico/project/{id}/cotizacion/{versionId}/edit', $controllerRoute.'\Tecnico\CotizacionController@edit')->name('tecnico.cotizacion.edit');
     Route::patch('/tecnico/project/{id}/cotizacion/{versionId}/update', $controllerRoute.'\Tecnico\CotizacionController@update')->name('tecnico.cotizacion.update');
+    Route::get('/tecnico/project/{id}/cotizacion/{versionId}/pdf', $controllerRoute.'\Tecnico\CotizacionController@pdfView')->name('tecnico.cotizacion.pdfView');
+    Route::get('/tecnico/project/{id}/cotizacion/{versionId}/pdf/download', $controllerRoute.'\Tecnico\CotizacionController@pdfDownload')->name('tecnico.cotizacion.pdfDownload');
 });
 
 Auth::routes(['register' => false]);

@@ -71,6 +71,12 @@
                            class="um-btn-icon um-btn-icon--edit px-3 py-1">
                             <i class="bi bi-eye me-1"></i> Ver detalle
                         </a>
+                        @if(!$version->getEsLaMasReciente() && $version->getNumeroVersion() !== '1')
+                        <a href="{{ route('tecnico.cotizacion.pdfView', [$viewData['project']->getId(), $version->getId()]) }}"
+                           class="um-btn-icon um-btn-icon--edit px-3 py-1 ms-1">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> Ver PDF
+                        </a>
+                        @endif
                         @if($version->getEsLaMasReciente())
                         <a href="{{ route('tecnico.cotizacion.edit', [$viewData['project']->getId(), $version->getId()]) }}"
                            class="um-btn-icon um-btn-icon--edit px-3 py-1 ms-1">
