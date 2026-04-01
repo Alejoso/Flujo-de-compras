@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ asset('css/tecnico.css') }}">
+    <style>{!! file_get_contents(public_path('css/tecnico.css')) !!}</style>
 </head>
 <body>
 
