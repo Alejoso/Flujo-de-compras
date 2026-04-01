@@ -30,8 +30,8 @@
         <p>{{ $project->getCiudad() }}, Colombia</p>
       </div>
 
-      <div class="cot-doc-title">Cotización {{ $numeroCotizacion }} V{{ $version->getNumeroVersion() }}
-        {{ $project->getNombre() }}</div>
+      <div class="cot-doc-title">Cotización {{ $numeroCotizacion }} - V{{ $version->getNumeroVersion() }}</div>
+      <div class="cot-doc-title">{{ $project->getNombre() }}</div>
       <div class="cot-doc-date">{{ $fecha }}</div>
 
       <p class="cot-doc-intro">A continuación se presenta una tabla con los materiales a cotizar:</p>
