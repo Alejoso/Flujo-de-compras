@@ -26,6 +26,7 @@ class VersionCotizacion extends Model
         'numeroVersion',
         'esLaMasReciente',
         'cotizacionId',
+        'pdfPath',
     ];
 
     // id
@@ -54,6 +55,17 @@ class VersionCotizacion extends Model
     public function setEsLaMasReciente(bool $esLaMasReciente): void
     {
         $this->attributes['esLaMasReciente'] = $esLaMasReciente;
+    }
+
+    // pdfPath
+    public function getPdfPath(): ?string
+    {
+        return $this->attributes['pdfPath'] ?? null;
+    }
+
+    public function setPdfPath(?string $pdfPath): void
+    {
+        $this->attributes['pdfPath'] = $pdfPath;
     }
 
     // timestamps

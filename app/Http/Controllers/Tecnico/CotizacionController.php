@@ -10,8 +10,11 @@ use App\Models\Proyecto;
 use App\Models\TipoMaterial;
 use App\Models\TipoMaterialVersionCotizacion;
 use App\Models\VersionCotizacion;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CotizacionController extends Controller
@@ -67,17 +70,6 @@ class CotizacionController extends Controller
         ])->get();
 
         $viewData['tipoMateriales'] = $tipoMateriales;
-        $viewData['tipoMaterialesJson'] = $tipoMateriales->map(function ($tm) {
-            $unidades = $tm->getTipo()->getUnidadMedidaCantidades()
-                ->map(fn ($umc) => $umc->getUnidadMedida()->getAbreviatura())
-                ->unique()->values();
-
-            return [
-                'id' => $tm->getId(),
-                'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
-                'unidades' => $unidades,
-            ];
-        });
 
         return view('tecnico.cotizacion.create')->with('viewData', $viewData);
     }
@@ -86,8 +78,9 @@ class CotizacionController extends Controller
     {
         $project = Proyecto::findOrFail($id);
         $cotizacionId = null;
+        $versionId = null;
 
-        Cotizacion::query()->getConnection()->transaction(function () use ($request, $project, &$cotizacionId) {
+        Cotizacion::query()->getConnection()->transaction(function () use ($request, $project, &$cotizacionId, &$versionId) {
             $cotizacion = Cotizacion::create([
                 'proyectoId' => $project->getId(),
                 'estado' => 'Tecnico',
@@ -100,6 +93,7 @@ class CotizacionController extends Controller
                 'esLaMasReciente' => true,
                 'cotizacionId' => $cotizacion->getId(),
             ]);
+            $versionId = $version->getId();
 
             foreach ($request->materiales as $item) {
                 TipoMaterialVersionCotizacion::create([
@@ -109,6 +103,8 @@ class CotizacionController extends Controller
                 ]);
             }
         });
+
+        $this->generarYGuardarPdf($versionId, $project);
 
         session()->flash('success', 'Cotización creada correctamente para el proyecto "'.$project->getNombre().'".');
 
@@ -129,17 +125,6 @@ class CotizacionController extends Controller
         ])->get();
 
         $viewData['tipoMateriales'] = $tipoMateriales;
-        $viewData['tipoMaterialesJson'] = $tipoMateriales->map(function ($tm) {
-            $unidades = $tm->getTipo()->getUnidadMedidaCantidades()
-                ->map(fn ($umc) => $umc->getUnidadMedida()->getAbreviatura())
-                ->unique()->values();
-
-            return [
-                'id' => $tm->getId(),
-                'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
-                'unidades' => $unidades,
-            ];
-        });
 
         return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
     }
@@ -149,8 +134,18 @@ class CotizacionController extends Controller
         $project = Proyecto::findOrFail($projectId);
         $versionActual = VersionCotizacion::findOrFail($versionId);
         $cotizacion = $versionActual->cotizacion;
+        $nuevaVersionId = null;
 
-        Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion) {
+        $versionMasReciente = $cotizacion->versionCotizaciones()
+            ->where('esLaMasReciente', true)
+            ->first();
+        if ($versionMasReciente && $versionMasReciente->getNumeroVersion() !== '1') {
+            $pdfAnteriorPath = $versionMasReciente->getPdfPath();
+        } else {
+            $pdfAnteriorPath = null;
+        }
+
+        Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion, &$nuevaVersionId) {
             $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
 
             $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
@@ -160,6 +155,7 @@ class CotizacionController extends Controller
                 'esLaMasReciente' => true,
                 'cotizacionId' => $cotizacion->getId(),
             ]);
+            $nuevaVersionId = $nuevaVersion->getId();
 
             foreach ($request->materiales as $item) {
                 TipoMaterialVersionCotizacion::create([
@@ -170,8 +166,89 @@ class CotizacionController extends Controller
             }
         });
 
+        if ($pdfAnteriorPath && Storage::disk('public')->exists($pdfAnteriorPath)) {
+            Storage::disk('public')->delete($pdfAnteriorPath);
+            $versionMasReciente->pdfPath = null;
+            $versionMasReciente->save();
+        }
+
+        $this->generarYGuardarPdf($nuevaVersionId, $project);
+
         session()->flash('success', 'Nueva versión de la cotización creada correctamente.');
 
         return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
+    }
+
+    public function pdfView(string $projectId, string $versionId): View
+    {
+        $project = Proyecto::findOrFail($projectId);
+        $version = $this->cargarVersionConRelaciones($versionId);
+        ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
+
+        return view('tecnico.cotizacion.pdf-view', compact('project', 'version', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion'));
+    }
+
+    public function pdfDownload(string $projectId, string $versionId)
+    {
+        $project = Proyecto::findOrFail($projectId);
+        $version = $this->cargarVersionConRelaciones($versionId);
+        ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
+
+        $cotizacionId = $version->getCotizacion()->getId();
+        $numeroVersion = $version->getNumeroVersion();
+
+        return Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
+            ->setPaper('a4', 'portrait')
+            ->download('cotizacion_'.$cotizacionId.'_v'.$numeroVersion.'.pdf');
+    }
+
+    private function cargarVersionConRelaciones(int|string $versionId): VersionCotizacion
+    {
+        return VersionCotizacion::with([
+            'cotizacion.creador',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.material',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
+        ])->findOrFail($versionId);
+    }
+
+    private function prepararDatosPdf(VersionCotizacion $version): array
+    {
+        $cotizacion = $version->getCotizacion();
+        $tecnico = $cotizacion->getCreadoPor();
+        $numeroCotizacion = $cotizacion->getId();
+
+        $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
+
+        $materiales = $version->getTipoMaterialVersionCotizaciones()->map(function ($item) {
+            $unidades = $item->getTipoMaterial()->getTipo()->getUnidadMedidaCantidades()
+                ->map(fn ($umc) => $umc->getUnidadMedida()->getAbreviatura())
+                ->unique()->implode(' / ');
+
+            return [
+                'cantidad' => $item->getCantidad(),
+                'unidades' => $unidades,
+                'descripcion' => $item->getTipoMaterial()->getMaterial()->getDescripcion(),
+                'especificacion' => strtoupper($item->getTipoMaterial()->getTipo()->getEspecificacion()),
+            ];
+        });
+
+        return compact('tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version');
+    }
+
+    private function generarYGuardarPdf(int $versionId, Proyecto $project): void
+    {
+        $version = $this->cargarVersionConRelaciones($versionId);
+        ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
+
+        $pdf = Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
+            ->setPaper('a4', 'portrait');
+
+        $cotizacionId = $version->getCotizacion()->getId();
+        $numeroVersion = $version->getNumeroVersion();
+        $relativePath = 'cotizaciones/cotizacion_'.$cotizacionId.'_v'.$numeroVersion.'.pdf';
+        Storage::disk('public')->put($relativePath, $pdf->output());
+
+        $version->pdfPath = $relativePath;
+        $version->save();
     }
 }

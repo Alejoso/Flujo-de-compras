@@ -324,3 +324,76 @@
     .cot-footer a,
     .cot-footer button { flex: 1; text-align: center; justify-content: center; }
 }
+
+.cot-doc-wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #fff;
+    color: #000;
+    padding: 48px;
+    border-radius: 8px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.cot-doc-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.cot-doc-header h2 {
+    font-size: 18pt;
+    font-weight: bold;
+    margin: 0 0 4px 0;
+}
+
+.cot-doc-header p {
+    margin: 2px 0;
+    font-size: 11pt;
+}
+
+.cot-doc-title {
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.cot-doc-date {
+    text-align: center;
+    font-weight: bold;
+    font-size: 11pt;
+    margin-bottom: 20px;
+}
+
+.cot-doc-intro {
+    margin-bottom: 24px;
+    font-size: 11pt;
+}
+
+.cot-doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11pt;
+}
+
+.cot-doc-table th {
+    font-weight: bold;
+    border-top: 2px solid #000;
+    border-bottom: 2px solid #000;
+    padding: 4px 8px;
+    text-align: left;
+}
+
+.cot-doc-table td {
+    border-bottom: 1px solid #555;
+    padding: 3px 8px;
+}
+
+.cot-doc-page-number {
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10pt;
+}
