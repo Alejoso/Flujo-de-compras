@@ -742,7 +742,7 @@ body {
 
 .pj-meta-value {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 400;
     color: #ffffff;
 }
 
@@ -771,4 +771,92 @@ body {
     background-color: rgba(90, 90, 90, 0.2);
     color: #A0A0A0;
     border: 1px solid rgba(90, 90, 90, 0.3);
+}
+
+/* ── Show a project ── */
+
+.pj-back-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+.pj-back-btn:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: #ffffff;
+}
+.pj-show-breadcrumb {
+    font-size: 0.75rem;
+    color: #5A5A5A;
+    margin: 0 0 2px;
+}
+.pj-field-label {
+    font-size: 0.75rem;
+    color: #5A5A5A;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+}
+.pj-field-value {
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 500;
+    margin: 0;
+}
+.pj-kpi-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+.pj-kpi-icon--blue   { background-color: rgba(96,165,250,0.12); color: #60a5fa; }
+.pj-kpi-icon--purple { background-color: rgba(167,139,250,0.12); color: #a78bfa; }
+.pj-kpi-icon--yellow { background-color: rgba(245,200,0,0.12); color: #F5C800; }
+.pj-kpi-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 2px;
+}
+.pj-progress-track {
+    width: 100%;
+    height: 5px;
+    background-color: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.pj-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #F5C800, #4ade80);
+    border-radius: 999px;
+    transition: width 0.6s ease;
+}
+.pj-action-card {
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.pj-action-card:hover {
+    border-color: #F5C800 !important;
+    background-color: rgba(245,200,0,0.04) !important;
+}
+.pj-action-arrow {
+    color: rgba(255,255,255,0.2);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+.pj-action-card:hover .pj-action-arrow {
+    color: #F5C800;
+    transform: translateX(4px);
 }
