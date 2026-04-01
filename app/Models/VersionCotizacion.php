@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class VersionCotizacion extends Model
 {
     protected $table = 'version_cotizaciones';
+
     /**
      * VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

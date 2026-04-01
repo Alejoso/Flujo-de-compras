@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class UnidadMedida extends Model
 {
     protected $table = 'unidad_medidas';
+
     /**
      * UNIDAD MEDIDA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

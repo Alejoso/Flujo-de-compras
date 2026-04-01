@@ -48,6 +48,23 @@
     flex: 1;
 }
 
+/* ── Cotización Cards ── */
+.cot-card {
+    background: #161616;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.cot-card:hover {
+    border-color: rgba(255,215,0,0.35);
+    transform: translateY(-2px);
+}
+
+.cot-card-body {
+    padding: 1.25rem 1.5rem;
+}
+
 /* ── Cotización Form ── */
 .cot-header-card {
     background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,107,53,0.04));

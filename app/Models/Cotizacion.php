@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Cotizacion extends Model
 {
     protected $table = 'cotizaciones';
+
     /**
      * COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -65,7 +66,7 @@ class Cotizacion extends Model
         return $this->belongsTo(Proyecto::class, 'proyectoId');
     }
 
-    public function creadoPor(): BelongsTo
+    public function creador(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creadoPor');
     }
@@ -93,12 +94,12 @@ class Cotizacion extends Model
 
     public function getCreadoPor(): User
     {
-        return $this->creadoPor;
+        return $this->creador;
     }
 
     public function setCreadoPor(User $user): void
     {
-        $this->creadoPor = $user;
+        $this->creador = $user;
     }
 
     public function getFactura(): ?Factura

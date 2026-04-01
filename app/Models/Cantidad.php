@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Cantidad extends Model
 {
     protected $table = 'cantidades';
+
     /**
      * COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -17,7 +18,7 @@ class Cantidad extends Model
      * $this->attributes['updated_at'] - string - contains the update timestamp
      */
     protected $fillable = [
-        'numero'
+        'numero',
     ];
 
     // Id
@@ -35,7 +36,6 @@ class Cantidad extends Model
     {
         $this->attributes['numero'] = $numero;
     }
-  
 
     // timestamps
     public function getCreatedAt(): string

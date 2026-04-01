@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UnidadMedidaCantidad extends Model
 {
     protected $table = 'unidad_medida_cantidades';
+
     /**
      * UNIDAD MEDIDA CANTIDAD ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

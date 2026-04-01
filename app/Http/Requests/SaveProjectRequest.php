@@ -24,9 +24,9 @@ class SaveProjectRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255',
-            'direccion'=> 'required|max:255',
-            'ciudad'=> 'required|max:255',
-            'costoTotal'=> 'numeric',
+            'direccion' => 'required|max:255',
+            'ciudad' => 'required|max:255',
+            'costoTotal' => 'numeric',
         ];
     }
 }

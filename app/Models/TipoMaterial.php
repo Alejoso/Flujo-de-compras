@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class TipoMaterial extends Model
 {
     protected $table = 'tipo_materiales';
-    
+
     /**
      * TIPO MATERIAL ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

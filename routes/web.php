@@ -46,6 +46,7 @@ Route::middleware('tecnico')->group(function () use ($controllerRoute) {
     Route::get('/tecnico/project/{id}/cotizacion', $controllerRoute.'\Tecnico\CotizacionController@index')->name('tecnico.cotizacion.index');
     Route::get('/tecnico/project/{id}/cotizacion/create', $controllerRoute.'\Tecnico\CotizacionController@create')->name('tecnico.cotizacion.create');
     Route::post('/tecnico/project/{id}/cotizacion', $controllerRoute.'\Tecnico\CotizacionController@store')->name('tecnico.cotizacion.store');
+    Route::get('/tecnico/project/{id}/cotizacion/{cotizacionId}/versiones', $controllerRoute.'\Tecnico\CotizacionController@versions')->name('tecnico.cotizacion.versions');
     Route::get('/tecnico/project/{id}/cotizacion/{versionId}', $controllerRoute.'\Tecnico\CotizacionController@show')->name('tecnico.cotizacion.show');
     Route::get('/tecnico/project/{id}/cotizacion/{versionId}/edit', $controllerRoute.'\Tecnico\CotizacionController@edit')->name('tecnico.cotizacion.edit');
     Route::patch('/tecnico/project/{id}/cotizacion/{versionId}/update', $controllerRoute.'\Tecnico\CotizacionController@update')->name('tecnico.cotizacion.update');
@@ -53,4 +54,3 @@ Route::middleware('tecnico')->group(function () use ($controllerRoute) {
 
 Auth::routes(['register' => false]);
 Route::redirect('/', '/login');
-

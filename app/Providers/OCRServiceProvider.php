@@ -2,13 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Http;
 use App\Services\OCRSercive;
+use Illuminate\Support\ServiceProvider;
 
 class OCRServiceProvider extends ServiceProvider
 {
-
     /**
      * Register services.
      */

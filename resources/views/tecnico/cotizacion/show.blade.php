@@ -13,7 +13,7 @@
         @endif
       </h1>
       <div class="d-flex gap-2">
-        <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}"
+        <a href="{{ route('tecnico.cotizacion.versions', [$viewData['project']->getId(), $viewData['version']->getCotizacion()->getId()]) }}"
           class="um-btn-icon um-btn-icon--secondary px-3 py-2">
           <i class="bi bi-arrow-left me-1"></i> Volver
         </a>

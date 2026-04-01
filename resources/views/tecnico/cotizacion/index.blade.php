@@ -28,53 +28,50 @@
 
     <div class="d-flex justify-content-end mb-3">
         <a href="{{ route('tecnico.cotizacion.create', $viewData['project']->getId()) }}" class="um-btn-primary px-4 py-2">
-            <i class="bi bi-clipboard-plus me-1"></i> Nueva Versión
+            <i class="bi bi-clipboard-plus me-1"></i> Nueva Cotización
         </a>
     </div>
 
+    @if($viewData['cotizaciones']->isEmpty())
     <div class="cot-table-wrap">
-        <table class="cot-table">
-            <thead>
-                <tr>
-                    <th>Versión</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($viewData['versiones'] as $version)
-                <tr>
-                    <td>
-                        <span class="cot-version-number">V{{ $version->getNumeroVersion() }}</span>
-                        @if($version->getEsLaMasReciente())
-                            <span class="cot-counter ms-1">Actual</span>
-                        @endif
-                    </td>
-                    <td>
-                        <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($version->getCotizacion()->getEstado())) }}">
-                            {{ $version->getCotizacion()->getEstado() }}
-                        </span>
-                    </td>
-                    <td class="cot-td-date">{{ $version->getCreatedAt() }}</td>
-                    <td class="cot-td-actions">
-                        <a href="{{ route('tecnico.cotizacion.show', [$viewData['project']->getId(), $version->getId()]) }}"
-                           class="um-btn-icon um-btn-icon--edit px-3 py-1">
-                            <i class="bi bi-eye me-1"></i> Ver detalle
-                        </a>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="4" class="cot-empty">
-                        <i class="bi bi-clipboard-x cot-empty-icon d-block mb-1"></i>
-                        Este proyecto no tiene cotizaciones aún.
-                    </td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+        <div class="cot-empty py-4 text-center">
+            <i class="bi bi-clipboard-x cot-empty-icon d-block mb-1"></i>
+            Este proyecto no tiene cotizaciones aún.
+        </div>
     </div>
+    @else
+    <div class="row g-3">
+        @foreach($viewData['cotizaciones'] as $cotizacion)
+        <div class="col-sm-6 col-lg-4">
+            <div class="cot-card h-100">
+                <div class="cot-card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="cot-version-number">Cotización {{ $loop->iteration }}</span>
+                        <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($cotizacion->getEstado())) }}">
+                            {{ $cotizacion->getEstado() }}
+                        </span>
+                    </div>
+                    <p class="cot-project-meta mb-1">
+                        <i class="bi bi-layers me-1"></i>
+                        {{ $cotizacion->version_cotizaciones_count }}
+                        {{ $cotizacion->version_cotizaciones_count === 1 ? 'versión' : 'versiones' }}
+                    </p>
+                    <p class="cot-project-meta mb-1">
+                        <i class="bi bi-calendar3 me-1"></i>{{ $cotizacion->getCreatedAt() }}
+                    </p>
+                    <p class="cot-project-meta mb-3">
+                        <i class="bi bi-person me-1"></i>{{ $cotizacion->getCreadoPor()->getName() }}
+                    </p>
+                    <a href="{{ route('tecnico.cotizacion.versions', [$viewData['project']->getId(), $cotizacion->getId()]) }}"
+                       class="um-btn-icon um-btn-icon--edit px-3 py-1 w-100 text-center">
+                        <i class="bi bi-list-ul me-1"></i> Ver versiones
+                    </a>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+    @endif
 
 </div>
 @endsection

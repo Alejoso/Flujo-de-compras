@@ -6,7 +6,7 @@
 
     <div class="um-header">
         <h1 class="um-title"><i class="bi bi-clipboard-plus me-2"></i>Nueva Cotización</h1>
-        <a href="{{ route('tecnico.project.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
+        <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
             <i class="bi bi-arrow-left me-1"></i> Volver
         </a>
     </div>

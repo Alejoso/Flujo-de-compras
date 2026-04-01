@@ -33,7 +33,6 @@ class User extends Authenticatable
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->cotizaciones - Cotizacion[] - contains the quotations that the user has done
      */
-
     protected $fillable = [
         'name',
         'email',
@@ -95,17 +94,18 @@ class User extends Authenticatable
     {
         return $this->attributes['rol'];
     }
-  
+
     public function setRol(string $rol): void
     {
         $this->attributes['rol'] = $rol;
     }
-  
+
     // cedula
     public function getCedula(): string
     {
         return $this->attributes['cedula'];
     }
+
     public function setCedula(string $cedula): void
     {
         $this->attributes['cedula'] = $cedula;
@@ -116,6 +116,7 @@ class User extends Authenticatable
     {
         return $this->attributes['sueldo'];
     }
+
     public function setSueldo(string $sueldo): void
     {
         $this->attributes['sueldo'] = $sueldo;
@@ -170,5 +171,4 @@ class User extends Authenticatable
     {
         $this->cotizaciones = $cotizaciones;
     }
-    
 }

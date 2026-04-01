@@ -1,6 +1,9 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\OCRServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    App\Providers\OCRServiceProvider::class,
+    AppServiceProvider::class,
+    OCRServiceProvider::class,
 ];

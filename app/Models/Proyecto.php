@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Proyecto extends Model
 {
     protected $table = 'proyectos';
+
     /**
      * PROYECTO ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

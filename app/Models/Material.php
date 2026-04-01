@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Material extends Model
 {
     protected $table = 'materiales';
+
     /**
      * MATERIAL ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

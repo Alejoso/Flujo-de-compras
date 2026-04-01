@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class MaterialFactura extends Model
 {
     protected $table = 'material_facturas';
+
     /**
      * MATERIAL FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

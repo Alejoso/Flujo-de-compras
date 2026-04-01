@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Cliente extends Model
 {
     protected $table = 'clientes';
+
     /**
      * CLIENTE ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

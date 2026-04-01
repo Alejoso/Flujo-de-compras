@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Proveedor extends Model
 {
     protected $table = 'proveedores';
+
     /**
      * PROVEEDOR ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key

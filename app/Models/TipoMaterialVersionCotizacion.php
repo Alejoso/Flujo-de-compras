@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TipoMaterialVersionCotizacion extends Model
 {
     protected $table = 'tipo_material_version_cotizaciones';
+
     /**
      * TIPO MATERIAL VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
