@@ -26,7 +26,8 @@ class UpdateProyectoRequest extends FormRequest
             'nombre' => 'required|string|max:255',
             'direccion'=> 'required|string|max:255',
             'ciudad'=> 'required|string|max:255',
-            'costoTotal'=> 'numeric',
+            'costoTotal'=> 'nullable|numeric',
+            'clienteId'=> 'required|numeric',
         ];
     }
 }

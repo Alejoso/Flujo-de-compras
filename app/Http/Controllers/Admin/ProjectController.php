@@ -8,6 +8,7 @@ use Illuminate\View\View;
 use App\Models\Proyecto;
 use App\Http\Requests\Proyecto\SaveProyectoRequest;
 use App\Http\Requests\Proyecto\UpdateProyectoRequest;
+use App\Models\Cliente;
 use Exception;
 
 class ProjectController extends Controller
@@ -22,12 +23,16 @@ class ProjectController extends Controller
 
     public function create(): View
     {
-        return view('admin.project.create');
+        $viewData = [];
+        $viewData['clients'] = Cliente::orderBy('nombre','asc')->get();
+
+        return view('admin.project.create')->with('viewData' , $viewData);
     }
 
     public function save(SaveProyectoRequest $request): RedirectResponse
     {
         $validatedProjectData = $request->validated();
+        $validatedProjectData['creadoPor'] = auth()->user()->getId();
 
         try {
             $project = Proyecto::create($validatedProjectData);
@@ -37,7 +42,7 @@ class ProjectController extends Controller
             session()->flash('error', $e->getMessage());
         }
 
-        return back();
+        return redirect()->route('admin.project.index');
     }
 
     public function show(string $id): View
@@ -52,13 +57,25 @@ class ProjectController extends Controller
     {
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
+        $viewData['clients'] = Cliente::orderBy('nombre','asc')->get();
 
-        return view('admin.project.edit');
+        return view('admin.project.edit')->with('viewData', $viewData);
     }
 
-    public function patch(UpdateProyectoRequest $request): RedirectResponse
+    public function update(UpdateProyectoRequest $request , string $id): RedirectResponse
     {
-        return back();
+        $validatedProjectData = $request->validated();
+
+        try{
+            $project = Proyecto::findOrFail($id);
+            $project->update($validatedProjectData);
+            session()->flash('success','Se ha actualizado el proyecto '. $project->getNombre());
+        }
+        catch (Exception $e){
+            session()->flash('error', $e->getMessage());
+        }
+
+        return redirect()->route('admin.project.index');
     }
 
 

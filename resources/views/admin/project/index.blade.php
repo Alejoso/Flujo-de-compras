@@ -58,6 +58,22 @@
                     </span>
                 </div>
 
+                {{-- Client --}}
+                <div class="mb-3">
+                    <span class="pj-meta-label">Cliente: </span>
+                    <span class="pj-meta-value">
+                        {{ $project->getCliente()->getNombre() . ' - CC: ' . $project->getCliente()->getCedula()}}
+                    </span>
+                </div>
+
+                {{-- Creado por --}}
+                <div class="mb-3">
+                    <span class="pj-meta-label">Creado por: </span>
+                    <span class="pj-meta-value">
+                        {{ $project->getCreadoPorUser()->getName() }}
+                    </span>
+                </div>
+
                 {{-- Buttons --}}
                 <div class="mt-auto d-flex gap-2">
                     <a href="{{ route('admin.project.show', ['id' => $project->getId()]) }}"

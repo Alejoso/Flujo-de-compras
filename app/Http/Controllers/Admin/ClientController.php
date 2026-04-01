@@ -59,6 +59,7 @@ class ClientController extends Controller
     public function update(UpdateClienteRequest $request , string $id): RedirectResponse
     {
         $validatedClientData = $request->validated();
+        
         try {
             $client = Cliente::findOrFail($id);
             $client->update($validatedClientData);
