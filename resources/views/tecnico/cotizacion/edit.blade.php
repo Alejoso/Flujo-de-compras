@@ -28,10 +28,13 @@
             <label class="form-label fw-bold">Seleccionar Material para agregar</label>
             <select id="material-selector" class="form-select">
               <option value="">Elija un material...</option>
-              @foreach ($viewData['tipoMaterialesJson'] as $tm)
-                <option value="{{ $tm['id'] }}" data-label="{{ $tm['label'] }}"
-                  data-unidades="{{ $tm['unidades']->implode(' / ') }}">
-                  {{ $tm['label'] }}
+              @foreach ($viewData['tipoMateriales'] as $tm)
+                @php
+                    $label = $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion();
+                    $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
+                @endphp
+                <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}">
+                  {{ $label }}
                 </option>
               @endforeach
             </select>
