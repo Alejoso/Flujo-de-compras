@@ -36,11 +36,10 @@
         <div class="row mt-3 g-2 align-items-end">
           <div class="col-md-4">
             <label class="form-label fw-bold">Material</label>
-            <input type="text" id="buscador-material" class="form-control mb-2" placeholder="Escriba para buscar...">
-
-            <select id="selector-tipo-material" class="form-select">
-              <option value="">— Busca y selecciona un material —</option>
-            </select>
+            <div class="ac-wrap">
+              <input type="text" id="buscador-material" class="form-control" placeholder="Escriba para buscar..." autocomplete="off">
+              <div id="autocomplete-list" class="ac-dropdown"></div>
+            </div>
           </div>
           <div class="col-md-3">
             <label class="form-label fw-bold">Presentación</label>
@@ -97,9 +96,10 @@
 
   <script>
     let tmData = {};
+    let selectedTmId = null;
 
     const buscadorMaterial = document.getElementById('buscador-material');
-    const selectorTm = document.getElementById('selector-tipo-material');
+    const acList = document.getElementById('autocomplete-list');
     const selectorPres = document.getElementById('selector-presentacion');
     const displayUnidad = document.getElementById('display-unidad');
     const btnAdd = document.getElementById('btn-add-material');
@@ -111,57 +111,45 @@
       emptyRow.style.display = tbody.querySelectorAll('tr[data-id]').length > 0 ? 'none' : '';
     }
 
-    function fetchMateriales(query = '') {
-      fetch(`{{ route('tecnico.materiales.search') }}?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-          tmData = data;
-
-          selectorTm.innerHTML = '<option value="">Seleccione un material...</option>';
-
-          if (Object.keys(data).length === 0) {
-            selectorTm.innerHTML = '<option value="">No se encontraron resultados</option>';
-            return;
-          }
-
-          for (const [tmId, tm] of Object.entries(data)) {
-            const opt = document.createElement('option');
-            opt.value = tmId;
-            opt.textContent = tm.label;
-            selectorTm.appendChild(opt);
-          }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    fetchMateriales('');
-
-    let timeoutId;
-    buscadorMaterial.addEventListener('input', function() {
-      clearTimeout(timeoutId);
-      const query = this.value.trim();
-
-      timeoutId = setTimeout(() => {
-        fetchMateriales(query);
-
-        selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
-        selectorPres.disabled = true;
-        displayUnidad.value = '';
-        btnAdd.disabled = true;
-      }, 300);
-    });
-
-    selectorTm.addEventListener('change', function() {
-      const tmId = this.value;
-      selectorPres.innerHTML = '<option value="">Seleccione presentación...</option>';
+    function resetPresentacion() {
+      selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
+      selectorPres.disabled = true;
       displayUnidad.value = '';
       btnAdd.disabled = true;
+      selectedTmId = null;
+    }
 
-      if (!tmId || !tmData[tmId]) {
-        selectorPres.disabled = true;
-        return;
+    function showDropdown(data) {
+      acList.innerHTML = '';
+      const keys = Object.keys(data);
+
+      if (keys.length === 0) {
+        acList.innerHTML = '<div class="ac-empty">Sin resultados</div>';
+      } else {
+        keys.forEach(tmId => {
+          const item = document.createElement('div');
+          item.className = 'ac-item';
+          item.textContent = data[tmId].label;
+          item.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            selectMaterial(tmId, data[tmId].label);
+          });
+          acList.appendChild(item);
+        });
       }
+      acList.style.display = 'block';
+    }
 
+    function hideDropdown() {
+      acList.style.display = 'none';
+    }
+
+    function selectMaterial(tmId, label) {
+      selectedTmId = tmId;
+      buscadorMaterial.value = label;
+      hideDropdown();
+
+      selectorPres.innerHTML = '<option value="">Seleccione presentación...</option>';
       tmData[tmId].presentaciones.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p.id;
@@ -170,6 +158,38 @@
         selectorPres.appendChild(opt);
       });
       selectorPres.disabled = false;
+      displayUnidad.value = '';
+      btnAdd.disabled = true;
+    }
+
+    function fetchMateriales(query = '') {
+      fetch(`{{ route('tecnico.materiales.search') }}?q=${encodeURIComponent(query)}`)
+        .then(r => r.json())
+        .then(data => {
+          tmData = data;
+          showDropdown(data);
+        })
+        .catch(err => console.error(err));
+    }
+
+    let timeoutId;
+    buscadorMaterial.addEventListener('input', function() {
+      clearTimeout(timeoutId);
+      resetPresentacion();
+      const query = this.value.trim();
+      timeoutId = setTimeout(() => fetchMateriales(query), 300);
+    });
+
+    buscadorMaterial.addEventListener('focus', function() {
+      if (Object.keys(tmData).length > 0) {
+        showDropdown(tmData);
+      } else {
+        fetchMateriales('');
+      }
+    });
+
+    buscadorMaterial.addEventListener('blur', function() {
+      setTimeout(hideDropdown, 150);
     });
 
     selectorPres.addEventListener('change', function() {
@@ -187,8 +207,7 @@
       const ptmId = selectorPres.value;
       const ptmNombre = selectorPres.options[selectorPres.selectedIndex].textContent;
       const unidad = displayUnidad.value;
-      const tmId = selectorTm.value;
-      const label = tmData[tmId].label;
+      const label = tmData[selectedTmId].label;
 
       if (tbody.querySelector(`tr[data-id="${ptmId}"]`)) {
         alert('Esta combinación ya está en la lista.');
@@ -210,16 +229,13 @@
         <td>
             <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
         </td>
-    `;
+      `;
       tbody.appendChild(tr);
       rowIdx++;
 
       buscadorMaterial.value = '';
-      selectorTm.innerHTML = '<option value="">— Busca y selecciona un material —</option>';
-      selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
-      selectorPres.disabled = true;
-      displayUnidad.value = '';
-      btnAdd.disabled = true;
+      tmData = {};
+      resetPresentacion();
       updateEmpty();
     });
 

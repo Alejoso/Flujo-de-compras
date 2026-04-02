@@ -48,7 +48,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="cot-version-number">Cotización {{ $loop->iteration }}</span>
                         <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($cotizacion->getEstado())) }}">
-                            {{ $cotizacion->getEstado() }}
+                            Estado:{{ $cotizacion->getEstado() }}
                         </span>
                     </div>
                     <p class="cot-project-meta mb-1">

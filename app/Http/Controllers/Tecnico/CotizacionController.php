@@ -177,6 +177,9 @@ class CotizacionController extends Controller
         }
 
         Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion, &$nuevaVersionId) {
+            $cotizacion->setEstado('Tecnico Editada');
+            $cotizacion->save();
+
             $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
 
             $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
