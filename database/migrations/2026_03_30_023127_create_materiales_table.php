@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('materiales', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion');
+            $table->unsignedBigInteger('presentacionId')->nullable();
+            $table->foreign('presentacionId')->references('id')->on('presentaciones')->onDelete('set null');
             $table->timestamps();
         });
     }
