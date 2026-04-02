@@ -27,11 +27,9 @@
         <div class="row mt-3 g-2 align-items-end">
           <div class="col-md-4">
             <label class="form-label fw-bold">Material</label>
+            <input type="text" id="buscador-material" class="form-control mb-2" placeholder="Escriba para buscar...">
             <select id="selector-tipo-material" class="form-select">
-              <option value="">Seleccione un material...</option>
-              @foreach ($viewData['tmData'] as $tmId => $tm)
-                <option value="{{ $tmId }}">{{ $tm['label'] }}</option>
-              @endforeach
+              <option value="">— Busca y selecciona un material —</option>
             </select>
           </div>
           <div class="col-md-3">
@@ -68,7 +66,8 @@
               <tr data-id="{{ $mat['ptmId'] }}">
                 <td>
                   {{ $mat['descripcion'] }} — {{ $mat['especificacion'] }}
-                  <input type="hidden" name="materiales[{{ $index }}][presentacionTipoMaterialId]" value="{{ $mat['ptmId'] }}">
+                  <input type="hidden" name="materiales[{{ $index }}][presentacionTipoMaterialId]"
+                    value="{{ $mat['ptmId'] }}">
                 </td>
                 <td>{{ $mat['presentacion'] }}</td>
                 <td>{{ $mat['unidad'] }}</td>
@@ -94,16 +93,55 @@
   </div>
 
   <script>
-    const tmData = @json($viewData['tmData']);
+    let tmData = {};
 
-    const selectorTm    = document.getElementById('selector-tipo-material');
-    const selectorPres  = document.getElementById('selector-presentacion');
+    const buscadorMaterial = document.getElementById('buscador-material');
+    const selectorTm = document.getElementById('selector-tipo-material');
+    const selectorPres = document.getElementById('selector-presentacion');
     const displayUnidad = document.getElementById('display-unidad');
-    const btnAdd        = document.getElementById('btn-add-material');
-    const tbody         = document.getElementById('lista-materiales');
+    const btnAdd = document.getElementById('btn-add-material');
+    const tbody = document.getElementById('lista-materiales');
     let rowIdx = {{ count($viewData['materialesVersion']) }};
 
-    selectorTm.addEventListener('change', function () {
+    function fetchMateriales(query = '') {
+      fetch(`{{ route('tecnico.materiales.search') }}?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          tmData = data;
+
+          selectorTm.innerHTML = '<option value="">Seleccione un material...</option>';
+
+          if (Object.keys(data).length === 0) {
+            selectorTm.innerHTML = '<option value="">No se encontraron resultados</option>';
+            return;
+          }
+
+          for (const [tmId, tm] of Object.entries(data)) {
+            const opt = document.createElement('option');
+            opt.value = tmId;
+            opt.textContent = tm.label;
+            selectorTm.appendChild(opt);
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    fetchMateriales('');
+
+    let timeoutId;
+    buscadorMaterial.addEventListener('input', function() {
+      clearTimeout(timeoutId);
+      const query = this.value.trim();
+
+      timeoutId = setTimeout(() => {
+        fetchMateriales(query);
+        selectorPres.disabled = true;
+        displayUnidad.value = '';
+        btnAdd.disabled = true;
+      }, 300);
+    });
+
+    selectorTm.addEventListener('change', function() {
       const tmId = this.value;
       selectorPres.innerHTML = '<option value="">Seleccione presentación...</option>';
       displayUnidad.value = '';
@@ -124,7 +162,7 @@
       selectorPres.disabled = false;
     });
 
-    selectorPres.addEventListener('change', function () {
+    selectorPres.addEventListener('change', function() {
       const opt = this.options[this.selectedIndex];
       if (opt.value) {
         displayUnidad.value = opt.dataset.unidad || '';
@@ -135,12 +173,12 @@
       }
     });
 
-    btnAdd.addEventListener('click', function () {
-      const ptmId     = selectorPres.value;
+    btnAdd.addEventListener('click', function() {
+      const ptmId = selectorPres.value;
       const ptmNombre = selectorPres.options[selectorPres.selectedIndex].textContent;
-      const unidad    = displayUnidad.value;
-      const tmId      = selectorTm.value;
-      const label     = tmData[tmId].label;
+      const unidad = displayUnidad.value;
+      const tmId = selectorTm.value;
+      const label = tmData[tmId].label;
 
       if (document.querySelector(`tr[data-id="${ptmId}"]`)) {
         alert('Esta combinación ya está en la lista.');
@@ -166,14 +204,15 @@
       tbody.appendChild(tr);
       rowIdx++;
 
-      selectorTm.value = '';
+      buscadorMaterial.value = '';
+      selectorTm.innerHTML = '<option value="">— Busca y selecciona un material —</option>';
       selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
       selectorPres.disabled = true;
       displayUnidad.value = '';
       btnAdd.disabled = true;
     });
 
-    tbody.addEventListener('click', function (e) {
+    tbody.addEventListener('click', function(e) {
       if (e.target.closest('.btn-remove')) {
         e.target.closest('tr').remove();
       }

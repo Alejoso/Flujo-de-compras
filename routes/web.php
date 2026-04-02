@@ -64,6 +64,7 @@ Route::middleware('tecnico')->group(function () use ($controllerRoute) {
     Route::patch('/tecnico/project/{id}/cotizacion/{versionId}/update', $controllerRoute.'\Tecnico\CotizacionController@update')->name('tecnico.cotizacion.update');
     Route::get('/tecnico/project/{id}/cotizacion/{versionId}/pdf', $controllerRoute.'\Tecnico\CotizacionController@pdfView')->name('tecnico.cotizacion.pdfView');
     Route::get('/tecnico/project/{id}/cotizacion/{versionId}/pdf/download', $controllerRoute.'\Tecnico\CotizacionController@pdfDownload')->name('tecnico.cotizacion.pdfDownload');
+    Route::get('/materiales/buscar', $controllerRoute.'\Tecnico\TipoMaterialController@search')->name('tecnico.materiales.search');
 });
 
 Auth::routes(['register' => false]);
