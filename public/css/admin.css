@@ -7,8 +7,8 @@
 .admin-sidebar {
     width: 240px;
     min-height: 100vh;
-    background-color: #0a120a;
-    border-right: 1px solid rgba(255,255,255,0.05);
+    background-color: var(--dark-green-sidebar);
+    border-right: 1px solid rgba(245, 197, 24, 0.08);
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -30,9 +30,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    background-color: rgba(10, 18, 10, 0.8);
-    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(245, 197, 24, 0.08);
+    background-color: rgba(10, 21, 10, 0.85);
+    backdrop-filter: blur(12px);
     position: sticky;
     top: 0;
     z-index: 50;
@@ -49,15 +49,15 @@
 }
 
 :root {
-    --primary: #FFD700;
-    --primary-dark: #FFC107;
-    --secondary: #001F3F;
-    --secondary-light: #003366;
+    --primary: #F5C518;
+    --primary-dark: #d4a80e;
+    --primary-glow: rgba(245, 197, 24, 0.15);
     --accent: #FF6B35;
     --dark: #0A0A0A;
     --dark-gray: #1A1A1A;
-    --dark-green: #050905;
-    --dark-green-light: #090e09;
+    --dark-green: #0e1410;
+    --dark-green-mid: #121712;
+    --dark-green-sidebar: #0b1010;
     --light: #FFFFFF;
     --light-gray: #F8F9FA;
     --text: #333333;
@@ -82,6 +82,8 @@
 body {
     font-family: var(--font-primary);
     background-color: var(--dark-green);
+    background-image: radial-gradient(ellipse at 20% 50%, rgba(15, 35, 15, 0.3) 0%, transparent 60%),
+                      radial-gradient(ellipse at 80% 20%, rgba(8, 20, 8, 0.2) 0%, transparent 50%);
     color: var(--light);
     min-height: 100vh;
     font-size: 16px;
@@ -97,7 +99,7 @@ body {
 }
 
 .brand-icon {
-    color: var(--accent);
+    color: var(--primary);
     font-size: 1.3rem;
     line-height: 1;
 }
@@ -152,12 +154,14 @@ body {
 }
 
 .sidebar-link.active {
-    background-color: rgba(255, 107, 53, 0.15);
-    color: var(--accent);
+    background-color: var(--primary-glow);
+    color: var(--primary);
+    border-left: 3px solid var(--primary);
+    padding-left: calc(0.75rem - 3px);
 }
 
 .sidebar-link.active i {
-    color: var(--accent);
+    color: var(--primary);
 }
 
 .sidebar-footer {
@@ -622,6 +626,12 @@ body {
 .form-select:focus {
     border-color: #F5C800;
     box-shadow: 0 0 0 3px rgba(245,200,0,0.15);
+}
+
+.form-select:disabled {
+    background-color: #1F1F1F;
+    color: #c8cfd6;
+    opacity: 1;
 }
 
 /* Botón cancelar */
