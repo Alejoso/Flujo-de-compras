@@ -110,37 +110,51 @@
     </div>
  
     {{-- Acciones --}}
-    <div class="row g-3">
- 
-        {{-- Ver Gráficas --}}
-        <div class="col-md-6">
-            <a href="#" class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">
-                <div class="pj-kpi-icon pj-kpi-icon--yellow">
-                    <i class="bi bi-bar-chart-line"></i>
-                </div>
-                <div class="flex-fill">
-                    <p class="pj-field-value mb-1">Ver Gráficas</p>
-                    <p class="pj-field-label mb-0">Visualiza el progreso, costos y estadísticas del proyecto</p>
-                </div>
-                <i class="bi bi-arrow-right pj-action-arrow"></i>
-            </a>
-        </div>
- 
-        {{-- Ver Cotizaciones --}}
-        <div class="col-md-6">
-            <a href="#" class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">
-                <div class="pj-kpi-icon pj-kpi-icon--blue">
-                    <i class="bi bi-file-earmark-ruled"></i>
-                </div>
-                <div class="flex-fill">
-                    <p class="pj-field-value mb-1">Ver Cotizaciones</p>
-                    <p class="pj-field-label mb-0">Revisa y gestiona todas las cotizaciones asociadas</p>
-                </div>
-                <i class="bi bi-arrow-right pj-action-arrow"></i>
-            </a>
-        </div>
- 
+<div class="row g-3">
+
+    {{-- Ver Gráficas --}}
+    <div class="col-md-4">
+        <a href="#" class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">
+            <div class="pj-kpi-icon pj-kpi-icon--yellow">
+                <i class="bi bi-bar-chart-line"></i>
+            </div>
+            <div class="flex-fill">
+                <p class="pj-field-value mb-1">Ver Gráficas</p>
+                <p class="pj-field-label mb-0">Visualiza el progreso, costos y estadísticas del proyecto</p>
+            </div>
+            <i class="bi bi-arrow-right pj-action-arrow"></i>
+        </a>
     </div>
+
+    {{-- Ver Cotizaciones --}}
+    <div class="col-md-4">
+        <a href="#" class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">
+            <div class="pj-kpi-icon pj-kpi-icon--blue">
+                <i class="bi bi-file-earmark-ruled"></i>
+            </div>
+            <div class="flex-fill">
+                <p class="pj-field-value mb-1">Ver Cotizaciones</p>
+                <p class="pj-field-label mb-0">Revisa y gestiona todas las cotizaciones asociadas</p>
+            </div>
+            <i class="bi bi-arrow-right pj-action-arrow"></i>
+        </a>
+    </div>
+
+    {{-- OCR --}}
+    <div class="col-md-4">
+        <a href="{{ route('admin.invoice.index') }}" class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">
+            <div class="pj-kpi-icon pj-kpi-icon--green">
+                <i class="bi bi-file-earmark-richtext"></i>
+            </div>
+            <div class="flex-fill">
+                <p class="pj-field-value mb-1">Procesar Factura OCR</p>
+                <p class="pj-field-label mb-0">Extrae y estructura datos de facturas automáticamente</p>
+            </div>
+            <i class="bi bi-arrow-right pj-action-arrow"></i>
+        </a>
+    </div>
+
+</div>
  
 </div>
 @endsection

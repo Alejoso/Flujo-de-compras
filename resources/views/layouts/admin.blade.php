@@ -35,20 +35,18 @@
                     <span>Usuarios</span>
                 </a>
 
+                <a href="{{ route('admin.client.index') }}" class="sidebar-link {{ request()->routeIs('admin.client*') ? 'active' : '' }}">
+                    <i class="bi bi-person-heart"></i>
+                    <span>Clientes</span>
+                </a>
+
+                <div class="nav-section-label mt-3">Configuración</div>
+
                 <a href="{{ route('admin.notification.index') }}" class="sidebar-link {{ request()->routeIs('admin.notification*') ? 'active' : '' }}">
                     <i class="bi bi-bell-fill"></i>
                     <span>Notificaciones</span>
                 </a>
 
-                <a href="{{ route('admin.invoice.index') }}" class="sidebar-link {{ request()->routeIs('admin.invoice*') ? 'active' : '' }}">
-                    <i class="bi bi-bell-fill"></i>
-                    <span>Facturas</span>
-                </a>
-
-                <a href="{{ route('admin.client.index') }}" class="sidebar-link {{ request()->routeIs('admin.client*') ? 'active' : '' }}">
-                    <i class="bi bi-person-heart"></i>
-                    <span>Clientes</span>
-                </a>
 
                 <a href="#" class="sidebar-link {{ request()->routeIs('admin.config*') ? 'active' : '' }}">
                     <i class="bi bi-gear-fill"></i>

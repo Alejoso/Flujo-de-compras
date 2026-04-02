@@ -860,3 +860,7 @@ body {
     color: #F5C800;
     transform: translateX(4px);
 }
+
+.pj-kpi-icon--green { 
+    background-color: rgba(74,222,128,0.12); color: #4ade80; 
+}
