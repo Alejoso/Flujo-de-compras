@@ -49,7 +49,7 @@ class ProjectController extends Controller
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
 
-        return view('admin.project.show');
+        return view('admin.project.show')->with('viewData' , $viewData);
     }
 
     public function edit(string $id): View
