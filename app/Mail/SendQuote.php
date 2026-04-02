@@ -23,10 +23,12 @@ class SendQuote extends Mailable
      */
     public function __construct(
         private string $state,
+        private string $emailSubject,
         private string $description,
         private string $projectName,
-        private string $technicianName,
-        private string $version
+        private string $employeeName,
+        private string $version,
+        private string $pathToQuote,
     ) {}
 
     /**
@@ -35,7 +37,7 @@ class SendQuote extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Actualización de una cotización',
+            subject: $this->emailSubject,
         );
     }
 
@@ -48,7 +50,7 @@ class SendQuote extends Mailable
         $viewData['state'] = $this->state;
         $viewData['description'] = $this->description;
         $viewData['projectName'] = $this->projectName;
-        $viewData['technicianName'] = $this->technicianName;
+        $viewData['employeeName'] = $this->employeeName;
         $viewData['timestamp'] = now()->toDateTimeString(); // e.g., "2025-04-20 15:30:00"
         $viewData['version'] = $this->version;
 
@@ -66,9 +68,9 @@ class SendQuote extends Mailable
     public function attachments(): array
     {
         return [
-            // Attachment::fromPath('')
-            // ->as('Cotizacion1') # Name of the quote in the desired format
-            // ->withMime('application/pdf'),
+            Attachment::fromStorageDisk('public', $this->pathToQuote)
+            ->as(basename($this->pathToQuote))
+            ->withMime('application/pdf'),
         ];
     }
 }

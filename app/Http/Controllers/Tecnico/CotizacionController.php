@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
+// Send email with quote
+use App\Services\SendQuoteService;
+use App\Models\User;
+use Exception;
 class CotizacionController extends Controller
 {
     public function index(string $id): View
@@ -78,7 +82,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.create')->with('viewData', $viewData);
     }
 
-    public function store(StoreCotizacionRequest $request, string $id): RedirectResponse
+    public function store(StoreCotizacionRequest $request, string $id , SendQuoteService $sendQuote): RedirectResponse
     {
         $project = Proyecto::findOrFail($id);
         $cotizacionId = null;
@@ -110,6 +114,26 @@ class CotizacionController extends Controller
 
         $this->generarYGuardarPdf($versionId, $project);
 
+        // Send an email informing the creation of a new quote
+        try{
+            $version = VersionCotizacion::findOrFail($versionId);
+            $quote = Cotizacion::findOrFail($cotizacionId);
+            $userThatModified = User::findOrFail(Auth::id());
+
+            $sendQuote->send(
+                $quote->getEstado(),
+                'Se ha creado una nueva cotización para ' . $project->getNombre(),
+                'Se ha creado una nueva cotización con ID ' . $cotizacionId . ' para el proyecto ' . $project->getNombre(),
+                $project->getNombre(),
+                $userThatModified->getName() . ' - CC: ' . $userThatModified->getCedula(),
+                $version->getnumeroVersion(),
+                $version->getPdfPath()
+            );
+
+        } catch(Exception $e){
+            throw new Exception('error'. $e->getMessage());
+        }
+
         session()->flash('success', 'Cotización creada correctamente para el proyecto "'.$project->getNombre().'".');
 
         return redirect()->route('tecnico.cotizacion.versions', [$id, $cotizacionId]);
@@ -136,7 +160,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
     }   
 
-    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId): RedirectResponse
+    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId , SendQuoteService $sendQuote): RedirectResponse
     {
         $project = Proyecto::findOrFail($projectId);
         $versionActual = VersionCotizacion::findOrFail($versionId);
@@ -180,6 +204,25 @@ class CotizacionController extends Controller
         }
 
         $this->generarYGuardarPdf($nuevaVersionId, $project);
+        
+        // Send an email informing the edition of a new quote
+        try{
+            $newQuoteVersion = VersionCotizacion::findOrFail($nuevaVersionId);
+            $userThatModified = User::findOrFail(Auth::id());
+
+            $sendQuote->send(
+                $cotizacion->getEstado(),
+                'Se ha editado una cotización de el proyecto ' . $project->getNombre(),
+                'Se ha editado la cotización con ID ' . $cotizacion->getId() . ' del proyecto ' . $project->getNombre(),
+                $project->getNombre(),
+                $userThatModified->getName() . ' - CC: ' . $userThatModified->getCedula(),
+                $newQuoteVersion->getnumeroVersion(),
+                $newQuoteVersion->getPdfPath()
+            );
+
+        } catch(Exception $e){
+            throw new Exception('error'. $e->getMessage());
+        }
 
         session()->flash('success', 'Nueva versión de la cotización creada correctamente.');
 

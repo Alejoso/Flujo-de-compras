@@ -161,7 +161,7 @@
             font-weight: 700;
         }
 
-        .technician {
+        .employee {
             font-weight: 600;
             color: #FFFFFF;
         }
