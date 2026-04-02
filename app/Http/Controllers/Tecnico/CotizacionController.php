@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCotizacionRequest;
 use App\Http\Requests\UpdateCotizacionRequest;
 use App\Models\Cotizacion;
+use App\Models\PresentacionTipoMaterial;
+use App\Models\PresentacionTipoMaterialVersionCotizacion;
 use App\Models\Proyecto;
 use App\Models\TipoMaterial;
-use App\Models\TipoMaterialVersionCotizacion;
 use App\Models\VersionCotizacion;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -53,10 +54,12 @@ class CotizacionController extends Controller
         $viewData['project'] = Proyecto::findOrFail($projectId);
         $viewData['version'] = VersionCotizacion::with([
             'cotizacion',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.material.presentacion',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.cantidad',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.presentacion',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.material',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.tipo.unidadMedida',
         ])->findOrFail($versionId);
+
+        $viewData['materialesVersion'] = $this->buildMateriasVersion($viewData['version']);
 
         return view('tecnico.cotizacion.show')->with('viewData', $viewData);
     }
@@ -66,12 +69,11 @@ class CotizacionController extends Controller
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
         $tipoMateriales = TipoMaterial::with([
-            'material.presentacion',
-            'tipo.unidadMedidaCantidades.unidadMedida',
-            'tipo.unidadMedidaCantidades.cantidad',
+            'material',
+            'tipo.unidadMedida',
+            'presentacionTipoMateriales.presentacion',
         ])->get();
-
-        $viewData['tipoMateriales'] = $tipoMateriales;
+        $viewData['tmData'] = $this->buildTmData($tipoMateriales);
 
         return view('tecnico.cotizacion.create')->with('viewData', $viewData);
     }
@@ -98,10 +100,10 @@ class CotizacionController extends Controller
             $versionId = $version->getId();
 
             foreach ($request->materiales as $item) {
-                TipoMaterialVersionCotizacion::create([
+                PresentacionTipoMaterialVersionCotizacion::create([
                     'cantidad' => $item['cantidad'],
                     'versionCotizacionId' => $version->getId(),
-                    'tipoMaterialId' => $item['tipoMaterialId'],
+                    'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
                 ]);
             }
         });
@@ -117,22 +119,22 @@ class CotizacionController extends Controller
     {
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($projectId);
-
         $viewData['version'] = VersionCotizacion::with([
-            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.cantidad',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.presentacion',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.material',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.tipo.unidadMedida',
         ])->findOrFail($versionId);
 
         $tipoMateriales = TipoMaterial::with([
-            'material.presentacion',
-            'tipo.unidadMedidaCantidades.unidadMedida',
-            'tipo.unidadMedidaCantidades.cantidad',
+            'material',
+            'tipo.unidadMedida',
+            'presentacionTipoMateriales.presentacion',
         ])->get();
-
-        $viewData['tipoMateriales'] = $tipoMateriales;
+        $viewData['tmData'] = $this->buildTmData($tipoMateriales);
+        $viewData['materialesVersion'] = $this->buildMateriasVersion($viewData['version']);
 
         return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
-    }
+    }   
 
     public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId): RedirectResponse
     {
@@ -163,10 +165,10 @@ class CotizacionController extends Controller
             $nuevaVersionId = $nuevaVersion->getId();
 
             foreach ($request->materiales as $item) {
-                TipoMaterialVersionCotizacion::create([
+                PresentacionTipoMaterialVersionCotizacion::create([
                     'cantidad' => $item['cantidad'],
                     'versionCotizacionId' => $nuevaVersion->getId(),
-                    'tipoMaterialId' => $item['tipoMaterialId'],
+                    'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
                 ]);
             }
         });
@@ -199,8 +201,10 @@ class CotizacionController extends Controller
         $version = $this->cargarVersionConRelaciones($versionId);
         ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
 
-        $cotizacionId = $version->getCotizacion()->getId();
         $numeroVersion = $version->getNumeroVersion();
+        $numeroCotizacion = Cotizacion::where('proyectoId', $project->getId())
+            ->where('id', '<=', $version->getCotizacion()->getId())
+            ->count();
 
         return Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
             ->setPaper('a4', 'portrait')
@@ -212,9 +216,9 @@ class CotizacionController extends Controller
         return VersionCotizacion::with([
             'cotizacion.creador',
             'cotizacion.proyecto',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.material.presentacion',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.cantidad',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.presentacion',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.material',
+            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.tipo.unidadMedida',
         ])->findOrFail($versionId);
     }
 
@@ -228,17 +232,16 @@ class CotizacionController extends Controller
 
         $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
 
-        $materiales = $version->getTipoMaterialVersionCotizaciones()->map(function ($item) {
-            $tm = $item->getTipoMaterial();
-            $unidades = $tm->getTipo()->getUnidadMedidaCantidades()
-                ->map(fn ($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())
-                ->unique()->implode(' / ');
-            $presentacion = $tm->getMaterial()->getPresentacion();
+        $materiales = $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
+            $ptm = $item->getPresentacionTipoMaterial();
+            $tm = $ptm->getTipoMaterial();
+            $unidadMedida = $tm->getTipo()->getUnidadMedida();
+            $unidades = $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : '');
 
             return [
                 'cantidad' => $item->getCantidad(),
                 'unidades' => $unidades,
-                'presentacion' => $presentacion ? $presentacion->getNombre() : null,
+                'presentacion' => $ptm->getPresentacion()->getNombre(),
                 'descripcion' => $tm->getMaterial()->getDescripcion(),
                 'especificacion' => strtoupper($tm->getTipo()->getEspecificacion()),
             ];
@@ -255,7 +258,6 @@ class CotizacionController extends Controller
         $pdf = Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
             ->setPaper('a4', 'portrait');
 
-        $cotizacionId = $version->getCotizacion()->getId();
         $numeroVersion = $version->getNumeroVersion();
         $relativePath = 'proyecto_'.$project->getId()
             .'/cotizacion_'.$numeroCotizacion
@@ -264,5 +266,39 @@ class CotizacionController extends Controller
 
         $version->pdfPath = $relativePath;
         $version->save();
+    }
+
+    private function buildTmData($tipoMateriales): array
+    {
+        return $tipoMateriales->mapWithKeys(function ($tm) {
+            $unidadMedida = $tm->getTipo()->getUnidadMedida();
+            return [$tm->getId() => [
+                'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
+                'presentaciones' => $tm->getPresentacionTipoMateriales()->map(function ($ptm) use ($unidadMedida) {
+                    return [
+                        'id'     => $ptm->getId(),
+                        'nombre' => $ptm->getPresentacion()->getNombre(),
+                        'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
+                    ];
+                })->values(),
+            ]];
+        })->all();
+    }
+
+    private function buildMateriasVersion(VersionCotizacion $version): \Illuminate\Support\Collection
+    {
+        return $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
+            $ptm = $item->getPresentacionTipoMaterial();
+            $tm = $ptm->getTipoMaterial();
+            $unidadMedida = $tm->getTipo()->getUnidadMedida();
+            return [
+                'ptmId'         => $ptm->getId(),
+                'descripcion'   => $tm->getMaterial()->getDescripcion(),
+                'especificacion' => $tm->getTipo()->getEspecificacion(),
+                'presentacion'  => $ptm->getPresentacion()->getNombre(),
+                'unidad'        => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
+                'cantidad'      => $item->getCantidad(),
+            ];
+        });
     }
 }
