@@ -17,7 +17,7 @@ class UnidadMedida extends Model
      * $this->attributes['abreviatura'] - string - contains the abbreviation of the unit
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
-     * $this->unidadMedidaCantidades - UnidadMedidaCantidad[] - contains the unit-quantity entries for this unit
+     * $this->tipos - Tipo[] - contains the types that use this unit of measure
      */
     protected $fillable = [
         'nombre',
@@ -64,19 +64,19 @@ class UnidadMedida extends Model
     }
 
     // Relations
-    public function unidadMedidaCantidades(): HasMany
+    public function tipos(): HasMany
     {
-        return $this->hasMany(UnidadMedidaCantidad::class, 'unidadMedidaId');
+        return $this->hasMany(Tipo::class, 'unidadMedidaId');
     }
 
     // Relations setters and getters
-    public function getUnidadMedidaCantidades(): Collection
+    public function getTipos(): Collection
     {
-        return $this->unidadMedidaCantidades;
+        return $this->tipos;
     }
 
-    public function setUnidadMedidaCantidades(Collection $unidadMedidaCantidades): void
+    public function setTipos(Collection $tipos): void
     {
-        $this->unidadMedidaCantidades = $unidadMedidaCantidades;
+        $this->tipos = $tipos;
     }
 }

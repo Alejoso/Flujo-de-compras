@@ -20,7 +20,7 @@ class VersionCotizacion extends Model
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->cotizacion - Cotizacion - contains the quotation associated
-     * $this->tipoMaterialVersionCotizaciones - TipoMaterialVersionCotizacion[] - contains the materials of this version
+     * $this->presentacionTipoMaterialVersionCotizaciones - PresentacionTipoMaterialVersionCotizacion[]
      */
     protected $fillable = [
         'numeroVersion',
@@ -85,9 +85,9 @@ class VersionCotizacion extends Model
         return $this->belongsTo(Cotizacion::class, 'cotizacionId');
     }
 
-    public function tipoMaterialVersionCotizaciones(): HasMany
+    public function presentacionTipoMaterialVersionCotizaciones(): HasMany
     {
-        return $this->hasMany(TipoMaterialVersionCotizacion::class, 'versionCotizacionId');
+        return $this->hasMany(PresentacionTipoMaterialVersionCotizacion::class, 'versionCotizacionId');
     }
 
     // Relations setters and getters
@@ -101,13 +101,13 @@ class VersionCotizacion extends Model
         $this->cotizacion = $cotizacion;
     }
 
-    public function getTipoMaterialVersionCotizaciones(): Collection
+    public function getPresentacionTipoMaterialVersionCotizaciones(): Collection
     {
-        return $this->tipoMaterialVersionCotizaciones;
+        return $this->presentacionTipoMaterialVersionCotizaciones;
     }
 
-    public function setTipoMaterialVersionCotizaciones(Collection $tipoMaterialVersionCotizaciones): void
+    public function setPresentacionTipoMaterialVersionCotizaciones(Collection $items): void
     {
-        $this->tipoMaterialVersionCotizaciones = $tipoMaterialVersionCotizaciones;
+        $this->presentacionTipoMaterialVersionCotizaciones = $items;
     }
 }

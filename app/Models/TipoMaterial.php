@@ -20,8 +20,7 @@ class TipoMaterial extends Model
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->material - Material - contains the material associated
      * $this->tipo - Tipo - contains the type associated
-     * $this->materialFacturas - MaterialFactura[] - contains the invoice materials associated
-     * $this->tipoMaterialVersionCotizaciones - TipoMaterialVersionCotizacion[] - contains the quotation version materials associated
+     * $this->presentacionTipoMateriales - PresentacionTipoMaterial[] - contains the presentation combinations
      */
     protected $fillable = [
         'materialId',
@@ -56,14 +55,9 @@ class TipoMaterial extends Model
         return $this->belongsTo(Tipo::class, 'tipoId');
     }
 
-    public function materialFacturas(): HasMany
+    public function presentacionTipoMateriales(): HasMany
     {
-        return $this->hasMany(MaterialFactura::class, 'tipoMaterialId');
-    }
-
-    public function tipoMaterialVersionCotizaciones(): HasMany
-    {
-        return $this->hasMany(TipoMaterialVersionCotizacion::class, 'tipoMaterialId');
+        return $this->hasMany(PresentacionTipoMaterial::class, 'tipoMaterialId');
     }
 
     // Relations setters and getters
@@ -87,23 +81,13 @@ class TipoMaterial extends Model
         $this->tipo = $tipo;
     }
 
-    public function getMaterialFacturas(): Collection
+    public function getPresentacionTipoMateriales(): Collection
     {
-        return $this->materialFacturas;
+        return $this->presentacionTipoMateriales;
     }
 
-    public function setMaterialFacturas(Collection $materialFacturas): void
+    public function setPresentacionTipoMateriales(Collection $presentacionTipoMateriales): void
     {
-        $this->materialFacturas = $materialFacturas;
-    }
-
-    public function getTipoMaterialVersionCotizaciones(): Collection
-    {
-        return $this->tipoMaterialVersionCotizaciones;
-    }
-
-    public function setTipoMaterialVersionCotizaciones(Collection $tipoMaterialVersionCotizaciones): void
-    {
-        $this->tipoMaterialVersionCotizaciones = $tipoMaterialVersionCotizaciones;
+        $this->presentacionTipoMateriales = $presentacionTipoMateriales;
     }
 }

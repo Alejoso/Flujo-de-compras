@@ -13,10 +13,10 @@ class Presentacion extends Model
     /**
      * PRESENTACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['nombre'] - string - contains the presentation name (e.g. "Rollo", "Caja", "Carreta")
+     * $this->attributes['nombre'] - string - contains the presentation name (e.g. "Rollo", "Paquete", "Unitario")
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
-     * $this->materiales - Material[] - contains the materials that use this presentation
+     * $this->presentacionTipoMateriales - PresentacionTipoMaterial[] - contains the material combinations for this presentation
      */
     protected $fillable = [
         'nombre',
@@ -26,6 +26,17 @@ class Presentacion extends Model
     public function getId(): int
     {
         return $this->attributes['id'];
+    }
+
+    // nombre
+    public function getNombre(): string
+    {
+        return $this->attributes['nombre'];
+    }
+
+    public function setNombre(string $nombre): void
+    {
+        $this->attributes['nombre'] = $nombre;
     }
 
     // timestamps
@@ -39,31 +50,20 @@ class Presentacion extends Model
         return $this->attributes['updated_at'];
     }
 
-    // Attributes
-    public function getNombre(): string
-    {
-        return $this->attributes['nombre'];
-    }
-
-    public function setNombre(string $nombre): void
-    {
-        $this->attributes['nombre'] = $nombre;
-    }
-
     // Relations
-    public function materiales(): HasMany
+    public function presentacionTipoMateriales(): HasMany
     {
-        return $this->hasMany(Material::class, 'presentacionId');
+        return $this->hasMany(PresentacionTipoMaterial::class, 'presentacionId');
     }
 
     // Relations setters and getters
-    public function getMateriales(): Collection
+    public function getPresentacionTipoMateriales(): Collection
     {
-        return $this->materiales;
+        return $this->presentacionTipoMateriales;
     }
 
-    public function setMateriales(Collection $materiales): void
+    public function setPresentacionTipoMateriales(Collection $presentacionTipoMateriales): void
     {
-        $this->materiales = $materiales;
+        $this->presentacionTipoMateriales = $presentacionTipoMateriales;
     }
 }

@@ -5,27 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class MaterialFactura extends Model
+class PresentacionTipoMaterialFactura extends Model
 {
-    protected $table = 'material_facturas';
+    protected $table = 'presentacion_tipo_material_facturas';
 
     /**
-     * MATERIAL FACTURA ATTRIBUTES
+     * PRESENTACION TIPO MATERIAL FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['precioUnitario'] - float - contains the unit price of the material
-     * $this->attributes['cantidad'] - int - contains the quantity of the material
+     * $this->attributes['precioUnitario'] - float - contains the unit price paid
+     * $this->attributes['cantidad'] - int - contains the quantity purchased
      * $this->attributes['facturaId'] - int - contains the foreign key of the invoice
-     * $this->attributes['tipoMaterialId'] - int - contains the foreign key of the type material
+     * $this->attributes['presentacionTipoMaterialId'] - int - contains the foreign key of the presentacion tipo material
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->factura - Factura - contains the invoice associated
-     * $this->tipoMaterial - TipoMaterial - contains the type material associated
+     * $this->presentacionTipoMaterial - PresentacionTipoMaterial - contains the presentation type material associated
      */
     protected $fillable = [
         'precioUnitario',
         'cantidad',
         'facturaId',
-        'tipoMaterialId',
+        'presentacionTipoMaterialId',
     ];
 
     // id
@@ -73,9 +73,9 @@ class MaterialFactura extends Model
         return $this->belongsTo(Factura::class, 'facturaId');
     }
 
-    public function tipoMaterial(): BelongsTo
+    public function presentacionTipoMaterial(): BelongsTo
     {
-        return $this->belongsTo(TipoMaterial::class, 'tipoMaterialId');
+        return $this->belongsTo(PresentacionTipoMaterial::class, 'presentacionTipoMaterialId');
     }
 
     // Relations setters and getters
@@ -89,13 +89,13 @@ class MaterialFactura extends Model
         $this->factura = $factura;
     }
 
-    public function getTipoMaterial(): TipoMaterial
+    public function getPresentacionTipoMaterial(): PresentacionTipoMaterial
     {
-        return $this->tipoMaterial;
+        return $this->presentacionTipoMaterial;
     }
 
-    public function setTipoMaterial(TipoMaterial $tipoMaterial): void
+    public function setPresentacionTipoMaterial(PresentacionTipoMaterial $presentacionTipoMaterial): void
     {
-        $this->tipoMaterial = $tipoMaterial;
+        $this->presentacionTipoMaterial = $presentacionTipoMaterial;
     }
 }

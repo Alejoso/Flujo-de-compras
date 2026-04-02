@@ -24,7 +24,7 @@ class Factura extends Model
      * $this->proyecto - Proyecto - contains the project associated
      * $this->proveedor - Proveedor - contains the supplier associated
      * $this->cotizacion - Cotizacion|null - contains the quotation associated
-     * $this->materialFacturas - MaterialFactura[] - contains the invoice materials associated
+     * $this->presentacionTipoMaterialFacturas - PresentacionTipoMaterialFactura[]
      */
     protected $fillable = [
         'valorTotal',
@@ -89,9 +89,9 @@ class Factura extends Model
         return $this->belongsTo(Cotizacion::class, 'cotizacionId');
     }
 
-    public function materialFacturas(): HasMany
+    public function presentacionTipoMaterialFacturas(): HasMany
     {
-        return $this->hasMany(MaterialFactura::class, 'facturaId');
+        return $this->hasMany(PresentacionTipoMaterialFactura::class, 'facturaId');
     }
 
     // Relations setters and getters
@@ -125,13 +125,13 @@ class Factura extends Model
         $this->cotizacion = $cotizacion;
     }
 
-    public function getMaterialFacturas(): Collection
+    public function getPresentacionTipoMaterialFacturas(): Collection
     {
-        return $this->materialFacturas;
+        return $this->presentacionTipoMaterialFacturas;
     }
 
-    public function setMaterialFacturas(Collection $materialFacturas): void
+    public function setPresentacionTipoMaterialFacturas(Collection $items): void
     {
-        $this->materialFacturas = $materialFacturas;
+        $this->presentacionTipoMaterialFacturas = $items;
     }
 }

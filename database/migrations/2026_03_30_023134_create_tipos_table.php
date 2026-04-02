@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tipos', function (Blueprint $table) {
             $table->id();
             $table->string('especificacion');
+            $table->foreignId('unidadMedidaId')->nullable()->constrained('unidad_medidas')->nullOnDelete();
             $table->timestamps();
         });
     }

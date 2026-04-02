@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Tipo extends Model
@@ -14,13 +15,15 @@ class Tipo extends Model
      * TIPO ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['especificacion'] - string - contains the specification of the type
+     * $this->attributes['unidadMedidaId'] - int|null - contains the optional foreign key of the unit of measure
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->tipoMateriales - TipoMaterial[] - contains the type materials associated with this type
-     * $this->unidadMedidaCantidades - UnidadMedidaCantidad[] - contains the unit-quantity entries for this type
+     * $this->unidadMedida - UnidadMedida|null - contains the unit of measure associated
      */
     protected $fillable = [
         'especificacion',
+        'unidadMedidaId',
     ];
 
     // id
@@ -57,9 +60,9 @@ class Tipo extends Model
         return $this->hasMany(TipoMaterial::class, 'tipoId');
     }
 
-    public function unidadMedidaCantidades(): HasMany
+    public function unidadMedida(): BelongsTo
     {
-        return $this->hasMany(UnidadMedidaCantidad::class, 'tipoId');
+        return $this->belongsTo(UnidadMedida::class, 'unidadMedidaId');
     }
 
     // Relations setters and getters
@@ -73,13 +76,13 @@ class Tipo extends Model
         $this->tipoMateriales = $tipoMateriales;
     }
 
-    public function getUnidadMedidaCantidades(): Collection
+    public function getUnidadMedida(): ?UnidadMedida
     {
-        return $this->unidadMedidaCantidades;
+        return $this->unidadMedida;
     }
 
-    public function setUnidadMedidaCantidades(Collection $unidadMedidaCantidades): void
+    public function setUnidadMedida(?UnidadMedida $unidadMedida): void
     {
-        $this->unidadMedidaCantidades = $unidadMedidaCantidades;
+        $this->unidadMedida = $unidadMedida;
     }
 }
