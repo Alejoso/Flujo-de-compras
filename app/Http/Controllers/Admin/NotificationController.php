@@ -8,7 +8,6 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
 class NotificationController extends Controller
@@ -50,29 +49,6 @@ class NotificationController extends Controller
         return back();
     }
 
-    public function send(): RedirectResponse
-    {
-        $emails = User::where('recibeNotificaciones', true)->pluck('email')->toArray();
-
-        $action = 'Actualizacion';
-        $description = 'Se ha actualizado la cotizacion numero 10';
-        $projectName = 'Casa 12';
-        $technicianName = 'Pacho';
-        $version = 'v.1';
-
-        try {
-            foreach ($emails as $email) {
-                $sendQuote = new SendQuote($action, $description, $projectName, $technicianName, $version);
-                Mail::to($email)->send($sendQuote);
-            }
-            session()->flash('success', 'Una notificacion ha sido enviada');
-        } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
-        }
-
-        return back();
-    }
-
     // Vista para probar el envio del correo
 
     public function test(): View
@@ -80,15 +56,4 @@ class NotificationController extends Controller
         return view('admin.notification.test');
     }
 
-    // Vista para probar si el correo se ve bien
-    public function correo()
-    {
-        $state = 'Editado tecnico';
-        $description = 'Se ha actualizado la cotizacion numero 10';
-        $projectName = 'Casa 12';
-        $technicianName = 'Pacho';
-        $version = 'v.1';
-
-        return new SendQuote($state, $description, $projectName, $technicianName, $version);
-    }
 }
