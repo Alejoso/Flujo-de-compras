@@ -23,24 +23,29 @@
         <p class="cot-project-name">
           <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getNombre() }}
         </p>
-        <div class="row mt-3">
-          <div class="col-md-8">
-            <label class="form-label fw-bold">Seleccionar Material para agregar</label>
-            <select id="material-selector" class="form-select">
-              <option value="">Elija un material...</option>
-              @foreach ($viewData['tipoMateriales'] as $tm)
-                @php
-                    $label = $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion();
-                    $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
-                @endphp
-                <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}" data-presentacion="{{ $tm->getMaterial()->getPresentacion()?->getNombre() ?? '' }}">
-                  {{ $label }}
-                </option>
+
+        <div class="row mt-3 g-2 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label fw-bold">Material</label>
+            <select id="selector-tipo-material" class="form-select">
+              <option value="">Seleccione un material...</option>
+              @foreach ($viewData['tmData'] as $tmId => $tm)
+                <option value="{{ $tmId }}">{{ $tm['label'] }}</option>
               @endforeach
             </select>
           </div>
-          <div class="col-md-4 d-flex align-items-end">
-            <button type="button" id="btn-add-material" class="btn btn-primary w-100">
+          <div class="col-md-3">
+            <label class="form-label fw-bold">Presentación</label>
+            <select id="selector-presentacion" class="form-select" disabled>
+              <option value="">— elige material primero —</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">Unidad</label>
+            <input type="text" id="display-unidad" class="form-control" readonly placeholder="—">
+          </div>
+          <div class="col-md-3">
+            <button type="button" id="btn-add-material" class="btn btn-primary w-100" disabled>
               <i class="bi bi-plus-lg me-1"></i> Agregar a la lista
             </button>
           </div>
@@ -59,21 +64,17 @@
             </tr>
           </thead>
           <tbody id="lista-materiales">
-            @foreach ($viewData['version']->getTipoMaterialVersionCotizaciones() as $index => $item)
-              <tr data-id="{{ $item->getTipoMaterial()->getId() }}">
+            @foreach ($viewData['materialesVersion'] as $index => $mat)
+              <tr data-id="{{ $mat['ptmId'] }}">
                 <td>
-                  {{ $item->getTipoMaterial()->getMaterial()->getDescripcion() }} —
-                  {{ $item->getTipoMaterial()->getTipo()->getEspecificacion() }}
-                  <input type="hidden" name="materiales[{{ $index }}][tipoMaterialId]"
-                    value="{{ $item->getTipoMaterial()->getId() }}">
+                  {{ $mat['descripcion'] }} — {{ $mat['especificacion'] }}
+                  <input type="hidden" name="materiales[{{ $index }}][presentacionTipoMaterialId]" value="{{ $mat['ptmId'] }}">
                 </td>
-                <td>{{ $item->getTipoMaterial()->getMaterial()->getPresentacion()?->getNombre() ?? '—' }}</td>
-                <td>
-                  {{ $item->getTipoMaterial()->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ') }}
-                </td>
+                <td>{{ $mat['presentacion'] }}</td>
+                <td>{{ $mat['unidad'] }}</td>
                 <td>
                   <input type="number" name="materiales[{{ $index }}][cantidad]" class="form-control"
-                    value="{{ $item->getCantidad() }}" step="0.01" required>
+                    value="{{ $mat['cantidad'] }}" step="0.01" required>
                 </td>
                 <td>
                   <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
@@ -93,52 +94,89 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const btnAdd = document.getElementById('btn-add-material');
-      const selector = document.getElementById('material-selector');
-      const tbody = document.getElementById('lista-materiales');
-      let rowIdx = {{ $viewData['version']->getTipoMaterialVersionCotizaciones()->count() }};
+    const tmData = @json($viewData['tmData']);
 
-      btnAdd.addEventListener('click', function() {
-        const selected = selector.options[selector.selectedIndex];
-        if (!selected.value) return;
+    const selectorTm    = document.getElementById('selector-tipo-material');
+    const selectorPres  = document.getElementById('selector-presentacion');
+    const displayUnidad = document.getElementById('display-unidad');
+    const btnAdd        = document.getElementById('btn-add-material');
+    const tbody         = document.getElementById('lista-materiales');
+    let rowIdx = {{ count($viewData['materialesVersion']) }};
 
-        const id = selected.value;
-        const label = selected.getAttribute('data-label');
-        const unidades = selected.getAttribute('data-unidades');
-        const presentacion = selected.getAttribute('data-presentacion');
+    selectorTm.addEventListener('change', function () {
+      const tmId = this.value;
+      selectorPres.innerHTML = '<option value="">Seleccione presentación...</option>';
+      displayUnidad.value = '';
+      btnAdd.disabled = true;
 
-        if (document.querySelector(`tr[data-id="${id}"]`)) {
-          alert('Este material ya está en la lista.');
-          return;
-        }
+      if (!tmId || !tmData[tmId]) {
+        selectorPres.disabled = true;
+        return;
+      }
 
-        const tr = document.createElement('tr');
-        tr.setAttribute('data-id', id);
-        tr.innerHTML = `
-            <td>
-                ${label}
-                <input type="hidden" name="materiales[${rowIdx}][tipoMaterialId]" value="${id}">
-            </td>
-            <td>${presentacion || '—'}</td>
-            <td>${unidades}</td>
-            <td>
-                <input type="number" name="materiales[${rowIdx}][cantidad]" class="form-control" value="1" step="0.01" required>
-            </td>
-            <td>
-                <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-        rowIdx++;
-        selector.value = '';
+      tmData[tmId].presentaciones.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.nombre;
+        opt.dataset.unidad = p.unidad;
+        selectorPres.appendChild(opt);
       });
+      selectorPres.disabled = false;
+    });
 
-      tbody.addEventListener('click', function(e) {
-        if (e.target.closest('.btn-remove')) {
-          e.target.closest('tr').remove();
-        }
-      });
+    selectorPres.addEventListener('change', function () {
+      const opt = this.options[this.selectedIndex];
+      if (opt.value) {
+        displayUnidad.value = opt.dataset.unidad || '';
+        btnAdd.disabled = false;
+      } else {
+        displayUnidad.value = '';
+        btnAdd.disabled = true;
+      }
+    });
+
+    btnAdd.addEventListener('click', function () {
+      const ptmId     = selectorPres.value;
+      const ptmNombre = selectorPres.options[selectorPres.selectedIndex].textContent;
+      const unidad    = displayUnidad.value;
+      const tmId      = selectorTm.value;
+      const label     = tmData[tmId].label;
+
+      if (document.querySelector(`tr[data-id="${ptmId}"]`)) {
+        alert('Esta combinación ya está en la lista.');
+        return;
+      }
+
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-id', ptmId);
+      tr.innerHTML = `
+          <td>
+              ${label}
+              <input type="hidden" name="materiales[${rowIdx}][presentacionTipoMaterialId]" value="${ptmId}">
+          </td>
+          <td>${ptmNombre}</td>
+          <td>${unidad}</td>
+          <td>
+              <input type="number" name="materiales[${rowIdx}][cantidad]" class="form-control" value="1" step="0.01" required>
+          </td>
+          <td>
+              <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
+          </td>
+      `;
+      tbody.appendChild(tr);
+      rowIdx++;
+
+      selectorTm.value = '';
+      selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
+      selectorPres.disabled = true;
+      displayUnidad.value = '';
+      btnAdd.disabled = true;
+    });
+
+    tbody.addEventListener('click', function (e) {
+      if (e.target.closest('.btn-remove')) {
+        e.target.closest('tr').remove();
+      }
     });
   </script>
 @endsection

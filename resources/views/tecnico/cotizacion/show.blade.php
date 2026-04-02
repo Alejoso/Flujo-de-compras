@@ -51,36 +51,17 @@
           </tr>
         </thead>
         <tbody>
-          @forelse($viewData['version']->getTipoMaterialVersionCotizaciones() as $item)
-            @php
-              $unidades = $item
-                  ->getTipoMaterial()
-                  ->getTipo()
-                  ->getUnidadMedidaCantidades()
-                  ->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())
-                  ->unique()
-                  ->implode(' / ');
-            @endphp
+          @forelse($viewData['materialesVersion'] as $mat)
             <tr>
-              <td class="cot-td-material" data-label="Material">
-                {{ $item->getTipoMaterial()->getMaterial()->getDescripcion() }}
-              </td>
-              <td class="cot-td-tipo" data-label="Tipo / Especificación">
-                {{ $item->getTipoMaterial()->getTipo()->getEspecificacion() }}
-              </td>
-              <td data-label="Presentación">
-                {{ $item->getTipoMaterial()->getMaterial()->getPresentacion()?->getNombre() ?? '—' }}
-              </td>
-              <td class="cot-td-unidad" data-label="Unidad">
-                {{ $unidades ?: '—' }}
-              </td>
-              <td class="cot-td-cantidad" data-label="Cantidad">
-                {{ number_format($item->getCantidad(), 2) }}
-              </td>
+              <td class="cot-td-material" data-label="Material">{{ $mat['descripcion'] }}</td>
+              <td class="cot-td-tipo" data-label="Tipo / Especificación">{{ $mat['especificacion'] }}</td>
+              <td data-label="Presentación">{{ $mat['presentacion'] }}</td>
+              <td class="cot-td-unidad" data-label="Unidad">{{ $mat['unidad'] ?: '—' }}</td>
+              <td class="cot-td-cantidad" data-label="Cantidad">{{ number_format($mat['cantidad'], 2) }}</td>
             </tr>
           @empty
             <tr>
-              <td colspan="4" class="cot-empty">Sin materiales registrados.</td>
+              <td colspan="5" class="cot-empty">Sin materiales registrados.</td>
             </tr>
           @endforelse
         </tbody>

@@ -18,6 +18,7 @@
     </div>
     @endif
 
+
     <form action="{{ route('tecnico.cotizacion.store', $viewData['project']->getId()) }}" method="POST" id="cotizacionForm">
         @csrf
 
@@ -28,24 +29,29 @@
             <p class="cot-project-meta">
                 <i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCiudad() }} — {{ $viewData['project']->getDireccion() }}
             </p>
-            <div class="row mt-3">
-                <div class="col-md-8">
-                    <label class="form-label fw-bold">Seleccionar Material para agregar</label>
-                    <select id="material-selector" class="form-select">
-                        <option value="">Elija un material...</option>
-                        @foreach ($viewData['tipoMateriales'] as $tm)
-                            @php
-                                $label = $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion();
-                                $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
-                            @endphp
-                            <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}" data-presentacion="{{ $tm->getMaterial()->getPresentacion()?->getNombre() ?? '' }}">
-                                {{ $label }}
-                            </option>
+
+            <div class="row mt-3 g-2 align-items-end">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Material</label>
+                    <select id="selector-tipo-material" class="form-select">
+                        <option value="">Seleccione un material...</option>
+                        @foreach ($viewData['tmData'] as $tmId => $tm)
+                            <option value="{{ $tmId }}">{{ $tm['label'] }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-4 d-flex align-items-end">
-                    <button type="button" id="btn-add-material" class="btn btn-primary w-100">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Presentación</label>
+                    <select id="selector-presentacion" class="form-select" disabled>
+                        <option value="">— elige material primero —</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Unidad</label>
+                    <input type="text" id="display-unidad" class="form-control" readonly placeholder="—">
+                </div>
+                <div class="col-md-3">
+                    <button type="button" id="btn-add-material" class="btn btn-primary w-100" disabled>
                         <i class="bi bi-plus-lg me-1"></i> Agregar a la lista
                     </button>
                 </div>
@@ -65,9 +71,9 @@
                 </thead>
                 <tbody id="lista-materiales">
                     <tr id="emptyRow">
-                        <td colspan="4" class="cot-empty">
+                        <td colspan="5" class="cot-empty">
                             <i class="bi bi-box-seam cot-empty-icon d-block mb-1"></i>
-                            Agrega materiales usando el selector de arriba
+                            Agrega materiales usando los selectores de arriba
                         </td>
                     </tr>
                 </tbody>
@@ -87,70 +93,105 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const btnAdd = document.getElementById('btn-add-material');
-    const selector = document.getElementById('material-selector');
-    const tbody = document.getElementById('lista-materiales');
-    const emptyRow = document.getElementById('emptyRow');
-    let rowIdx = 0;
+const tmData = @json($viewData['tmData']);
 
-    function updateEmpty() {
-        const hasRows = tbody.querySelectorAll('tr[data-id]').length > 0;
-        emptyRow.style.display = hasRows ? 'none' : '';
+const selectorTm      = document.getElementById('selector-tipo-material');
+const selectorPres    = document.getElementById('selector-presentacion');
+const displayUnidad   = document.getElementById('display-unidad');
+const btnAdd          = document.getElementById('btn-add-material');
+const tbody           = document.getElementById('lista-materiales');
+const emptyRow        = document.getElementById('emptyRow');
+let rowIdx = 0;
+
+function updateEmpty() {
+    emptyRow.style.display = tbody.querySelectorAll('tr[data-id]').length > 0 ? 'none' : '';
+}
+
+selectorTm.addEventListener('change', function () {
+    const tmId = this.value;
+    selectorPres.innerHTML = '<option value="">Seleccione presentación...</option>';
+    displayUnidad.value = '';
+    btnAdd.disabled = true;
+
+    if (!tmId || !tmData[tmId]) {
+        selectorPres.disabled = true;
+        return;
     }
 
-    btnAdd.addEventListener('click', function () {
-        const selected = selector.options[selector.selectedIndex];
-        if (!selected.value) return;
-
-        const id = selected.value;
-        const label = selected.getAttribute('data-label');
-        const unidades = selected.getAttribute('data-unidades');
-        const presentacion = selected.getAttribute('data-presentacion');
-
-        if (tbody.querySelector(`tr[data-id="${id}"]`)) {
-            alert('Este material ya está en la lista.');
-            return;
-        }
-
-        const tr = document.createElement('tr');
-        tr.setAttribute('data-id', id);
-        tr.innerHTML = `
-            <td>
-                ${label}
-                <input type="hidden" name="materiales[${rowIdx}][tipoMaterialId]" value="${id}">
-            </td>
-            <td>${presentacion || '—'}</td>
-            <td>${unidades}</td>
-            <td>
-                <input type="number" name="materiales[${rowIdx}][cantidad]" class="form-control" value="1" min="0.01" step="0.01" required>
-            </td>
-            <td>
-                <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
-            </td>
-        `;
-        tbody.appendChild(tr);
-        rowIdx++;
-        selector.value = '';
-        updateEmpty();
+    tmData[tmId].presentaciones.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.textContent = p.nombre;
+        opt.dataset.unidad = p.unidad;
+        selectorPres.appendChild(opt);
     });
+    selectorPres.disabled = false;
+});
 
-    tbody.addEventListener('click', function (e) {
-        if (e.target.closest('.btn-remove')) {
-            e.target.closest('tr').remove();
-            updateEmpty();
-        }
-    });
+selectorPres.addEventListener('change', function () {
+    const opt = this.options[this.selectedIndex];
+    if (opt.value) {
+        displayUnidad.value = opt.dataset.unidad || '';
+        btnAdd.disabled = false;
+    } else {
+        displayUnidad.value = '';
+        btnAdd.disabled = true;
+    }
+});
 
-    document.getElementById('cotizacionForm').addEventListener('submit', function (e) {
-        const rows = tbody.querySelectorAll('tr[data-id]');
-        if (rows.length === 0) {
-            e.preventDefault();
-            alert('Debes agregar al menos un material antes de enviar.');
-        }
-    });
+btnAdd.addEventListener('click', function () {
+    const ptmId      = selectorPres.value;
+    const ptmNombre  = selectorPres.options[selectorPres.selectedIndex].textContent;
+    const unidad     = displayUnidad.value;
+    const tmId       = selectorTm.value;
+    const label      = tmData[tmId].label;
 
+    if (tbody.querySelector(`tr[data-id="${ptmId}"]`)) {
+        alert('Esta combinación ya está en la lista.');
+        return;
+    }
+
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-id', ptmId);
+    tr.innerHTML = `
+        <td>
+            ${label}
+            <input type="hidden" name="materiales[${rowIdx}][presentacionTipoMaterialId]" value="${ptmId}">
+        </td>
+        <td>${ptmNombre}</td>
+        <td>${unidad}</td>
+        <td>
+            <input type="number" name="materiales[${rowIdx}][cantidad]" class="form-control" value="1" min="0.01" step="0.01" required>
+        </td>
+        <td>
+            <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
+        </td>
+    `;
+    tbody.appendChild(tr);
+    rowIdx++;
+
+    selectorTm.value = '';
+    selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
+    selectorPres.disabled = true;
+    displayUnidad.value = '';
+    btnAdd.disabled = true;
     updateEmpty();
 });
+
+tbody.addEventListener('click', function (e) {
+    if (e.target.closest('.btn-remove')) {
+        e.target.closest('tr').remove();
+        updateEmpty();
+    }
+});
+
+document.getElementById('cotizacionForm').addEventListener('submit', function (e) {
+    if (tbody.querySelectorAll('tr[data-id]').length === 0) {
+        e.preventDefault();
+        alert('Debes agregar al menos un material antes de enviar.');
+    }
+});
+
+updateEmpty();
 </script>
 @endsection
