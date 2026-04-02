@@ -53,8 +53,9 @@ class CotizacionController extends Controller
         $viewData['project'] = Proyecto::findOrFail($projectId);
         $viewData['version'] = VersionCotizacion::with([
             'cotizacion',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.material',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.material.presentacion',
             'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.cantidad',
         ])->findOrFail($versionId);
 
         return view('tecnico.cotizacion.show')->with('viewData', $viewData);
@@ -65,8 +66,9 @@ class CotizacionController extends Controller
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
         $tipoMateriales = TipoMaterial::with([
-            'material',
+            'material.presentacion',
             'tipo.unidadMedidaCantidades.unidadMedida',
+            'tipo.unidadMedidaCantidades.cantidad',
         ])->get();
 
         $viewData['tipoMateriales'] = $tipoMateriales;
@@ -116,12 +118,15 @@ class CotizacionController extends Controller
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($projectId);
 
-        $viewData['version'] = VersionCotizacion::with('tipoMaterialVersionCotizaciones')
-            ->findOrFail($versionId);
+        $viewData['version'] = VersionCotizacion::with([
+            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.cantidad',
+        ])->findOrFail($versionId);
 
         $tipoMateriales = TipoMaterial::with([
-            'material',
+            'material.presentacion',
             'tipo.unidadMedidaCantidades.unidadMedida',
+            'tipo.unidadMedidaCantidades.cantidad',
         ])->get();
 
         $viewData['tipoMateriales'] = $tipoMateriales;
@@ -199,15 +204,17 @@ class CotizacionController extends Controller
 
         return Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
             ->setPaper('a4', 'portrait')
-            ->download('cotizacion_'.$cotizacionId.'_v'.$numeroVersion.'.pdf');
+            ->download('p'.$project->getId().'_c'.$numeroCotizacion.'_v'.$numeroVersion.'.pdf');
     }
 
     private function cargarVersionConRelaciones(int|string $versionId): VersionCotizacion
     {
         return VersionCotizacion::with([
             'cotizacion.creador',
-            'tipoMaterialVersionCotizaciones.tipoMaterial.material',
+            'cotizacion.proyecto',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.material.presentacion',
             'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.unidadMedida',
+            'tipoMaterialVersionCotizaciones.tipoMaterial.tipo.unidadMedidaCantidades.cantidad',
         ])->findOrFail($versionId);
     }
 
@@ -215,20 +222,25 @@ class CotizacionController extends Controller
     {
         $cotizacion = $version->getCotizacion();
         $tecnico = $cotizacion->getCreadoPor();
-        $numeroCotizacion = $cotizacion->getId();
+        $numeroCotizacion = Cotizacion::where('proyectoId', $cotizacion->proyecto->getId())
+            ->where('id', '<=', $cotizacion->getId())
+            ->count();
 
         $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
 
         $materiales = $version->getTipoMaterialVersionCotizaciones()->map(function ($item) {
-            $unidades = $item->getTipoMaterial()->getTipo()->getUnidadMedidaCantidades()
-                ->map(fn ($umc) => $umc->getUnidadMedida()->getAbreviatura())
+            $tm = $item->getTipoMaterial();
+            $unidades = $tm->getTipo()->getUnidadMedidaCantidades()
+                ->map(fn ($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())
                 ->unique()->implode(' / ');
+            $presentacion = $tm->getMaterial()->getPresentacion();
 
             return [
                 'cantidad' => $item->getCantidad(),
                 'unidades' => $unidades,
-                'descripcion' => $item->getTipoMaterial()->getMaterial()->getDescripcion(),
-                'especificacion' => strtoupper($item->getTipoMaterial()->getTipo()->getEspecificacion()),
+                'presentacion' => $presentacion ? $presentacion->getNombre() : null,
+                'descripcion' => $tm->getMaterial()->getDescripcion(),
+                'especificacion' => strtoupper($tm->getTipo()->getEspecificacion()),
             ];
         });
 
@@ -245,7 +257,9 @@ class CotizacionController extends Controller
 
         $cotizacionId = $version->getCotizacion()->getId();
         $numeroVersion = $version->getNumeroVersion();
-        $relativePath = 'cotizaciones/cotizacion_'.$cotizacionId.'_v'.$numeroVersion.'.pdf';
+        $relativePath = 'proyecto_'.$project->getId()
+            .'/cotizacion_'.$numeroCotizacion
+            .'/p'.$project->getId().'_c'.$numeroCotizacion.'_v'.$numeroVersion.'.pdf';
         Storage::disk('public')->put($relativePath, $pdf->output());
 
         $version->pdfPath = $relativePath;

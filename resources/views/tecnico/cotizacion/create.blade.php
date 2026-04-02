@@ -36,9 +36,9 @@
                         @foreach ($viewData['tipoMateriales'] as $tm)
                             @php
                                 $label = $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion();
-                                $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
+                                $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
                             @endphp
-                            <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}">
+                            <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}" data-presentacion="{{ $tm->getMaterial()->getPresentacion()?->getNombre() ?? '' }}">
                                 {{ $label }}
                             </option>
                         @endforeach
@@ -57,6 +57,7 @@
                 <thead>
                     <tr>
                         <th>Material / Especificación</th>
+                        <th>Presentación</th>
                         <th>Unidad</th>
                         <th style="width: 150px;">Cantidad</th>
                         <th style="width: 50px;"></th>
@@ -105,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const id = selected.value;
         const label = selected.getAttribute('data-label');
         const unidades = selected.getAttribute('data-unidades');
+        const presentacion = selected.getAttribute('data-presentacion');
 
         if (tbody.querySelector(`tr[data-id="${id}"]`)) {
             alert('Este material ya está en la lista.');
@@ -118,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ${label}
                 <input type="hidden" name="materiales[${rowIdx}][tipoMaterialId]" value="${id}">
             </td>
+            <td>${presentacion || '—'}</td>
             <td>${unidades}</td>
             <td>
                 <input type="number" name="materiales[${rowIdx}][cantidad]" class="form-control" value="1" min="0.01" step="0.01" required>

@@ -45,6 +45,7 @@
           <tr>
             <th class="cot-col-show-material">Material</th>
             <th class="cot-col-show-tipo">Tipo / Especificación</th>
+            <th>Presentación</th>
             <th class="cot-col-show-unidad">Unidad</th>
             <th class="cot-col-show-cantidad">Cantidad</th>
           </tr>
@@ -56,7 +57,7 @@
                   ->getTipoMaterial()
                   ->getTipo()
                   ->getUnidadMedidaCantidades()
-                  ->map(fn($umc) => $umc->getUnidadMedida()->getAbreviatura())
+                  ->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())
                   ->unique()
                   ->implode(' / ');
             @endphp
@@ -66,6 +67,9 @@
               </td>
               <td class="cot-td-tipo" data-label="Tipo / Especificación">
                 {{ $item->getTipoMaterial()->getTipo()->getEspecificacion() }}
+              </td>
+              <td data-label="Presentación">
+                {{ $item->getTipoMaterial()->getMaterial()->getPresentacion()?->getNombre() ?? '—' }}
               </td>
               <td class="cot-td-unidad" data-label="Unidad">
                 {{ $unidades ?: '—' }}

@@ -31,9 +31,9 @@
               @foreach ($viewData['tipoMateriales'] as $tm)
                 @php
                     $label = $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion();
-                    $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
+                    $unidades = $tm->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ');
                 @endphp
-                <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}">
+                <option value="{{ $tm->getId() }}" data-label="{{ $label }}" data-unidades="{{ $unidades }}" data-presentacion="{{ $tm->getMaterial()->getPresentacion()?->getNombre() ?? '' }}">
                   {{ $label }}
                 </option>
               @endforeach
@@ -52,6 +52,7 @@
           <thead>
             <tr>
               <th>Material / Especificación</th>
+              <th>Presentación</th>
               <th>Unidad</th>
               <th style="width: 150px;">Cantidad</th>
               <th style="width: 50px;"></th>
@@ -66,8 +67,9 @@
                   <input type="hidden" name="materiales[{{ $index }}][tipoMaterialId]"
                     value="{{ $item->getTipoMaterial()->getId() }}">
                 </td>
+                <td>{{ $item->getTipoMaterial()->getMaterial()->getPresentacion()?->getNombre() ?? '—' }}</td>
                 <td>
-                  {{ $item->getTipoMaterial()->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ') }}
+                  {{ $item->getTipoMaterial()->getTipo()->getUnidadMedidaCantidades()->map(fn($umc) => $umc->getCantidad()->getNumero().' '.$umc->getUnidadMedida()->getAbreviatura())->unique()->implode(' / ') }}
                 </td>
                 <td>
                   <input type="number" name="materiales[{{ $index }}][cantidad]" class="form-control"
@@ -104,6 +106,7 @@
         const id = selected.value;
         const label = selected.getAttribute('data-label');
         const unidades = selected.getAttribute('data-unidades');
+        const presentacion = selected.getAttribute('data-presentacion');
 
         if (document.querySelector(`tr[data-id="${id}"]`)) {
           alert('Este material ya está en la lista.');
@@ -117,6 +120,7 @@
                 ${label}
                 <input type="hidden" name="materiales[${rowIdx}][tipoMaterialId]" value="${id}">
             </td>
+            <td>${presentacion || '—'}</td>
             <td>${unidades}</td>
             <td>
                 <input type="number" name="materiales[${rowIdx}][cantidad]" class="form-control" value="1" step="0.01" required>
