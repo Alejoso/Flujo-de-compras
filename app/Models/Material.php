@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Material extends Model
 {
+    protected $table = 'materiales';
+
     /**
      * MATERIAL ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -51,7 +53,7 @@ class Material extends Model
     // Relations
     public function tipoMateriales(): HasMany
     {
-        return $this->hasMany(TipoMaterial::class);
+        return $this->hasMany(TipoMaterial::class, 'materialId');
     }
 
     // Relations setters and getters

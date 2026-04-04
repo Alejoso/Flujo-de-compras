@@ -14,7 +14,7 @@
         <table class="data-grid" style="background-color: #161616;" width="100%" cellpadding="0" cellspacing="0">
             <x-mail.dataRow label="Estado"       :value="$viewData['state']"     type="badge"      />
             <x-mail.dataRow label="Fecha y hora" :value="$viewData['timestamp']"  type="timestamp"  />
-            <x-mail.dataRow label="Técnico"      :value="$viewData['technicianName']" type="technician" />
+            <x-mail.dataRow label="Técnico"      :value="$viewData['employeeName']" type="employee" />
             <x-mail.dataRow label="Proyecto"     :value="$viewData['projectName']"    type="project"    />
             <x-mail.dataRow label="Versión"     :value="$viewData['version']"    type="version"    />
         </table>

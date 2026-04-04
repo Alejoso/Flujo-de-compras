@@ -5,23 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TipoMaterialVersionCotizacion extends Model
+class PresentacionTipoMaterialVersionCotizacion extends Model
 {
+    protected $table = 'presentacion_tipo_material_version_cotizaciones';
+
     /**
-     * TIPO MATERIAL VERSION COTIZACION ATTRIBUTES
+     * PRESENTACION TIPO MATERIAL VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['cantidad'] - float - contains the quantity of the material in this version
+     * $this->attributes['cantidad'] - float - contains the quantity requested in this version
      * $this->attributes['versionCotizacionId'] - int - contains the foreign key of the quotation version
-     * $this->attributes['tipoMaterialId'] - int - contains the foreign key of the type material
+     * $this->attributes['presentacionTipoMaterialId'] - int - contains the foreign key of the presentacion tipo material
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->versionCotizacion - VersionCotizacion - contains the quotation version associated
-     * $this->tipoMaterial - TipoMaterial - contains the type material associated
+     * $this->presentacionTipoMaterial - PresentacionTipoMaterial - contains the presentation type material associated
      */
     protected $fillable = [
         'cantidad',
         'versionCotizacionId',
-        'tipoMaterialId',
+        'presentacionTipoMaterialId',
     ];
 
     // id
@@ -55,12 +57,12 @@ class TipoMaterialVersionCotizacion extends Model
     // Relations
     public function versionCotizacion(): BelongsTo
     {
-        return $this->belongsTo(VersionCotizacion::class);
+        return $this->belongsTo(VersionCotizacion::class, 'versionCotizacionId');
     }
 
-    public function tipoMaterial(): BelongsTo
+    public function presentacionTipoMaterial(): BelongsTo
     {
-        return $this->belongsTo(TipoMaterial::class);
+        return $this->belongsTo(PresentacionTipoMaterial::class, 'presentacionTipoMaterialId');
     }
 
     // Relations setters and getters
@@ -74,13 +76,13 @@ class TipoMaterialVersionCotizacion extends Model
         $this->versionCotizacion = $versionCotizacion;
     }
 
-    public function getTipoMaterial(): TipoMaterial
+    public function getPresentacionTipoMaterial(): PresentacionTipoMaterial
     {
-        return $this->tipoMaterial;
+        return $this->presentacionTipoMaterial;
     }
 
-    public function setTipoMaterial(TipoMaterial $tipoMaterial): void
+    public function setPresentacionTipoMaterial(PresentacionTipoMaterial $presentacionTipoMaterial): void
     {
-        $this->tipoMaterial = $tipoMaterial;
+        $this->presentacionTipoMaterial = $presentacionTipoMaterial;
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('numeroVersion');
             $table->boolean('esLaMasReciente')->default(true);
             $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();
+            $table->string('pdfPath')->nullable();
             $table->timestamps();
         });
     }

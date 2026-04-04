@@ -34,10 +34,10 @@ class LoginController extends Controller
     protected function redirectTo(): string
     {
         if (auth()->user()->getRol() === 'admin') {
-            return route('admin.home');
+            return route('admin.project.index');
         }
 
-        return route('tecnico.home');
+        return route('tecnico.project.index');
     }
 
     /**

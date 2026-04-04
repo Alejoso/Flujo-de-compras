@@ -45,7 +45,7 @@
     <!-- Block for showing session messages -->
     @if (session('success') || session('error'))
     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
-        <div class="toast show bg-white" role="alert" style="min-width: 600px;">
+        <div class="toast show bg-white app-toast" role="alert">
             <div class="toast-header
                 @if(session('success')) bg-success text-white
                 @else bg-warning

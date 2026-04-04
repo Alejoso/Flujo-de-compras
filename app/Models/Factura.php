@@ -9,23 +9,28 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Factura extends Model
 {
+    protected $table = 'facturas';
+
     /**
      * FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['valorTotal'] - int - contains the total value of the invoice
      * $this->attributes['estado'] - string - contains the state of the invoice
      * $this->attributes['proyectoId'] - int - contains the foreign key of the project
+     * $this->attributes['proveedorId'] - int - contains the foreign key of the supplier
      * $this->attributes['cotizacionId'] - int|null - contains the foreign key of the quotation
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->proyecto - Proyecto - contains the project associated
+     * $this->proveedor - Proveedor - contains the supplier associated
      * $this->cotizacion - Cotizacion|null - contains the quotation associated
-     * $this->materialFacturas - MaterialFactura[] - contains the invoice materials associated
+     * $this->presentacionTipoMaterialFacturas - PresentacionTipoMaterialFactura[]
      */
     protected $fillable = [
         'valorTotal',
         'estado',
         'proyectoId',
+        'proveedorId',
         'cotizacionId',
     ];
 
@@ -71,17 +76,22 @@ class Factura extends Model
     // Relations
     public function proyecto(): BelongsTo
     {
-        return $this->belongsTo(Proyecto::class);
+        return $this->belongsTo(Proyecto::class, 'proyectoId');
+    }
+
+    public function proveedor(): BelongsTo
+    {
+        return $this->belongsTo(Proveedor::class, 'proveedorId');
     }
 
     public function cotizacion(): BelongsTo
     {
-        return $this->belongsTo(Cotizacion::class);
+        return $this->belongsTo(Cotizacion::class, 'cotizacionId');
     }
 
-    public function materialFacturas(): HasMany
+    public function presentacionTipoMaterialFacturas(): HasMany
     {
-        return $this->hasMany(MaterialFactura::class);
+        return $this->hasMany(PresentacionTipoMaterialFactura::class, 'facturaId');
     }
 
     // Relations setters and getters
@@ -95,6 +105,16 @@ class Factura extends Model
         $this->proyecto = $proyecto;
     }
 
+    public function getProveedor(): Proveedor
+    {
+        return $this->proveedor;
+    }
+
+    public function setProveedor(Proveedor $proveedor): void
+    {
+        $this->proveedor = $proveedor;
+    }
+
     public function getCotizacion(): ?Cotizacion
     {
         return $this->cotizacion;
@@ -105,13 +125,13 @@ class Factura extends Model
         $this->cotizacion = $cotizacion;
     }
 
-    public function getMaterialFacturas(): Collection
+    public function getPresentacionTipoMaterialFacturas(): Collection
     {
-        return $this->materialFacturas;
+        return $this->presentacionTipoMaterialFacturas;
     }
 
-    public function setMaterialFacturas(Collection $materialFacturas): void
+    public function setPresentacionTipoMaterialFacturas(Collection $items): void
     {
-        $this->materialFacturas = $materialFacturas;
+        $this->presentacionTipoMaterialFacturas = $items;
     }
 }

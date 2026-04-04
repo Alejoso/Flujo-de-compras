@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UnidadMedida extends Model
 {
+    protected $table = 'unidad_medidas';
+
     /**
      * UNIDAD MEDIDA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -15,7 +17,7 @@ class UnidadMedida extends Model
      * $this->attributes['abreviatura'] - string - contains the abbreviation of the unit
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
-     * $this->tipos - Tipo[] - contains the types associated with this unit
+     * $this->tipos - Tipo[] - contains the types that use this unit of measure
      */
     protected $fillable = [
         'nombre',
@@ -64,7 +66,7 @@ class UnidadMedida extends Model
     // Relations
     public function tipos(): HasMany
     {
-        return $this->hasMany(Tipo::class);
+        return $this->hasMany(Tipo::class, 'unidadMedidaId');
     }
 
     // Relations setters and getters

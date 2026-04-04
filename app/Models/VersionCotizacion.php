@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VersionCotizacion extends Model
 {
+    protected $table = 'version_cotizaciones';
+
     /**
      * VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
@@ -18,12 +20,13 @@ class VersionCotizacion extends Model
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->cotizacion - Cotizacion - contains the quotation associated
-     * $this->tipoMaterialVersionCotizaciones - TipoMaterialVersionCotizacion[] - contains the materials of this version
+     * $this->presentacionTipoMaterialVersionCotizaciones - PresentacionTipoMaterialVersionCotizacion[]
      */
     protected $fillable = [
         'numeroVersion',
         'esLaMasReciente',
         'cotizacionId',
+        'pdfPath',
     ];
 
     // id
@@ -54,6 +57,17 @@ class VersionCotizacion extends Model
         $this->attributes['esLaMasReciente'] = $esLaMasReciente;
     }
 
+    // pdfPath
+    public function getPdfPath(): ?string
+    {
+        return $this->attributes['pdfPath'] ?? null;
+    }
+
+    public function setPdfPath(?string $pdfPath): void
+    {
+        $this->attributes['pdfPath'] = $pdfPath;
+    }
+
     // timestamps
     public function getCreatedAt(): string
     {
@@ -68,12 +82,12 @@ class VersionCotizacion extends Model
     // Relations
     public function cotizacion(): BelongsTo
     {
-        return $this->belongsTo(Cotizacion::class);
+        return $this->belongsTo(Cotizacion::class, 'cotizacionId');
     }
 
-    public function tipoMaterialVersionCotizaciones(): HasMany
+    public function presentacionTipoMaterialVersionCotizaciones(): HasMany
     {
-        return $this->hasMany(TipoMaterialVersionCotizacion::class);
+        return $this->hasMany(PresentacionTipoMaterialVersionCotizacion::class, 'versionCotizacionId');
     }
 
     // Relations setters and getters
@@ -87,13 +101,13 @@ class VersionCotizacion extends Model
         $this->cotizacion = $cotizacion;
     }
 
-    public function getTipoMaterialVersionCotizaciones(): Collection
+    public function getPresentacionTipoMaterialVersionCotizaciones(): Collection
     {
-        return $this->tipoMaterialVersionCotizaciones;
+        return $this->presentacionTipoMaterialVersionCotizaciones;
     }
 
-    public function setTipoMaterialVersionCotizaciones(Collection $tipoMaterialVersionCotizaciones): void
+    public function setPresentacionTipoMaterialVersionCotizaciones(Collection $items): void
     {
-        $this->tipoMaterialVersionCotizaciones = $tipoMaterialVersionCotizaciones;
+        $this->presentacionTipoMaterialVersionCotizaciones = $items;
     }
 }

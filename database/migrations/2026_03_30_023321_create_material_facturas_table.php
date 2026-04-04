@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('material_facturas', function (Blueprint $table) {
+        Schema::create('presentacion_tipo_material_facturas', function (Blueprint $table) {
             $table->id();
             $table->double('precioUnitario', 15, 0);
             $table->integer('cantidad');
             $table->foreignId('facturaId')->constrained('facturas')->cascadeOnDelete();
-            $table->foreignId('tipoMaterialId')->constrained('tipo_materiales')->cascadeOnDelete();
+            $table->foreignId('presentacionTipoMaterialId')->constrained('presentacion_tipo_materiales')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('material_facturas');
+        Schema::dropIfExists('presentacion_tipo_material_facturas');
     }
 };

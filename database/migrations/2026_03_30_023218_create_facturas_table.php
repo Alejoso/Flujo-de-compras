@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('valorTotal');
             $table->string('estado');
             $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
+            $table->foreignId('proveedorId')->constrained('proveedores')->cascadeOnDelete();
             $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();
             $table->timestamps();
         });

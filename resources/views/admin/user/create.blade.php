@@ -3,8 +3,8 @@
 
 @section('content')
 
-<div style="min-height: calc(100vh - 57px); display: flex; align-items: center; justify-content: center;">
-    <div style="width: 100%; max-width: 520px;">
+<div class="um-form-page">
+    <div class="um-form-container">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="mb-0">Crear usuario</h4>
@@ -40,14 +40,30 @@
 
                     <div class="mb-3">
                         <label class="form-label">Contraseña</label>
-                        <input type="password" name="password" class="form-control">
+                        <div class="input-group">
+                            <input type="password" name="password" class="form-control" id="password">
+                            <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
+                                <i class="bi bi-eye" id="toggleIcon"></i>
+                            </button>
+                        </div>
                     </div>
+                    <!-- Bootstrap for seeing password -->
+                    <script>
+                        function togglePassword() {
+                            const input = document.getElementById('password');
+                            const icon  = document.getElementById('toggleIcon');
+                            const show  = input.type === 'password';
+
+                            input.type          = show ? 'text' : 'password';
+                            icon.className      = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+                        }
+                    </script>
 
                     <div class="mb-3">
                         <label class="form-label">Rol</label>
                         <select name="rol" class="form-select">
                             <option value="admin">Admin</option>
-                            <option value="técnico">Técnico</option>
+                            <option value="tecnico">Técnico</option>
                         </select>
                     </div>
 

@@ -3,11 +3,10 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 use function Illuminate\Support\now;
@@ -17,27 +16,28 @@ class SendQuote extends Mailable
     use Queueable, SerializesModels;
 
     /**
-     * Create a new message instance. 
+     * Create a new message instance.
      * All public data on the constructor can be used on the template.
      * If we use private or protected, we need to pass the 'with' parameter.
-     * We are going to use private and use viewData array. 
+     * We are going to use private and use viewData array.
      */
     public function __construct(
         private string $state,
+        private string $emailSubject,
         private string $description,
         private string $projectName,
-        private string $technicianName,
-        private string $version
-    ){ }
+        private string $employeeName,
+        private string $version,
+        private string $pathToQuote,
+    ) {}
 
     /**
      * Get the message envelope.
      */
-
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject:'Actualización de una cotización',
+            subject: $this->emailSubject,
         );
     }
 
@@ -50,12 +50,12 @@ class SendQuote extends Mailable
         $viewData['state'] = $this->state;
         $viewData['description'] = $this->description;
         $viewData['projectName'] = $this->projectName;
-        $viewData['technicianName'] = $this->technicianName;
+        $viewData['employeeName'] = $this->employeeName;
         $viewData['timestamp'] = now()->toDateTimeString(); // e.g., "2025-04-20 15:30:00"
         $viewData['version'] = $this->version;
-        
+
         return new Content(
-            view:'components.mail.notification',
+            view: 'components.mail.notification',
             with: ['viewData' => $viewData]
         );
     }
@@ -68,9 +68,9 @@ class SendQuote extends Mailable
     public function attachments(): array
     {
         return [
-            // Attachment::fromPath('')
-            // ->as('Cotizacion1') # Name of the quote in the desired format
-            // ->withMime('application/pdf'),
+            Attachment::fromStorageDisk('public', $this->pathToQuote)
+                ->as(basename($this->pathToQuote))
+                ->withMime('application/pdf'),
         ];
     }
 }
