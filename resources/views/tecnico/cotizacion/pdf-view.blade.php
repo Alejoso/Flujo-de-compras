@@ -47,7 +47,13 @@
         <tbody>
           @foreach ($materiales as $item)
             <tr>
-              <td>{{ $item['cantidad'] }} ({{ $item['unidades'] }})</td>
+              <td>
+                @if($item['presentacion'])
+                  {{ $item['cantidad'] }} {{ $item['presentacion'] }} de {{ $item['unidades'] }}
+                @else
+                  {{ $item['cantidad'] }} {{ $item['unidades'] }}
+                @endif
+              </td>
               <td>{{ $item['descripcion'] }}</td>
               <td><strong>{{ $item['especificacion'] }}</strong></td>
             </tr>
