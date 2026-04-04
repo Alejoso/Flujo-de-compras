@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Support\Cotizacion;
+
+use App\Models\VersionCotizacion;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Collection;
+
+class CotizacionBuilder
+{
+    // Construye el array de datos de tipos de material con sus presentaciones para el formulario de crear/editar.
+    public function buildTmData(EloquentCollection $tipoMateriales): array
+    {
+        return $tipoMateriales->mapWithKeys(function ($tm) {
+            $unidadMedida = $tm->getTipo()->getUnidadMedida();
+
+            return [$tm->getId() => [
+                'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
+                'presentaciones' => $tm->getPresentacionTipoMateriales()->map(function ($ptm) use ($unidadMedida) {
+                    return [
+                        'id' => $ptm->getId(),
+                        'nombre' => $ptm->getPresentacion()->getNombre(),
+                        'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
+                    ];
+                })->values(),
+            ]];
+        })->all();
+    }
+
+    // Construye la colección de materiales de una versión para mostrarlos en las vistas de detalle y edición.
+    public function buildMateriasVersion(VersionCotizacion $version): Collection
+    {
+        return $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
+            $ptm = $item->getPresentacionTipoMaterial();
+            $tm = $ptm->getTipoMaterial();
+            $unidadMedida = $tm->getTipo()->getUnidadMedida();
+
+            return [
+                'ptmId' => $ptm->getId(),
+                'descripcion' => $tm->getMaterial()->getDescripcion(),
+                'especificacion' => $tm->getTipo()->getEspecificacion(),
+                'presentacion' => $ptm->getPresentacion()->getNombre(),
+                'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
+                'cantidad' => $item->getCantidad(),
+            ];
+        });
+    }
+}

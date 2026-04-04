@@ -12,18 +12,21 @@ use App\Models\TipoMaterial;
 use App\Models\User;
 use App\Models\VersionCotizacion;
 use App\Services\SendQuoteService;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Carbon\Carbon;
+use App\Support\Cotizacion\CotizacionBuilder;
+use App\Support\Cotizacion\CotizacionPdfBuilder;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-// Send email with quote
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CotizacionController extends Controller
 {
+    public function __construct(
+        private readonly CotizacionBuilder $builder,
+        private readonly CotizacionPdfBuilder $pdfBuilder,
+    ) {}
+
     // Muestra la lista de cotizaciones de un proyecto.
     public function index(string $id): View
     {
@@ -66,7 +69,7 @@ class CotizacionController extends Controller
             'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.tipo.unidadMedida',
         ])->findOrFail($versionId);
 
-        $viewData['materialesVersion'] = $this->buildMateriasVersion($viewData['version']);
+        $viewData['materialesVersion'] = $this->builder->buildMateriasVersion($viewData['version']);
 
         return view('tecnico.cotizacion.show')->with('viewData', $viewData);
     }
@@ -81,7 +84,7 @@ class CotizacionController extends Controller
             'tipo.unidadMedida',
             'presentacionTipoMateriales.presentacion',
         ])->get();
-        $viewData['tmData'] = $this->buildTmData($tipoMateriales);
+        $viewData['tmData'] = $this->builder->buildTmData($tipoMateriales);
 
         return view('tecnico.cotizacion.create')->with('viewData', $viewData);
     }
@@ -124,7 +127,7 @@ class CotizacionController extends Controller
         }
 
         try {
-            $this->generarYGuardarPdf($versionId, $project);
+            $this->pdfBuilder->generarYGuardarPdf($versionId, $project);
         } catch (Exception $e) {
             session()->flash('error', 'Cotización creada, pero no se pudo generar el PDF: '.$e->getMessage());
 
@@ -170,8 +173,8 @@ class CotizacionController extends Controller
             'tipo.unidadMedida',
             'presentacionTipoMateriales.presentacion',
         ])->get();
-        $viewData['tmData'] = $this->buildTmData($tipoMateriales);
-        $viewData['materialesVersion'] = $this->buildMateriasVersion($viewData['version']);
+        $viewData['tmData'] = $this->builder->buildTmData($tipoMateriales);
+        $viewData['materialesVersion'] = $this->builder->buildMateriasVersion($viewData['version']);
 
         return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
     }
@@ -187,11 +190,9 @@ class CotizacionController extends Controller
         $versionMasReciente = $cotizacion->versionCotizaciones()
             ->where('esLaMasReciente', true)
             ->first();
-        if ($versionMasReciente && $versionMasReciente->getNumeroVersion() !== '1') {
-            $pdfAnteriorPath = $versionMasReciente->getPdfPath();
-        } else {
-            $pdfAnteriorPath = null;
-        }
+        $pdfAnteriorPath = ($versionMasReciente && $versionMasReciente->getNumeroVersion() !== '1')
+            ? $versionMasReciente->getPdfPath()
+            : null;
 
         try {
             Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion, &$nuevaVersionId) {
@@ -230,7 +231,7 @@ class CotizacionController extends Controller
         }
 
         try {
-            $this->generarYGuardarPdf($nuevaVersionId, $project);
+            $this->pdfBuilder->generarYGuardarPdf($nuevaVersionId, $project);
         } catch (Exception $e) {
             session()->flash('error', 'Cotización actualizada, pero no se pudo generar el PDF: '.$e->getMessage());
 
@@ -257,130 +258,5 @@ class CotizacionController extends Controller
         session()->flash('success', 'Nueva versión de la cotización creada correctamente.');
 
         return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
-    }
-
-    // Muestra la previsualización en pantalla del PDF de una versión específica.
-    public function pdfView(string $projectId, string $versionId): View
-    {
-        $project = Proyecto::findOrFail($projectId);
-        $version = $this->cargarVersionConRelaciones($versionId);
-        ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
-
-        return view('tecnico.cotizacion.pdf-view', compact('project', 'version', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion'));
-    }
-
-    // Genera y descarga directamente el PDF de una versión específica.
-    public function pdfDownload(string $projectId, string $versionId)
-    {
-        $project = Proyecto::findOrFail($projectId);
-        $version = $this->cargarVersionConRelaciones($versionId);
-        ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
-
-        $numeroVersion = $version->getNumeroVersion();
-        $numeroCotizacion = Cotizacion::where('proyectoId', $project->getId())
-            ->where('id', '<=', $version->getCotizacion()->getId())
-            ->count();
-
-        return Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
-            ->setPaper('a4', 'portrait')
-            ->download('p'.$project->getId().'_c'.$numeroCotizacion.'_v'.$numeroVersion.'.pdf');
-    }
-
-    // Carga una versión de cotización con todas sus relaciones necesarias para el PDF.
-    private function cargarVersionConRelaciones(int|string $versionId): VersionCotizacion
-    {
-        return VersionCotizacion::with([
-            'cotizacion.creador',
-            'cotizacion.proyecto',
-            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.presentacion',
-            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.material',
-            'presentacionTipoMaterialVersionCotizaciones.presentacionTipoMaterial.tipoMaterial.tipo.unidadMedida',
-        ])->findOrFail($versionId);
-    }
-
-    // Prepara los datos necesarios para renderizar el PDF (técnico, fecha, materiales y número de cotización).
-    private function prepararDatosPdf(VersionCotizacion $version): array
-    {
-        $cotizacion = $version->getCotizacion();
-        $tecnico = $cotizacion->getCreadoPor();
-        $numeroCotizacion = Cotizacion::where('proyectoId', $cotizacion->proyecto->getId())
-            ->where('id', '<=', $cotizacion->getId())
-            ->count();
-
-        $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
-
-        $materiales = $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
-            $ptm = $item->getPresentacionTipoMaterial();
-            $tm = $ptm->getTipoMaterial();
-            $unidadMedida = $tm->getTipo()->getUnidadMedida();
-            $unidades = $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : '');
-
-            return [
-                'cantidad' => $item->getCantidad(),
-                'unidades' => $unidades,
-                'presentacion' => $ptm->getPresentacion()->getNombre(),
-                'descripcion' => $tm->getMaterial()->getDescripcion(),
-                'especificacion' => strtoupper($tm->getTipo()->getEspecificacion()),
-            ];
-        });
-
-        return compact('tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version');
-    }
-
-    // Genera el PDF de una versión y lo guarda en el storage público, actualizando el campo pdfPath de la versión.
-    private function generarYGuardarPdf(int $versionId, Proyecto $project): void
-    {
-        $version = $this->cargarVersionConRelaciones($versionId);
-        ['tecnico' => $tecnico, 'fecha' => $fecha, 'materiales' => $materiales, 'numeroCotizacion' => $numeroCotizacion, 'version' => $version] = $this->prepararDatosPdf($version);
-
-        $pdf = Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version'))
-            ->setPaper('a4', 'portrait');
-
-        $numeroVersion = $version->getNumeroVersion();
-        $relativePath = 'proyecto_'.$project->getId()
-            .'/cotizacion_'.$numeroCotizacion
-            .'/p'.$project->getId().'_c'.$numeroCotizacion.'_v'.$numeroVersion.'.pdf';
-        Storage::disk('public')->put($relativePath, $pdf->output());
-
-        $version->pdfPath = $relativePath;
-        $version->save();
-    }
-
-    // Construye el array de datos de tipos de material con sus presentaciones para el formulario de crear/editar.
-    private function buildTmData($tipoMateriales): array
-    {
-        return $tipoMateriales->mapWithKeys(function ($tm) {
-            $unidadMedida = $tm->getTipo()->getUnidadMedida();
-
-            return [$tm->getId() => [
-                'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
-                'presentaciones' => $tm->getPresentacionTipoMateriales()->map(function ($ptm) use ($unidadMedida) {
-                    return [
-                        'id' => $ptm->getId(),
-                        'nombre' => $ptm->getPresentacion()->getNombre(),
-                        'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
-                    ];
-                })->values(),
-            ]];
-        })->all();
-    }
-
-    // Construye la colección de materiales de una versión para mostrarlos en las vistas de detalle y edición.
-    private function buildMateriasVersion(VersionCotizacion $version): Collection
-    {
-        return $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
-            $ptm = $item->getPresentacionTipoMaterial();
-            $tm = $ptm->getTipoMaterial();
-            $unidadMedida = $tm->getTipo()->getUnidadMedida();
-
-            return [
-                'ptmId' => $ptm->getId(),
-                'descripcion' => $tm->getMaterial()->getDescripcion(),
-                'especificacion' => $tm->getTipo()->getEspecificacion(),
-                'presentacion' => $ptm->getPresentacion()->getNombre(),
-                'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
-                'cantidad' => $item->getCantidad(),
-            ];
-        });
     }
 }
