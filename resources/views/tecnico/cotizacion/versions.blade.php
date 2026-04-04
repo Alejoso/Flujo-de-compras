@@ -6,7 +6,7 @@
 
     <div class="um-header">
         <h1 class="um-title">
-            <i class="bi bi-clipboard-data-fill me-2"></i>Cotización {{ $viewData['numeroCotizacion'] }}
+            <i class="bi bi-clipboard-data-fill me-2"></i>Cotización {{ $viewData['numeroCotizacion'] }} — Estado: {{ $viewData['cotizacion']->getEstado() }}
         </h1>
         <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
             <i class="bi bi-arrow-left me-1"></i> Volver
@@ -46,7 +46,6 @@
             <thead>
                 <tr>
                     <th>Versión</th>
-                    <th>Estado</th>
                     <th>Fecha</th>
                     <th></th>
                 </tr>
@@ -59,11 +58,6 @@
                         @if($version->getEsLaMasReciente())
                             <span class="cot-counter ms-1">Actual</span>
                         @endif
-                    </td>
-                    <td data-label="Estado">
-                        <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($viewData['cotizacion']->getEstado())) }}">
-                            {{ $viewData['cotizacion']->getEstado() }}
-                        </span>
                     </td>
                     <td class="cot-td-date" data-label="Fecha">{{ $version->getCreatedAt() }}</td>
                     <td class="cot-td-actions" data-label="Acciones">
@@ -87,7 +81,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="cot-empty">
+                    <td colspan="3" class="cot-empty">
                         <i class="bi bi-clipboard-x cot-empty-icon d-block mb-1"></i>
                         Esta cotización no tiene versiones aún.
                     </td>

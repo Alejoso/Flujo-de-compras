@@ -89,15 +89,8 @@
                         {{-- Actions --}}
                         <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
 
-                            {{-- Eliminar --}}
-                            <form action="{{ route('admin.client.destroy', $viewData['client']->getId()) }} "method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="um-btn-icon um-btn-icon--delete px-3 py-2">
-                                    <i class="bi bi-trash me-1"></i> Eliminar
-                                </button>
-                                
-                            </form>
+                            {{-- Placeholder para alinear el botón eliminar --}}
+                            <div></div>
 
                             {{-- Cancelar + Guardar --}}
                             <div class="d-flex gap-2">
@@ -112,6 +105,15 @@
 
                         </div>
 
+                    </form>
+
+                    {{-- Eliminar (fuera del form de edición) --}}
+                    <form action="{{ route('admin.client.destroy', $viewData['client']->getId()) }}" method="POST" class="mt-2">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="um-btn-icon um-btn-icon--delete px-3 py-2">
+                            <i class="bi bi-trash me-1"></i> Eliminar
+                        </button>
                     </form>
                 </div>
             </div>

@@ -78,12 +78,12 @@ class Proyecto extends Model
     }
 
     // costoTotal
-    public function getCostoTotal(): float
+    public function getCostoTotal(): ?float
     {
         return $this->attributes['costoTotal'];
     }
 
-    public function setCostoTotal(float $costoTotal): void
+    public function setCostoTotal(?float $costoTotal): void
     {
         $this->attributes['costoTotal'] = $costoTotal;
     }

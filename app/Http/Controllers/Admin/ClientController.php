@@ -74,6 +74,13 @@ class ClientController extends Controller
     {
         try {
             $client = Cliente::findOrFail($id);
+
+            if ($client->proyectos()->exists()) {
+                session()->flash('error', 'No se puede eliminar el cliente "'.$client->getNombre().'" porque tiene proyectos asociados. Primero elimine o reasigne los proyectos.');
+
+                return redirect()->route('admin.client.index');
+            }
+
             $client->delete();
             session()->flash('success', 'Se ha eliminado exitosamente el cliente '.$client->getNombre());
         } catch (Exception $e) {

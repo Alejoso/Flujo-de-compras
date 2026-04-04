@@ -75,12 +75,12 @@
                                     <span class="input-group-text">$</span>
                                     <input type="number"
                                            name="costoTotal"
-                                           class="form-control @error('costo_total') is-invalid @enderror"
-                                           value="{{ old('costo_total') }}"
+                                           class="form-control @error('costoTotal') is-invalid @enderror"
+                                           value="{{ old('costoTotal') }}"
                                            step="0.01"
                                            min="0"
                                            placeholder="0.00">
-                                    @error('costo_total')
+                                    @error('costoTotal')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
