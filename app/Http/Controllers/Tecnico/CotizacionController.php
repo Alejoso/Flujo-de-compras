@@ -88,33 +88,44 @@ class CotizacionController extends Controller
         $cotizacionId = null;
         $versionId = null;
 
-        Cotizacion::query()->getConnection()->transaction(function () use ($request, $project, &$cotizacionId, &$versionId) {
-            $cotizacion = Cotizacion::create([
-                'proyectoId' => $project->getId(),
-                'estado' => 'Tecnico',
-                'creadoPor' => Auth::id(),
-            ]);
-            $cotizacionId = $cotizacion->getId();
-
-            $version = VersionCotizacion::create([
-                'numeroVersion' => '1',
-                'esLaMasReciente' => true,
-                'cotizacionId' => $cotizacion->getId(),
-            ]);
-            $versionId = $version->getId();
-
-            foreach ($request->materiales as $item) {
-                PresentacionTipoMaterialVersionCotizacion::create([
-                    'cantidad' => $item['cantidad'],
-                    'versionCotizacionId' => $version->getId(),
-                    'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
+        try {
+            Cotizacion::query()->getConnection()->transaction(function () use ($request, $project, &$cotizacionId, &$versionId) {
+                $cotizacion = Cotizacion::create([
+                    'proyectoId' => $project->getId(),
+                    'estado' => 'Tecnico',
+                    'creadoPor' => Auth::id(),
                 ]);
-            }
-        });
+                $cotizacionId = $cotizacion->getId();
 
-        $this->generarYGuardarPdf($versionId, $project);
+                $version = VersionCotizacion::create([
+                    'numeroVersion' => '1',
+                    'esLaMasReciente' => true,
+                    'cotizacionId' => $cotizacion->getId(),
+                ]);
+                $versionId = $version->getId();
 
-        // Send an email informing the creation of a new quote
+                foreach ($request->materiales as $item) {
+                    PresentacionTipoMaterialVersionCotizacion::create([
+                        'cantidad' => $item['cantidad'],
+                        'versionCotizacionId' => $version->getId(),
+                        'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
+                    ]);
+                }
+            });
+        } catch (Exception $e) {
+            session()->flash('error', 'No se pudo crear la cotización: '.$e->getMessage());
+
+            return redirect()->route('tecnico.cotizacion.index', $id);
+        }
+
+        try {
+            $this->generarYGuardarPdf($versionId, $project);
+        } catch (Exception $e) {
+            session()->flash('error', 'Cotización creada, pero no se pudo generar el PDF: '.$e->getMessage());
+
+            return redirect()->route('tecnico.cotizacion.versions', [$id, $cotizacionId]);
+        }
+
         try {
             $version = VersionCotizacion::findOrFail($versionId);
             $quote = Cotizacion::findOrFail($cotizacionId);
@@ -129,9 +140,8 @@ class CotizacionController extends Controller
                 $version->getnumeroVersion(),
                 $version->getPdfPath()
             );
-
         } catch (Exception $e) {
-            throw new Exception('error'.$e->getMessage());
+            session()->flash('error', 'Cotización creada, pero no se pudo enviar el correo de notificación.');
         }
 
         session()->flash('success', 'Cotización creada correctamente para el proyecto "'.$project->getNombre().'".');
@@ -176,29 +186,35 @@ class CotizacionController extends Controller
             $pdfAnteriorPath = null;
         }
 
-        Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion, &$nuevaVersionId) {
-            $cotizacion->setEstado('Tecnico Editada');
-            $cotizacion->save();
+        try {
+            Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion, &$nuevaVersionId) {
+                $cotizacion->setEstado('Tecnico Editada');
+                $cotizacion->save();
 
-            $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
+                $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
 
-            $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
+                $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
 
-            $nuevaVersion = VersionCotizacion::create([
-                'numeroVersion' => (string) $nuevoNumeroVersion,
-                'esLaMasReciente' => true,
-                'cotizacionId' => $cotizacion->getId(),
-            ]);
-            $nuevaVersionId = $nuevaVersion->getId();
-
-            foreach ($request->materiales as $item) {
-                PresentacionTipoMaterialVersionCotizacion::create([
-                    'cantidad' => $item['cantidad'],
-                    'versionCotizacionId' => $nuevaVersion->getId(),
-                    'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
+                $nuevaVersion = VersionCotizacion::create([
+                    'numeroVersion' => (string) $nuevoNumeroVersion,
+                    'esLaMasReciente' => true,
+                    'cotizacionId' => $cotizacion->getId(),
                 ]);
-            }
-        });
+                $nuevaVersionId = $nuevaVersion->getId();
+
+                foreach ($request->materiales as $item) {
+                    PresentacionTipoMaterialVersionCotizacion::create([
+                        'cantidad' => $item['cantidad'],
+                        'versionCotizacionId' => $nuevaVersion->getId(),
+                        'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
+                    ]);
+                }
+            });
+        } catch (Exception $e) {
+            session()->flash('error', 'No se pudo actualizar la cotización: '.$e->getMessage());
+
+            return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
+        }
 
         if ($pdfAnteriorPath && Storage::disk('public')->exists($pdfAnteriorPath)) {
             Storage::disk('public')->delete($pdfAnteriorPath);
@@ -206,9 +222,14 @@ class CotizacionController extends Controller
             $versionMasReciente->save();
         }
 
-        $this->generarYGuardarPdf($nuevaVersionId, $project);
+        try {
+            $this->generarYGuardarPdf($nuevaVersionId, $project);
+        } catch (Exception $e) {
+            session()->flash('error', 'Cotización actualizada, pero no se pudo generar el PDF: '.$e->getMessage());
 
-        // Send an email informing the edition of a new quote
+            return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
+        }
+
         try {
             $newQuoteVersion = VersionCotizacion::findOrFail($nuevaVersionId);
             $userThatModified = User::findOrFail(Auth::id());
@@ -222,9 +243,8 @@ class CotizacionController extends Controller
                 $newQuoteVersion->getnumeroVersion(),
                 $newQuoteVersion->getPdfPath()
             );
-
         } catch (Exception $e) {
-            throw new Exception('error'.$e->getMessage());
+            session()->flash('error', 'Cotización actualizada, pero no se pudo enviar el correo de notificación.');
         }
 
         session()->flash('success', 'Nueva versión de la cotización creada correctamente.');

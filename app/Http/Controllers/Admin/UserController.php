@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -29,9 +30,12 @@ class UserController extends Controller
         $validatedUserData = $request->only(['name', 'email', 'password', 'rol', 'cedula', 'sueldo', 'numeroTelefono', 'recibeNotificaciones']);
         $validatedUserData['password'] = Hash::make($validatedUserData['password']);
 
-        User::create($validatedUserData);
-
-        session()->flash('success', 'Usuario creado exitosamente');
+        try {
+            User::create($validatedUserData);
+            session()->flash('success', 'Usuario creado exitosamente');
+        } catch (Exception $e) {
+            session()->flash('error', 'No se pudo crear el usuario: '.$e->getMessage());
+        }
 
         return redirect()->route('admin.user.index');
     }
@@ -55,19 +59,25 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->input('password'));
         }
 
-        $user->update($data);
-
-        session()->flash('success', 'Usuario actualizado exitosamente');
+        try {
+            $user->update($data);
+            session()->flash('success', 'Usuario actualizado exitosamente');
+        } catch (Exception $e) {
+            session()->flash('error', 'No se pudo actualizar el usuario: '.$e->getMessage());
+        }
 
         return redirect()->route('admin.user.index');
     }
 
     public function destroy(int $id): RedirectResponse
     {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        session()->flash('success', 'Usuario eliminado exitosamente');
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            session()->flash('success', 'Usuario eliminado exitosamente');
+        } catch (Exception $e) {
+            session()->flash('error', 'No se pudo eliminar el usuario: '.$e->getMessage());
+        }
 
         return redirect()->route('admin.user.index');
     }

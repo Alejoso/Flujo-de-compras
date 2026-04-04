@@ -5,23 +5,28 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InvoiceUploadRequest;
 use App\Services\OCRSercive;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class OCRController extends Controller
 {
-    public function process(InvoiceUploadRequest $request, OCRSercive $ocr): View
+    public function process(InvoiceUploadRequest $request, OCRSercive $ocr): View|RedirectResponse
     {
         $viewData = [];
-        $archivo = $request->file('invoice');
 
-        $bytes = $archivo->getContent();
-        $nombre = $archivo->getClientOriginalName();
-        $invoiceData = $ocr->processInvoice($bytes, $nombre);
+        try {
+            $archivo = $request->file('invoice');
+            $bytes = $archivo->getContent();
+            $nombre = $archivo->getClientOriginalName();
 
-        dd($invoiceData);
+            $viewData['invoiceData'] = $ocr->processInvoice($bytes, $nombre);
+        } catch (Exception $e) {
+            session()->flash('error', 'No se pudo procesar la factura: '.$e->getMessage());
 
-        $viewData['invoiceData'] = $invoiceData;
+            return redirect()->back();
+        }
 
-        return view('admin.invoice.index');
+        return view('admin.invoice.index')->with('viewData', $viewData);
     }
 }
