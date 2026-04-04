@@ -24,9 +24,9 @@ class ProjectController extends Controller
     public function create(): View
     {
         $viewData = [];
-        $viewData['clients'] = Cliente::orderBy('nombre','asc')->get();
+        $viewData['clients'] = Cliente::orderBy('nombre', 'asc')->get();
 
-        return view('admin.project.create')->with('viewData' , $viewData);
+        return view('admin.project.create')->with('viewData', $viewData);
     }
 
     public function save(SaveProyectoRequest $request): RedirectResponse
@@ -49,28 +49,27 @@ class ProjectController extends Controller
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
 
-        return view('admin.project.show')->with('viewData' , $viewData);
+        return view('admin.project.show')->with('viewData', $viewData);
     }
 
     public function edit(string $id): View
     {
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
-        $viewData['clients'] = Cliente::orderBy('nombre','asc')->get();
+        $viewData['clients'] = Cliente::orderBy('nombre', 'asc')->get();
 
         return view('admin.project.edit')->with('viewData', $viewData);
     }
 
-    public function update(UpdateProyectoRequest $request , string $id): RedirectResponse
+    public function update(UpdateProyectoRequest $request, string $id): RedirectResponse
     {
         $validatedProjectData = $request->validated();
 
-        try{
+        try {
             $project = Proyecto::findOrFail($id);
             $project->update($validatedProjectData);
-            session()->flash('success','Se ha actualizado el proyecto '. $project->getNombre());
-        }
-        catch (Exception $e){
+            session()->flash('success', 'Se ha actualizado el proyecto '.$project->getNombre());
+        } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }
 

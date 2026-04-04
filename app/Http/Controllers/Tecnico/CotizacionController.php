@@ -6,22 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCotizacionRequest;
 use App\Http\Requests\UpdateCotizacionRequest;
 use App\Models\Cotizacion;
-use App\Models\PresentacionTipoMaterial;
 use App\Models\PresentacionTipoMaterialVersionCotizacion;
 use App\Models\Proyecto;
 use App\Models\TipoMaterial;
+use App\Models\User;
 use App\Models\VersionCotizacion;
+use App\Services\SendQuoteService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\RedirectResponse;
+// Send email with quote
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-// Send email with quote
-use App\Services\SendQuoteService;
-use App\Models\User;
-use Exception;
 class CotizacionController extends Controller
 {
     public function index(string $id): View
@@ -82,7 +82,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.create')->with('viewData', $viewData);
     }
 
-    public function store(StoreCotizacionRequest $request, string $id , SendQuoteService $sendQuote): RedirectResponse
+    public function store(StoreCotizacionRequest $request, string $id, SendQuoteService $sendQuote): RedirectResponse
     {
         $project = Proyecto::findOrFail($id);
         $cotizacionId = null;
@@ -115,23 +115,23 @@ class CotizacionController extends Controller
         $this->generarYGuardarPdf($versionId, $project);
 
         // Send an email informing the creation of a new quote
-        try{
+        try {
             $version = VersionCotizacion::findOrFail($versionId);
             $quote = Cotizacion::findOrFail($cotizacionId);
             $userThatModified = User::findOrFail(Auth::id());
 
             $sendQuote->send(
                 $quote->getEstado(),
-                'Se ha creado una nueva cotización para ' . $project->getNombre(),
-                'Se ha creado una nueva cotización con ID ' . $cotizacionId . ' para el proyecto ' . $project->getNombre(),
+                'Se ha creado una nueva cotización para '.$project->getNombre(),
+                'Se ha creado una nueva cotización con ID '.$cotizacionId.' para el proyecto '.$project->getNombre(),
                 $project->getNombre(),
-                $userThatModified->getName() . ' - CC: ' . $userThatModified->getCedula(),
+                $userThatModified->getName().' - CC: '.$userThatModified->getCedula(),
                 $version->getnumeroVersion(),
                 $version->getPdfPath()
             );
 
-        } catch(Exception $e){
-            throw new Exception('error'. $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception('error'.$e->getMessage());
         }
 
         session()->flash('success', 'Cotización creada correctamente para el proyecto "'.$project->getNombre().'".');
@@ -158,9 +158,9 @@ class CotizacionController extends Controller
         $viewData['materialesVersion'] = $this->buildMateriasVersion($viewData['version']);
 
         return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
-    }   
+    }
 
-    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId , SendQuoteService $sendQuote): RedirectResponse
+    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId, SendQuoteService $sendQuote): RedirectResponse
     {
         $project = Proyecto::findOrFail($projectId);
         $versionActual = VersionCotizacion::findOrFail($versionId);
@@ -207,24 +207,24 @@ class CotizacionController extends Controller
         }
 
         $this->generarYGuardarPdf($nuevaVersionId, $project);
-        
+
         // Send an email informing the edition of a new quote
-        try{
+        try {
             $newQuoteVersion = VersionCotizacion::findOrFail($nuevaVersionId);
             $userThatModified = User::findOrFail(Auth::id());
 
             $sendQuote->send(
                 $cotizacion->getEstado(),
-                'Se ha editado una cotización de el proyecto ' . $project->getNombre(),
-                'Se ha editado la cotización con ID ' . $cotizacion->getId() . ' del proyecto ' . $project->getNombre(),
+                'Se ha editado una cotización de el proyecto '.$project->getNombre(),
+                'Se ha editado la cotización con ID '.$cotizacion->getId().' del proyecto '.$project->getNombre(),
                 $project->getNombre(),
-                $userThatModified->getName() . ' - CC: ' . $userThatModified->getCedula(),
+                $userThatModified->getName().' - CC: '.$userThatModified->getCedula(),
                 $newQuoteVersion->getnumeroVersion(),
                 $newQuoteVersion->getPdfPath()
             );
 
-        } catch(Exception $e){
-            throw new Exception('error'. $e->getMessage());
+        } catch (Exception $e) {
+            throw new Exception('error'.$e->getMessage());
         }
 
         session()->flash('success', 'Nueva versión de la cotización creada correctamente.');
@@ -318,11 +318,12 @@ class CotizacionController extends Controller
     {
         return $tipoMateriales->mapWithKeys(function ($tm) {
             $unidadMedida = $tm->getTipo()->getUnidadMedida();
+
             return [$tm->getId() => [
                 'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
                 'presentaciones' => $tm->getPresentacionTipoMateriales()->map(function ($ptm) use ($unidadMedida) {
                     return [
-                        'id'     => $ptm->getId(),
+                        'id' => $ptm->getId(),
                         'nombre' => $ptm->getPresentacion()->getNombre(),
                         'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
                     ];
@@ -331,19 +332,20 @@ class CotizacionController extends Controller
         })->all();
     }
 
-    private function buildMateriasVersion(VersionCotizacion $version): \Illuminate\Support\Collection
+    private function buildMateriasVersion(VersionCotizacion $version): Collection
     {
         return $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
             $ptm = $item->getPresentacionTipoMaterial();
             $tm = $ptm->getTipoMaterial();
             $unidadMedida = $tm->getTipo()->getUnidadMedida();
+
             return [
-                'ptmId'         => $ptm->getId(),
-                'descripcion'   => $tm->getMaterial()->getDescripcion(),
+                'ptmId' => $ptm->getId(),
+                'descripcion' => $tm->getMaterial()->getDescripcion(),
                 'especificacion' => $tm->getTipo()->getEspecificacion(),
-                'presentacion'  => $ptm->getPresentacion()->getNombre(),
-                'unidad'        => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
-                'cantidad'      => $item->getCantidad(),
+                'presentacion' => $ptm->getPresentacion()->getNombre(),
+                'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
+                'cantidad' => $item->getCantidad(),
             ];
         });
     }

@@ -49,7 +49,6 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::patch('/admin/client/{id}', $controllerRoute.'\Admin\ClientController@update')->name('admin.client.update');
     Route::delete('/admin/client/{id}', $controllerRoute.'\Admin\ClientController@destroy')->name('admin.client.destroy');
 
-
 });
 
 // Rutas exclusivamente para tecnico

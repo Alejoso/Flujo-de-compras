@@ -69,8 +69,8 @@ class SendQuote extends Mailable
     {
         return [
             Attachment::fromStorageDisk('public', $this->pathToQuote)
-            ->as(basename($this->pathToQuote))
-            ->withMime('application/pdf'),
+                ->as(basename($this->pathToQuote))
+                ->withMime('application/pdf'),
         ];
     }
 }

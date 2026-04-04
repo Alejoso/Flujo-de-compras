@@ -11,18 +11,18 @@ class ClienteSeeder extends Seeder
     {
         DB::table('clientes')->insert([
             [
-                'nombre'     => 'Constructora Los Andes',
-                'cedula'     => '900123456',
-                'correo'     => 'contacto@losandes.com',
-                'celular'    => '3201112233',
+                'nombre' => 'Constructora Los Andes',
+                'cedula' => '900123456',
+                'correo' => 'contacto@losandes.com',
+                'celular' => '3201112233',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'nombre'     => 'Edificios del Norte S.A',
-                'cedula'     => '900654321',
-                'correo'     => 'info@edificiosnorte.com',
-                'celular'    => '3157778899',
+                'nombre' => 'Edificios del Norte S.A',
+                'cedula' => '900654321',
+                'correo' => 'info@edificiosnorte.com',
+                'celular' => '3157778899',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -24,9 +24,9 @@ class UpdateClienteRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255',
-            'cedula'=> 'nullable|string|max:255',
-            'correo'=> 'nullable|string|max:255',
-            'celular'=> 'nullable|string|max:255',
+            'cedula' => 'nullable|string|max:255',
+            'correo' => 'nullable|string|max:255',
+            'celular' => 'nullable|string|max:255',
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\SendQuote;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -55,5 +54,4 @@ class NotificationController extends Controller
     {
         return view('admin.notification.test');
     }
-
 }

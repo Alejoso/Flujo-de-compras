@@ -24,10 +24,10 @@ class SaveProyectoRequest extends FormRequest
     {
         return [
             'nombre' => 'required|string|max:255',
-            'direccion'=> 'required|string|max:255',
-            'ciudad'=> 'required|string|max:255',
-            'costoTotal'=> 'nullable|numeric',
-            'clienteId'=> 'required|numeric',
+            'direccion' => 'required|string|max:255',
+            'ciudad' => 'required|string|max:255',
+            'costoTotal' => 'nullable|numeric',
+            'clienteId' => 'required|numeric',
         ];
     }
 }

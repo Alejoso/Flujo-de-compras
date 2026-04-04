@@ -26,9 +26,9 @@ class TipoMaterialController extends Controller
             // Si busca algo, aplicamos los filtros y traemos hasta 20 resultados
             $query->where(function ($q) use ($term) {
                 $q->whereHas('material', function ($sub) use ($term) {
-                    $sub->where('descripcion', 'ilike', '%' . $term . '%');
+                    $sub->where('descripcion', 'ilike', '%'.$term.'%');
                 })->orWhereHas('tipo', function ($sub) use ($term) {
-                    $sub->where('especificacion', 'ilike', '%' . $term . '%');
+                    $sub->where('especificacion', 'ilike', '%'.$term.'%');
                 });
             })->limit(20);
         }
@@ -37,11 +37,12 @@ class TipoMaterialController extends Controller
 
         $tmData = $tipoMateriales->mapWithKeys(function ($tm) {
             $unidadMedida = $tm->getTipo()->getUnidadMedida();
+
             return [$tm->getId() => [
                 'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
                 'presentaciones' => $tm->getPresentacionTipoMateriales()->map(function ($ptm) use ($unidadMedida) {
                     return [
-                        'id'     => $ptm->getId(),
+                        'id' => $ptm->getId(),
                         'nombre' => $ptm->getPresentacion()->getNombre(),
                         'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
                     ];
