@@ -37,23 +37,23 @@
                 <tbody>
                     @forelse ($viewData['userWithNotifications'] as $user)
                     <tr class="um-row">
-                        <td>
+                        <td class="um-td-avatar">
                             <div class="um-user-cell">
                                 <div class="um-avatar">
                                     {{ strtoupper(substr($user->getName(), 0, 1)) }}{{ strtoupper(substr(strstr($user->getName(), ' '), 1, 1)) }}
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td data-label="Nombre">
                             <span class="um-user-name">{{ $user->getName() }}</span>
                         </td>
-                        <td class="um-email">{{ $user->getEmail() }}</td>
-                        <td>
+                        <td data-label="Correo" class="um-email">{{ $user->getEmail() }}</td>
+                        <td data-label="Rol">
                             <span class="um-badge um-badge--{{ $user->getRol() }}">
                                 {{ ucfirst($user->getRol()) }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                             <form action="{{ route('admin.notification.destroy', ['id' => $user->getId()]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')

@@ -754,3 +754,7 @@
     font-style: italic;
     font-size: .88rem;
 }
+
+/* ── Cotizacion table column widths ── */
+.col-cantidad { width: 150px; }
+.col-actions  { width: 50px; }

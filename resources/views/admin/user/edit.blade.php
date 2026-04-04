@@ -3,8 +3,8 @@
 
 @section('content')
 
-<div style="min-height: calc(100vh - 57px); display: flex; align-items: center; justify-content: center;">
-    <div style="width: 100%; max-width: 520px;">
+<div class="um-form-page">
+    <div class="um-form-container">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="mb-0">Editar usuario</h4>
@@ -48,7 +48,7 @@
                         <label class="form-label">Rol</label>
                         <select name="rol" class="form-select">
                             <option value="admin" {{ old('rol', $viewData['user']->getRol()) === 'admin' ? 'selected' : '' }}>Admin</option>
-                            <option value="técnico" {{ old('rol', $viewData['user']->getRol()) === 'técnico' ? 'selected' : '' }}>Técnico</option>
+                            <option value="tecnico" {{ old('rol', $viewData['user']->getRol()) === 'tecnico' ? 'selected' : '' }}>Técnico</option>
                         </select>
                     </div>
 

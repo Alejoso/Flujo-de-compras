@@ -66,8 +66,8 @@
               <th>Material / Especificación</th>
               <th>Presentación</th>
               <th>Unidad</th>
-              <th style="width: 150px;">Cantidad</th>
-              <th style="width: 50px;"></th>
+              <th class="col-cantidad">Cantidad</th>
+              <th class="col-actions"></th>
             </tr>
           </thead>
           <tbody id="lista-materiales">

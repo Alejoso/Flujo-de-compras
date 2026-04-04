@@ -16,7 +16,7 @@ class TecnicoAuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() && Auth::user()->getRol() === 'técnico') {
+        if (Auth::user() && Auth::user()->getRol() === 'tecnico') {
             return $next($request);
         } else {
             return redirect()->route('login');

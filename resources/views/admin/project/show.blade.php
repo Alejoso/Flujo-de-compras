@@ -16,8 +16,8 @@
     <div class="um-card mb-4">
         <div class="um-card-header">
             <div class="d-flex align-items-center gap-2">
-                <i class="bi bi-folder2-open" style="color: #F5C800;"></i>
-                <span class="um-card-title" style="font-size: 0.95rem;">Información del Proyecto</span>
+                <i class="bi bi-folder2-open pj-header-icon"></i>
+                <span class="um-card-title um-card-title--sm">Información del Proyecto</span>
             </div>
             <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($viewData['project']->getEstado())) }}">
                 {{ $viewData['project']->getEstado() }}
@@ -94,14 +94,14 @@
                         <p class="pj-field-label mb-1">Costo Total vs Ejecutado</p>
                         <div class="d-flex align-items-end justify-content-between">
                             <p class="pj-kpi-value mb-0">$ --</p>
-                            <p class="mb-0" style="font-size: 0.85rem; color: #4ade80; font-weight: 600;">
-                                $ -- <span style="color: #5A5A5A; font-weight: 400;">ejecutado</span>
+                            <p class="mb-0 pj-kpi-executed">
+                                $ -- <span class="pj-kpi-executed-suffix">ejecutado</span>
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="pj-progress-track">
-                    <div class="pj-progress-fill" style="width: 0%"></div>
+                    <div class="pj-progress-fill"></div>
                 </div>
                 <p class="pj-field-label mb-0 mt-2">0% del presupuesto utilizado</p>
             </div>

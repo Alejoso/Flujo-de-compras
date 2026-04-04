@@ -13,7 +13,7 @@
     <div class="um-card mb-4">
         <div class="um-card-header">
             <div class="d-flex gap-2 flex-wrap align-items-center w-100">
-                <div class="input-group" style="max-width: 420px;">
+                <div class="input-group search-group">
                     <span class="input-group-text"><i class="bi bi-search"></i></span>
                     <input type="text" class="form-control" placeholder="Buscar proyectos...">
                 </div>

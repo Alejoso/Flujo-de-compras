@@ -11,10 +11,11 @@
     @stack('styles')
 </head>
 <body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="admin-wrapper">
 
         {{-- Sidebar --}}
-        <aside class="admin-sidebar">
+        <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-brand">
                 <span class="brand-icon"><i class="bi bi-lightning-charge-fill"></i></span>
                 <span class="brand-name">{{ config('app.name') }}</span>
@@ -73,6 +74,9 @@
         {{-- Main content --}}
         <div class="admin-main">
             <header class="admin-topbar">
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Abrir menú">
+                    <i class="bi bi-list"></i>
+                </button>
                 <h5 class="topbar-title">@yield('page-title', 'Dashboard')</h5>
                 <div class="topbar-right">
                     <span class="topbar-badge">Admin</span>
@@ -83,8 +87,8 @@
 
                 {{-- Message popup --}}
                 @if (session('success') || session('error'))
-                <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1100;">
-                    <div class="toast show" role="alert" style="min-width: 600px; background-color: #1a1a1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.1);">
+                <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3 admin-toast-container">
+                    <div class="toast show admin-toast" role="alert">
                         <div class="toast-header
                             @if(session('success')) bg-success text-white
                             @else bg-warning
@@ -94,7 +98,7 @@
                             </strong>
                             <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
                         </div>
-                        <div class="toast-body" style="color: #ffffff;">
+                        <div class="toast-body">
                             {{ session('success') ?? session('error') }}
                         </div>
                     </div>
@@ -115,5 +119,16 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const toggle   = document.getElementById('sidebarToggle');
+        const sidebar  = document.getElementById('adminSidebar');
+        const overlay  = document.getElementById('sidebarOverlay');
+
+        function openSidebar()  { sidebar.classList.add('open'); overlay.classList.add('open'); }
+        function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+
+        toggle  && toggle.addEventListener('click', openSidebar);
+        overlay && overlay.addEventListener('click', closeSidebar);
+    </script>
 </body>
 </html>

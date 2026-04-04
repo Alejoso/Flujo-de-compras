@@ -39,29 +39,29 @@
                 <tbody>
                     @forelse ($viewData['users'] as $user)
                     <tr class="um-row">
-                        <td>
+                        <td class="um-td-avatar">
                             <div class="um-user-cell">
                                 <div class="um-avatar">
                                     {{ strtoupper(substr($user->getName(), 0, 1)) }}{{ strtoupper(substr(strstr($user->getName(), ' '), 1, 1)) }}
                                 </div>
                             </div>
                         </td>
-                        <td><span class="um-user-name">{{ $user->getName() }}</span></td>
-                        <td class="um-email">{{ $user->getEmail() }}</td>
-                        <td>
+                        <td data-label="Nombre"><span class="um-user-name">{{ $user->getName() }}</span></td>
+                        <td data-label="Correo" class="um-email">{{ $user->getEmail() }}</td>
+                        <td data-label="Rol">
                             <span class="um-badge um-badge--{{ $user->getRol() }}">
                                 {{ ucfirst($user->getRol()) }}
                             </span>
                         </td>
-                        <td>{{ $user->getCedula() }}</td>
-                        <td>{{ $user->getNumeroTelefono() }}</td>
-                        <td>{{ $user->getSueldo() }}</td>
-                        <td>
+                        <td data-label="Cédula">{{ $user->getCedula() }}</td>
+                        <td data-label="Teléfono">{{ $user->getNumeroTelefono() }}</td>
+                        <td data-label="Sueldo">{{ $user->getSueldo() }}</td>
+                        <td data-label="Notificaciones">
                             <span class="um-status um-status--{{ $user->getRecibeNotificaciones() ? '1' : '0' }}">
                                 {{ $user->getRecibeNotificaciones() ? 'Sí' : 'No' }}
                             </span>
                         </td>
-                        <td>
+                        <td data-label="Acciones">
                             <div class="um-actions">
                                 <a href="{{ route('admin.user.edit', $user->getId()) }}" class="um-btn-icon um-btn-icon--edit" title="Editar">
                                     <i class="bi bi-pencil-fill"></i>
