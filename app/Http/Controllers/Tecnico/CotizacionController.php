@@ -24,6 +24,7 @@ use Illuminate\View\View;
 
 class CotizacionController extends Controller
 {
+    // Muestra la lista de cotizaciones de un proyecto.
     public function index(string $id): View
     {
         $viewData = [];
@@ -37,6 +38,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.index')->with('viewData', $viewData);
     }
 
+    // Muestra todas las versiones de una cotización específica.
     public function versions(string $id, string $cotizacionId): View
     {
         $viewData = [];
@@ -52,6 +54,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.versions')->with('viewData', $viewData);
     }
 
+    // Muestra el detalle de una versión específica con sus materiales.
     public function show(string $projectId, string $versionId): View
     {
         $viewData = [];
@@ -68,6 +71,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.show')->with('viewData', $viewData);
     }
 
+    // Muestra el formulario para crear una nueva cotización con los materiales disponibles.
     public function create(string $id): View
     {
         $viewData = [];
@@ -82,6 +86,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.create')->with('viewData', $viewData);
     }
 
+    // Guarda una nueva cotización con su primera versión y materiales. Genera el PDF y envía notificación por correo.
     public function store(StoreCotizacionRequest $request, string $id, SendQuoteService $sendQuote): RedirectResponse
     {
         $project = Proyecto::findOrFail($id);
@@ -149,6 +154,7 @@ class CotizacionController extends Controller
         return redirect()->route('tecnico.cotizacion.versions', [$id, $cotizacionId]);
     }
 
+    // Muestra el formulario para editar los materiales de la versión más reciente de una cotización.
     public function edit(string $projectId, string $versionId): View
     {
         $viewData = [];
@@ -170,6 +176,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
     }
 
+    // Crea una nueva versión de la cotización con los materiales actualizados, regenera el PDF y envía notificación por correo.
     public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId, SendQuoteService $sendQuote): RedirectResponse
     {
         $project = Proyecto::findOrFail($projectId);
@@ -252,6 +259,7 @@ class CotizacionController extends Controller
         return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
     }
 
+    // Muestra la previsualización en pantalla del PDF de una versión específica.
     public function pdfView(string $projectId, string $versionId): View
     {
         $project = Proyecto::findOrFail($projectId);
@@ -261,6 +269,7 @@ class CotizacionController extends Controller
         return view('tecnico.cotizacion.pdf-view', compact('project', 'version', 'tecnico', 'fecha', 'materiales', 'numeroCotizacion'));
     }
 
+    // Genera y descarga directamente el PDF de una versión específica.
     public function pdfDownload(string $projectId, string $versionId)
     {
         $project = Proyecto::findOrFail($projectId);
@@ -277,6 +286,7 @@ class CotizacionController extends Controller
             ->download('p'.$project->getId().'_c'.$numeroCotizacion.'_v'.$numeroVersion.'.pdf');
     }
 
+    // Carga una versión de cotización con todas sus relaciones necesarias para el PDF.
     private function cargarVersionConRelaciones(int|string $versionId): VersionCotizacion
     {
         return VersionCotizacion::with([
@@ -288,6 +298,7 @@ class CotizacionController extends Controller
         ])->findOrFail($versionId);
     }
 
+    // Prepara los datos necesarios para renderizar el PDF (técnico, fecha, materiales y número de cotización).
     private function prepararDatosPdf(VersionCotizacion $version): array
     {
         $cotizacion = $version->getCotizacion();
@@ -316,6 +327,7 @@ class CotizacionController extends Controller
         return compact('tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version');
     }
 
+    // Genera el PDF de una versión y lo guarda en el storage público, actualizando el campo pdfPath de la versión.
     private function generarYGuardarPdf(int $versionId, Proyecto $project): void
     {
         $version = $this->cargarVersionConRelaciones($versionId);
@@ -334,6 +346,7 @@ class CotizacionController extends Controller
         $version->save();
     }
 
+    // Construye el array de datos de tipos de material con sus presentaciones para el formulario de crear/editar.
     private function buildTmData($tipoMateriales): array
     {
         return $tipoMateriales->mapWithKeys(function ($tm) {
@@ -352,6 +365,7 @@ class CotizacionController extends Controller
         })->all();
     }
 
+    // Construye la colección de materiales de una versión para mostrarlos en las vistas de detalle y edición.
     private function buildMateriasVersion(VersionCotizacion $version): Collection
     {
         return $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
