@@ -11,12 +11,12 @@ use App\Models\Proyecto;
 use App\Models\TipoMaterial;
 use App\Models\User;
 use App\Models\VersionCotizacion;
-use App\Services\SendQuoteService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 // Send email with quote
+use App\Services\SendMessageFactory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -87,7 +87,7 @@ class CotizacionController extends Controller
     }
 
     // Guarda una nueva cotización con su primera versión y materiales. Genera el PDF y envía notificación por correo.
-    public function store(StoreCotizacionRequest $request, string $id, SendQuoteService $sendQuote): RedirectResponse
+    public function store(StoreCotizacionRequest $request, string $id): RedirectResponse
     {
         $project = Proyecto::findOrFail($id);
         $cotizacionId = null;
@@ -132,11 +132,13 @@ class CotizacionController extends Controller
         }
 
         try {
+            $sendMessage = app(SendMessageFactory::class)->make('email');
+
             $version = VersionCotizacion::findOrFail($versionId);
             $quote = Cotizacion::findOrFail($cotizacionId);
             $userThatModified = User::findOrFail(Auth::id());
 
-            $sendQuote->send(
+            $sendMessage->send(
                 $quote->getEstado(),
                 'Se ha creado una nueva cotización para '.$project->getNombre(),
                 'Se ha creado una nueva cotización con ID '.$cotizacionId.' para el proyecto '.$project->getNombre(),
@@ -177,7 +179,7 @@ class CotizacionController extends Controller
     }
 
     // Crea una nueva versión de la cotización con los materiales actualizados, regenera el PDF y envía notificación por correo.
-    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId, SendQuoteService $sendQuote): RedirectResponse
+    public function update(UpdateCotizacionRequest $request, string $projectId, string $versionId): RedirectResponse
     {
         $project = Proyecto::findOrFail($projectId);
         $versionActual = VersionCotizacion::findOrFail($versionId);
@@ -238,10 +240,12 @@ class CotizacionController extends Controller
         }
 
         try {
+            $sendMessage = app(SendMessageFactory::class)->make('email');
+
             $newQuoteVersion = VersionCotizacion::findOrFail($nuevaVersionId);
             $userThatModified = User::findOrFail(Auth::id());
 
-            $sendQuote->send(
+            $sendMessage->send(
                 $cotizacion->getEstado(),
                 'Se ha editado una cotización de el proyecto '.$project->getNombre(),
                 'Se ha editado la cotización con ID '.$cotizacion->getId().' del proyecto '.$project->getNombre(),

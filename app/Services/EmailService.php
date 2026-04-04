@@ -6,10 +6,11 @@ use App\Mail\SendQuote;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Mail;
+use App\Interfaces\SendMessageInterface;
 
-class SendQuoteService
+class EmailService implements SendMessageInterface
 {
-    public function send(string $action, string $emailSubject, string $description, string $projectName, string $employeeName, string $version, string $pathToQuote): void
+    public function send(string $state, string $emailSubject, string $description, string $projectName, string $employeeName, string $version, string $pathToQuote): void
     {
         $emails = User::where('recibeNotificaciones', true)->pluck('email')->toArray();
 
@@ -17,7 +18,7 @@ class SendQuoteService
             throw new Exception('Error, no hay correos asginaddos para mandar la notificación');
         }
 
-        $mailable = new SendQuote($action, $emailSubject, $description, $projectName, $employeeName, $version, $pathToQuote);
+        $mailable = new SendQuote($state, $emailSubject, $description, $projectName, $employeeName, $version, $pathToQuote);
 
         Mail::to($emails)->send($mailable);
     }
