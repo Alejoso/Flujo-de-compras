@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('facturas', function (Blueprint $table) {
             $table->id();
             $table->integer('valorTotal');
-            $table->string('estado');
+            $table->enum('estado', ['Pendiente', 'Aprobada', 'Rechazada', 'Pagada', 'Cancelada']);
             $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
             $table->foreignId('proveedorId')->constrained('proveedores')->cascadeOnDelete();
             $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();

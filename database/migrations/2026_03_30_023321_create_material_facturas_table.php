@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('presentacion_tipo_material_facturas', function (Blueprint $table) {
             $table->id();
-            $table->double('precioUnitario', 15, 0);
+            $table->double('precioUnitario', 15, 2);
             $table->integer('cantidad');
             $table->foreignId('facturaId')->constrained('facturas')->cascadeOnDelete();
             $table->foreignId('presentacionTipoMaterialId')->constrained('presentacion_tipo_materiales')->cascadeOnDelete();
