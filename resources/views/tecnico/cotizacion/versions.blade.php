@@ -1,15 +1,17 @@
 @extends('layouts.tecnico')
-@section('page-title', 'Versiones — Cotización ' . $viewData['numeroCotizacion'])
+@section('page-title', __('tecnico_cotizacion.title_versions', ['number' => $viewData['numeroCotizacion']]))
 
 @section('content')
 <div class="pj-wrapper">
 
     <div class="um-header">
         <h1 class="um-title">
-            <i class="bi bi-clipboard-data-fill me-2"></i>Cotización {{ $viewData['numeroCotizacion'] }} — Estado: {{ $viewData['cotizacion']->getEstado() }}
+            <i class="bi bi-clipboard-data-fill me-2"></i>
+            {{ __('tecnico_cotizacion.title_index') }} {{ $viewData['numeroCotizacion'] }}
+            — {{ __('tecnico_cotizacion.label_estado') }}: {{ $viewData['cotizacion']->getEstado() }}
         </h1>
         <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
-            <i class="bi bi-arrow-left me-1"></i> Volver
+            <i class="bi bi-arrow-left me-1"></i> {{ __('tecnico_cotizacion.btn_back') }}
         </a>
     </div>
 
@@ -36,7 +38,7 @@
     <div class="d-flex justify-content-end mb-3">
         <a href="{{ route('tecnico.cotizacion.edit', [$viewData['project']->getId(), $versionActual->getId()]) }}"
            class="um-btn-primary px-4 py-2">
-            <i class="bi bi-clipboard-plus me-1"></i> Nueva Versión
+            <i class="bi bi-clipboard-plus me-1"></i> {{ __('tecnico_cotizacion.btn_new_version') }}
         </a>
     </div>
     @endif
@@ -45,36 +47,36 @@
         <table class="cot-table cot-versions-table">
             <thead>
                 <tr>
-                    <th>Versión</th>
-                    <th>Fecha</th>
+                    <th>{{ __('tecnico_cotizacion.label_version') }}</th>
+                    <th>{{ __('tecnico_cotizacion.label_date') }}</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($viewData['versiones'] as $version)
                 <tr>
-                    <td data-label="Versión">
+                    <td data-label="{{ __('tecnico_cotizacion.label_version') }}">
                         <span class="cot-version-number">V{{ $version->getNumeroVersion() }}</span>
                         @if($version->getEsLaMasReciente())
-                            <span class="cot-counter ms-1">Actual</span>
+                            <span class="cot-counter ms-1">{{ __('tecnico_cotizacion.label_current') }}</span>
                         @endif
                     </td>
-                    <td class="cot-td-date" data-label="Fecha">{{ $version->getCreatedAt() }}</td>
+                    <td class="cot-td-date" data-label="{{ __('tecnico_cotizacion.label_date') }}">{{ $version->getCreatedAt() }}</td>
                     <td class="cot-td-actions" data-label="Acciones">
                         <a href="{{ route('tecnico.cotizacion.show', [$viewData['project']->getId(), $version->getId()]) }}"
                            class="um-btn-icon um-btn-icon--edit px-3 py-1">
-                            <i class="bi bi-eye me-1"></i> Ver detalle
+                            <i class="bi bi-eye me-1"></i> {{ __('tecnico_cotizacion.btn_view_detail') }}
                         </a>
                         @if(!$version->getEsLaMasReciente() && $version->getNumeroVersion() !== '1')
                         <a href="{{ route('tecnico.cotizacion.pdfView', [$viewData['project']->getId(), $version->getId()]) }}"
                            class="um-btn-icon um-btn-icon--edit px-3 py-1 ms-1">
-                            <i class="bi bi-file-earmark-pdf me-1"></i> Ver PDF
+                            <i class="bi bi-file-earmark-pdf me-1"></i> {{ __('tecnico_cotizacion.btn_view_pdf') }}
                         </a>
                         @endif
                         @if($version->getEsLaMasReciente())
                         <a href="{{ route('tecnico.cotizacion.edit', [$viewData['project']->getId(), $version->getId()]) }}"
                            class="um-btn-icon um-btn-icon--edit px-3 py-1 ms-1">
-                            <i class="bi bi-pencil-square me-1"></i> Editar materiales
+                            <i class="bi bi-pencil-square me-1"></i> {{ __('tecnico_cotizacion.btn_edit_materials') }}
                         </a>
                         @endif
                     </td>
@@ -83,7 +85,7 @@
                 <tr>
                     <td colspan="3" class="cot-empty">
                         <i class="bi bi-clipboard-x cot-empty-icon d-block mb-1"></i>
-                        Esta cotización no tiene versiones aún.
+                        {{ __('tecnico_cotizacion.msg_empty_versiones') }}
                     </td>
                 </tr>
                 @endforelse
