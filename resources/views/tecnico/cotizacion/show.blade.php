@@ -1,5 +1,5 @@
 @extends('layouts.tecnico')
-@section('page-title', 'Detalle Cotización')
+@section('page-title', __('tecnico_cotizacion.title_show'))
 
 @section('content')
   <div class="pj-wrapper">
@@ -7,21 +7,21 @@
     <div class="um-header">
       <h1 class="um-title">
         <i class="bi bi-clipboard-check-fill me-2"></i>
-        Versión {{ $viewData['version']->getNumeroVersion() }}
+        {{ __('tecnico_cotizacion.label_version') }} {{ $viewData['version']->getNumeroVersion() }}
         @if ($viewData['version']->getEsLaMasReciente())
-          <span class="cot-counter ms-2">Actual</span>
+          <span class="cot-counter ms-2">{{ __('tecnico_cotizacion.label_current') }}</span>
         @endif
       </h1>
       <div class="d-flex gap-2">
         <a href="{{ route('tecnico.cotizacion.versions', [$viewData['project']->getId(), $viewData['version']->getCotizacion()->getId()]) }}"
           class="um-btn-icon um-btn-icon--secondary px-3 py-2">
-          <i class="bi bi-arrow-left me-1"></i> Volver
+          <i class="bi bi-arrow-left me-1"></i> {{ __('tecnico_cotizacion.btn_back') }}
         </a>
 
         @if ($viewData['version']->getEsLaMasReciente())
           <a href="{{ route('tecnico.cotizacion.edit', [$viewData['project']->getId(), $viewData['version']->getId()]) }}"
             class="um-btn-icon um-btn-icon--edit px-3 py-2">
-            <i class="bi bi-pencil-square me-1"></i> Editar Materiales
+            <i class="bi bi-pencil-square me-1"></i> {{ __('tecnico_cotizacion.btn_edit_materials') }}
           </a>
         @endif
       </div>
@@ -43,25 +43,25 @@
       <table class="cot-table cot-show-table">
         <thead>
           <tr>
-            <th class="cot-col-show-material">Material</th>
-            <th class="cot-col-show-tipo">Tipo / Especificación</th>
-            <th>Presentación</th>
-            <th class="cot-col-show-unidad">Unidad</th>
-            <th class="cot-col-show-cantidad">Cantidad</th>
+            <th class="cot-col-show-material">{{ __('tecnico_cotizacion.th_material') }}</th>
+            <th class="cot-col-show-tipo">{{ __('tecnico_cotizacion.th_type_spec') }}</th>
+            <th>{{ __('tecnico_cotizacion.label_presentation') }}</th>
+            <th class="cot-col-show-unidad">{{ __('tecnico_cotizacion.label_unit') }}</th>
+            <th class="cot-col-show-cantidad">{{ __('tecnico_cotizacion.label_quantity') }}</th>
           </tr>
         </thead>
         <tbody>
           @forelse($viewData['materialesVersion'] as $mat)
             <tr>
-              <td class="cot-td-material" data-label="Material">{{ $mat['descripcion'] }}</td>
-              <td class="cot-td-tipo" data-label="Tipo / Especificación">{{ $mat['especificacion'] }}</td>
-              <td data-label="Presentación">{{ $mat['presentacion'] }}</td>
-              <td class="cot-td-unidad" data-label="Unidad">{{ $mat['unidad'] ?: '—' }}</td>
-              <td class="cot-td-cantidad" data-label="Cantidad">{{ number_format($mat['cantidad'], 2) }}</td>
+              <td class="cot-td-material" data-label="{{ __('tecnico_cotizacion.th_material') }}">{{ $mat['descripcion'] }}</td>
+              <td class="cot-td-tipo" data-label="{{ __('tecnico_cotizacion.th_type_spec') }}">{{ $mat['especificacion'] }}</td>
+              <td data-label="{{ __('tecnico_cotizacion.label_presentation') }}">{{ $mat['presentacion'] }}</td>
+              <td class="cot-td-unidad" data-label="{{ __('tecnico_cotizacion.label_unit') }}">{{ $mat['unidad'] ?: '—' }}</td>
+              <td class="cot-td-cantidad" data-label="{{ __('tecnico_cotizacion.label_quantity') }}">{{ number_format($mat['cantidad'], 2) }}</td>
             </tr>
           @empty
             <tr>
-              <td colspan="5" class="cot-empty">Sin materiales registrados.</td>
+              <td colspan="5" class="cot-empty">{{ __('tecnico_cotizacion.msg_empty_materials') }}</td>
             </tr>
           @endforelse
         </tbody>

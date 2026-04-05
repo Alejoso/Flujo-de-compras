@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('cotizaciones', function (Blueprint $table) {
             $table->id();
-            $table->string('estado')->default('Tecnico');
+            $table->enum('estado', ['Tecnico', 'Tecnico Editada', 'Pendiente', 'Admin Editada', 'En Proceso', 'Facturada', 'Cancelada'])->default('Tecnico');
             $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
             $table->foreignId('creadoPor')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
