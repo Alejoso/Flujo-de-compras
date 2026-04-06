@@ -1,14 +1,14 @@
 @extends('layouts.admin')
-@section('page-title', 'Nuevo Proyecto')
+@section('page-title', __('proyecto.new_project'))
 
 @section('content')
 <div class="um-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-        <h1 class="um-title"><i class="bi bi-folder-plus me-2"></i>Nuevo Proyecto</h1>
+        <h1 class="um-title"><i class="bi bi-folder-plus me-2"></i>{{ __('proyecto.new_project') }}</h1>
         <a href="{{ route('admin.project.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
-            <i class="bi bi-arrow-left me-1"></i> Volver
+            <i class="bi bi-arrow-left me-1"></i> {{ __('proyecto.back') }}
         </a>
     </div>
 
@@ -18,8 +18,8 @@
             <div class="um-card">
                 <div class="um-card-header">
                     <div>
-                        <p class="um-card-title">Información del Proyecto</p>
-                        <p class="um-card-subtitle">Completa los campos para registrar el proyecto</p>
+                        <p class="um-card-title">{{ __('proyecto.project_info') }}</p>
+                        <p class="um-card-subtitle">{{ __('proyecto.fill_fields') }}</p>
                     </div>
                 </div>
 
@@ -31,12 +31,12 @@
 
                             {{-- Nombre --}}
                             <div class="col-12">
-                                <label class="form-label">Nombre</label>
+                                <label class="form-label">{{ __('proyecto.name') }}</label>
                                 <input type="text"
                                        name="nombre"
                                        class="form-control @error('nombre') is-invalid @enderror"
                                        value="{{ old('nombre') }}"
-                                       placeholder="Ej: Renovación de oficinas">
+                                       placeholder="{{ __('proyecto.placeholder_name') }}">
                                 @error('nombre')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -44,12 +44,12 @@
 
                             {{-- Dirección --}}
                             <div class="col-12">
-                                <label class="form-label">Dirección</label>
+                                <label class="form-label">{{ __('proyecto.address') }}</label>
                                 <input type="text"
                                        name="direccion"
                                        class="form-control @error('direccion') is-invalid @enderror"
                                        value="{{ old('direccion') }}"
-                                       placeholder="Ej: Calle 10 #45-20">
+                                       placeholder="{{ __('proyecto.placeholder_address') }}">
                                 @error('direccion')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -57,12 +57,12 @@
 
                             {{-- Ciudad --}}
                             <div class="col-md-6">
-                                <label class="form-label">Ciudad</label>
+                                <label class="form-label">{{ __('proyecto.city') }}</label>
                                 <input type="text"
                                        name="ciudad"
                                        class="form-control @error('ciudad') is-invalid @enderror"
                                        value="{{ old('ciudad') }}"
-                                       placeholder="Ej: Medellín">
+                                       placeholder="{{ __('proyecto.placeholder_city') }}">
                                 @error('ciudad')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -70,7 +70,7 @@
 
                             {{-- Costo Total --}}
                             <div class="col-md-6">
-                                <label class="form-label">Costo Total</label>
+                                <label class="form-label">{{ __('proyecto.total_cost') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
                                     <input type="number"
@@ -79,7 +79,7 @@
                                            value="{{ old('costoTotal') }}"
                                            step="0.01"
                                            min="0"
-                                           placeholder="0.00">
+                                           placeholder="{{ __('proyecto.placeholder_cost') }}">
                                     @error('costoTotal')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -88,10 +88,10 @@
 
                             {{-- Cliente --}}
                             <div class="col-md-6">
-                                <label class="form-label">Cliente</label>
+                                <label class="form-label">{{ __('proyecto.client') }}</label>
                                 <select name="clienteId"
                                         class="form-select @error('clienteId') is-invalid @enderror">
-                                    <option value="" disabled selected>Selecciona un cliente</option>
+                                    <option value="" disabled selected>{{ __('proyecto.select_client') }}</option>
                                     @foreach($viewData['clients'] as $client)
                                         <option value="{{ $client->getId() }}"
                                             {{ old('clienteId') == $client->getId() ? 'selected' : '' }}>
@@ -110,10 +110,10 @@
                         <div class="d-flex justify-content-end gap-2 mt-4">
                             <a href="{{ route('admin.project.index') }}"
                                class="um-btn-icon um-btn-icon--edit px-3 py-2">
-                                Cancelar
+                                {{ __('proyecto.cancel') }}
                             </a>
                             <button type="submit" class="um-btn-primary">
-                                <i class="bi bi-floppy me-1"></i> Guardar Proyecto
+                                <i class="bi bi-floppy me-1"></i> {{ __('proyecto.save_project') }}
                             </button>
                         </div>
 

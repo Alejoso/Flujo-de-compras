@@ -1,24 +1,24 @@
 @extends('layouts.admin')
-@section('page-title', 'Notificaciones')
+@section('page-title', __('notificacion.notifications'))
 
 @section('content')
 <div class="um-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-        <h1 class="um-title"><i class="bi bi-bell-fill"></i> Gestión de notificaciones</h1>
+        <h1 class="um-title"><i class="bi bi-bell-fill"></i> {{ __('notificacion.notification_management') }}</h1>
     </div>
 
     {{-- Card --}}
     <div class="um-card">
         <div class="um-card-header">
             <div>
-                <div class="um-card-title">Personas a notificar</div>
-                <div class="um-card-subtitle">Administra los usuarios que reciben notificaciones del sistema</div>
+                <div class="um-card-title">{{ __('notificacion.people_to_notify') }}</div>
+                <div class="um-card-subtitle">{{ __('notificacion.manage_users_subtitle') }}</div>
             </div>
             <a href="#" class="um-btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario">
                 <i class="bi bi-plus-lg"></i>
-                Agregar usuario
+                {{ __('notificacion.add_user') }}
             </a>
         </div>
 
@@ -27,11 +27,11 @@
             <table class="um-table">
                 <thead>
                     <tr>
-                        <th>Usuario</th>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
+                        <th>{{ __('notificacion.user') }}</th>
+                        <th>{{ __('notificacion.name') }}</th>
+                        <th>{{ __('notificacion.email') }}</th>
+                        <th>{{ __('notificacion.role') }}</th>
+                        <th>{{ __('notificacion.actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,20 +44,20 @@
                                 </div>
                             </div>
                         </td>
-                        <td data-label="Nombre">
+                        <td data-label="{{ __('notificacion.name') }}">
                             <span class="um-user-name">{{ $user->getName() }}</span>
                         </td>
-                        <td data-label="Correo" class="um-email">{{ $user->getEmail() }}</td>
-                        <td data-label="Rol">
+                        <td data-label="{{ __('notificacion.email') }}" class="um-email">{{ $user->getEmail() }}</td>
+                        <td data-label="{{ __('notificacion.role') }}">
                             <span class="um-badge um-badge--{{ $user->getRol() }}">
                                 {{ ucfirst($user->getRol()) }}
                             </span>
                         </td>
-                        <td data-label="Acciones">
+                        <td data-label="{{ __('notificacion.actions') }}">
                             <form action="{{ route('admin.notification.destroy', ['id' => $user->getId()]) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="um-btn-delete" title="Eliminar">
+                                <button type="submit" class="um-btn-delete" title="{{ __('notificacion.delete') }}">
                                     <i class="bi bi-x-square-fill"></i>
                                 </button>
                             </form>
@@ -65,7 +65,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="um-empty">No hay usuarios registrados.</td>
+                        <td colspan="5" class="um-empty">{{ __('notificacion.no_users') }}</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -79,7 +79,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">Agregar usuario</h5>
+                <h5 class="modal-title">{{ __('notificacion.add_user') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -88,13 +88,13 @@
                 @method('PATCH')
                 @if(count($viewData['usersWithNoNotifications']) == 0)
                     <div class="modal-body">
-                        <label class="form-label">No hay usuarios disponibles</label>
+                        <label class="form-label">{{ __('notificacion.no_users_available') }}</label>
                     </div>
                 @else
                     <div class="modal-body">
-                        <label class="form-label">Seleccionar usuario</label>
+                        <label class="form-label">{{ __('notificacion.select_user') }}</label>
                         <select name="user_id" class="form-select">
-                            <option value="">-- Selecciona un usuario --</option>
+                            <option value="">{{ __('notificacion.select_user_placeholder') }}</option>
                             @foreach ($viewData['usersWithNoNotifications'] as $user)
                                 <option value="{{ $user->getId() }}">{{ $user->getName() }} — {{ $user->getEmail() }}</option>
                             @endforeach
@@ -102,8 +102,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('notificacion.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ __('notificacion.add') }}</button>
                     </div>
                 @endif
             </form>

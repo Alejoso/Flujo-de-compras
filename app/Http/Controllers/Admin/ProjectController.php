@@ -36,7 +36,7 @@ class ProjectController extends Controller
 
         try {
             $project = Proyecto::create($validatedProjectData);
-            session()->flash('success', 'Se ha creado con exito el proyecto '.$project->getNombre());
+            session()->flash('success', __('proyecto.project_created', ['name' => $project->getNombre()]));
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }
@@ -68,7 +68,7 @@ class ProjectController extends Controller
         try {
             $project = Proyecto::findOrFail($id);
             $project->update($validatedProjectData);
-            session()->flash('success', 'Se ha actualizado el proyecto '.$project->getNombre());
+            session()->flash('success', __('proyecto.project_updated', ['name' => $project->getNombre()]));
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }

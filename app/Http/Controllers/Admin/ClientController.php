@@ -31,7 +31,7 @@ class ClientController extends Controller
 
         try {
             $project = Cliente::create($validatedProjectData);
-            session()->flash('success', 'Se ha creado con exito el cliente '.$project->getNombre());
+            session()->flash('success', __('cliente.success_created').$project->getNombre());
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }
@@ -62,7 +62,7 @@ class ClientController extends Controller
         try {
             $client = Cliente::findOrFail($id);
             $client->update($validatedClientData);
-            session()->flash('success', 'Se ha actualizado al cliente'.$client->getNombre());
+            session()->flash('success', __('cliente.success_edited').$client->getNombre());
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }
@@ -76,13 +76,13 @@ class ClientController extends Controller
             $client = Cliente::findOrFail($id);
 
             if ($client->proyectos()->exists()) {
-                session()->flash('error', 'No se puede eliminar el cliente "'.$client->getNombre().'" porque tiene proyectos asociados. Primero elimine o reasigne los proyectos.');
+                session()->flash('error', __('cliente.cant_delete').$client->getNombre().__('cliente.cant_delete_why'));
 
                 return redirect()->route('admin.client.index');
             }
 
             $client->delete();
-            session()->flash('success', 'Se ha eliminado exitosamente el cliente '.$client->getNombre());
+            session()->flash('success', __('cliente.success_deleted').$client->getNombre());
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }

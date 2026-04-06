@@ -142,18 +142,22 @@ class CotizacionController extends Controller
             $version = VersionCotizacion::findOrFail($versionId);
             $quote = Cotizacion::findOrFail($cotizacionId);
             $userThatModified = User::findOrFail(Auth::id());
+            $position = Cotizacion::where('proyectoId', $project->getId())
+                ->where('id', '<=', $cotizacionId)
+                ->orderBy('id')
+                ->count();
 
             $sendMessage->send(
                 $quote->getEstado(),
-                'Se ha creado una nueva cotización para '.$project->getNombre(),
-                'Se ha creado una nueva cotización con ID '.$cotizacionId.' para el proyecto '.$project->getNombre(),
+                __('email.quote_created_subject', ['project' => $project->getNombre()]),
+                __('email.quote_created_body', ['id' => $position, 'project' => $project->getNombre()]),
                 $project->getNombre(),
                 $userThatModified->getName().' - CC: '.$userThatModified->getCedula(),
                 $version->getnumeroVersion(),
                 $version->getPdfPath()
             );
         } catch (Exception $e) {
-            session()->flash('error', 'Cotización creada, pero no se pudo enviar el correo de notificación.');
+            session()->flash('error', __('email.quote_created_error'));
         }
 
         session()->flash('success', 'Cotización creada correctamente para el proyecto "'.$project->getNombre().'".');
@@ -247,18 +251,22 @@ class CotizacionController extends Controller
 
             $newQuoteVersion = VersionCotizacion::findOrFail($nuevaVersionId);
             $userThatModified = User::findOrFail(Auth::id());
+            $position = Cotizacion::where('proyectoId', $project->getId())
+                ->where('id', '<=', $cotizacion->getId())
+                ->orderBy('id')
+                ->count();
 
             $sendMessage->send(
                 $cotizacion->getEstado(),
-                'Se ha editado una cotización de el proyecto '.$project->getNombre(),
-                'Se ha editado la cotización con ID '.$cotizacion->getId().' del proyecto '.$project->getNombre(),
+                __('email.quote_edited_subject', ['project' => $project->getNombre()]),
+                __('email.quote_edited_body', ['id' => $position, 'project' => $project->getNombre()]),
                 $project->getNombre(),
                 $userThatModified->getName().' - CC: '.$userThatModified->getCedula(),
                 $newQuoteVersion->getnumeroVersion(),
                 $newQuoteVersion->getPdfPath()
             );
         } catch (Exception $e) {
-            session()->flash('error', 'Cotización actualizada, pero no se pudo enviar el correo de notificación.');
+            session()->flash('error', __('email.quote_edited_error'));
         }
 
         session()->flash('success', 'Nueva versión de la cotización creada correctamente.');

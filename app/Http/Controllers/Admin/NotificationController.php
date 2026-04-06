@@ -26,7 +26,7 @@ class NotificationController extends Controller
             $user = User::findOrFail($request->input('user_id'));
             $user->setRecibeNotificaciones(true);
             $user->save();
-            session()->flash('success', 'Se ha añadido a '.$user->getName().' para recibir notificaciones');
+            session()->flash('success', __('notificacion.user_added', ['name' => $user->getName()]));
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }
@@ -40,18 +40,11 @@ class NotificationController extends Controller
             $user = User::findOrFail($id);
             $user->setRecibeNotificaciones(false);
             $user->save();
-            session()->flash('success', 'Se ha eliminado a '.$user->getName().' de recibir notificaciones');
+            session()->flash('success', __('notificacion.user_removed', ['name' => $user->getName()]));
         } catch (Exception $e) {
             session()->flash('error', $e->getMessage());
         }
 
         return back();
-    }
-
-    // Vista para probar el envio del correo
-
-    public function test(): View
-    {
-        return view('admin.notification.test');
     }
 }

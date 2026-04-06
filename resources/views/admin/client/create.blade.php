@@ -1,14 +1,14 @@
 @extends('layouts.admin')
-@section('page-title', 'Nuevo cliente')
+@section('page-title', __('cliente.new_client'))
 
 @section('content')
 <div class="um-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-        <h1 class="um-title"><i class="bi bi-person-heart"></i> Nuevo cliente</h1>
+        <h1 class="um-title"><i class="bi bi-person-heart"></i> {{ __('cliente.new_client') }}</h1>
         <a href="{{ route('admin.client.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
-            <i class="bi bi-arrow-left me-1"></i> Volver
+            <i class="bi bi-arrow-left me-1"></i> {{ __('cliente.back') }}
         </a>
     </div>
 
@@ -18,8 +18,8 @@
             <div class="um-card">
                 <div class="um-card-header">
                     <div>
-                        <p class="um-card-title">Información del cliente</p>
-                        <p class="um-card-subtitle">Completa los campos para registrar un nuevo cliente</p>
+                        <p class="um-card-title">{{ __('cliente.client_info') }}</p>
+                        <p class="um-card-subtitle">{{ __('cliente.fill_fields') }}</p>
                     </div>
                 </div>
 
@@ -31,12 +31,12 @@
 
                             {{-- Nombre --}}
                             <div class="col-12">
-                                <label class="form-label">Nombre</label>
+                                <label class="form-label">{{ __('cliente.name') }}</label>
                                 <input type="text"
                                        name="nombre"
                                        class="form-control @error('nombre') is-invalid @enderror"
                                        value="{{ old('nombre') }}"
-                                       placeholder="Ej: Carlos">
+                                       placeholder="{{ __('cliente.placeholder_name') }}">
                                 @error('nombre')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -44,12 +44,12 @@
 
                             {{-- Cedula --}}
                             <div class="col-12">
-                                <label class="form-label">Cedula</label>
+                                <label class="form-label">{{ __('cliente.cedula') }}</label>
                                 <input type="text"
                                        name="cedula"
                                        class="form-control @error('cedula') is-invalid @enderror"
                                        value="{{ old('cedula') }}"
-                                       placeholder="Ej: 10179294...">
+                                       placeholder="{{ __('cliente.placeholder_cedula') }}">
                                 @error('cedula')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -57,12 +57,12 @@
 
                             {{-- Correo --}}
                             <div class="col-md-6">
-                                <label class="form-label">Correo</label>
+                                <label class="form-label">{{ __('cliente.email') }}</label>
                                 <input type="email"
                                        name="correo"
                                        class="form-control @error('correo') is-invalid @enderror"
                                        value="{{ old('correo') }}"
-                                       placeholder="Ej: simon@gmail.com">
+                                       placeholder="{{ __('cliente.placeholder_email') }}">
                                 @error('correo')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -70,13 +70,13 @@
 
                             {{-- Celular --}}
                             <div class="col-md-6">
-                                <label class="form-label">Numero de celular</label>
+                                <label class="form-label">{{ __('cliente.phone') }}</label>
                                 <div class="input-group">
                                     <input type="string"
                                            name="celular"
                                            class="form-control @error('celular') is-invalid @enderror"
                                            value="{{ old('celular') }}"
-                                           placeholder="Ej: 3215027448">
+                                           placeholder="{{ __('cliente.placeholder_phone') }}">
                                     @error('celular')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -89,10 +89,10 @@
                         <div class="d-flex justify-content-end gap-2 mt-4">
                             <a href="{{ route('admin.client.index') }}"
                                class="um-btn-icon um-btn-icon--edit px-3 py-2">
-                                Cancelar
+                                {{ __('cliente.cancel') }}
                             </a>
                             <button type="submit" class="um-btn-primary">
-                                <i class="bi bi-floppy me-1"></i> Guardar cliente
+                                <i class="bi bi-floppy me-1"></i> {{ __('cliente.save_client') }}
                             </button>
                         </div>
 
