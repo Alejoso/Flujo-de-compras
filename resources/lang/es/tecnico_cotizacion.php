@@ -52,6 +52,16 @@ return [
     'pdf_th_description'    => 'Descripción',
     'pdf_th_specification'  => 'Especificación',
 
+    // Flash messages — success
+    'flash_store_success'       => 'Cotización creada correctamente para el proyecto ":project".',
+    'flash_update_success'      => 'Nueva versión de la cotización creada correctamente.',
+
+    // Flash messages — error
+    'flash_store_error'         => 'No se pudo crear la cotización: :error',
+    'flash_store_pdf_error'     => 'Cotización creada, pero no se pudo generar el PDF: :error',
+    'flash_update_error'        => 'No se pudo actualizar la cotización: :error',
+    'flash_update_pdf_error'    => 'Cotización actualizada, pero no se pudo generar el PDF: :error',
+
     // Heading with version number (used in edit)
     'new_version_from'      => 'Nueva Versión desde v.:version',
 

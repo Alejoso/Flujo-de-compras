@@ -99,5 +99,5 @@
 @endsection
 
 @push('scripts')
-  @vite('resources/js/tecnico/cotizacion-form.js')
+  <script src="{{ asset('js/tecnico/cotizacion-form.js') }}"></script>
 @endpush

@@ -19,7 +19,6 @@ use App\Services\SendMessageFactory;
 use App\Support\Cotizacion\CotizacionBuilder;
 use App\Support\Cotizacion\CotizacionPdfBuilder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class CotizacionController extends Controller
@@ -123,7 +122,7 @@ class CotizacionController extends Controller
                 }
             });
         } catch (Exception $e) {
-            session()->flash('error', 'No se pudo crear la cotización: '.$e->getMessage());
+            session()->flash('error', __('tecnico_cotizacion.flash_store_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('tecnico.cotizacion.index', $id);
         }
@@ -131,7 +130,7 @@ class CotizacionController extends Controller
         try {
             $this->pdfBuilder->generarYGuardarPdf($versionId, $project);
         } catch (Exception $e) {
-            session()->flash('error', 'Cotización creada, pero no se pudo generar el PDF: '.$e->getMessage());
+            session()->flash('error', __('tecnico_cotizacion.flash_store_pdf_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('tecnico.cotizacion.versions', [$id, $cotizacionId]);
         }
@@ -160,7 +159,7 @@ class CotizacionController extends Controller
             session()->flash('error', __('email.quote_created_error'));
         }
 
-        session()->flash('success', 'Cotización creada correctamente para el proyecto "'.$project->getNombre().'".');
+        session()->flash('success', __('tecnico_cotizacion.flash_store_success', ['project' => $project->getNombre()]));
 
         return redirect()->route('tecnico.cotizacion.versions', [$id, $cotizacionId]);
     }
@@ -193,84 +192,90 @@ class CotizacionController extends Controller
         $project = Proyecto::findOrFail($projectId);
         $versionActual = VersionCotizacion::findOrFail($versionId);
         $cotizacion = $versionActual->cotizacion;
-        $nuevaVersionId = null;
-
-        $versionMasReciente = $cotizacion->versionCotizaciones()
-            ->where('esLaMasReciente', true)
-            ->first();
+        $versionMasReciente = $cotizacion->versionCotizaciones()->where('esLaMasReciente', true)->first();
         $pdfAnteriorPath = ($versionMasReciente && $versionMasReciente->getNumeroVersion() !== '1')
             ? $versionMasReciente->getPdfPath()
             : null;
 
         try {
-            Cotizacion::query()->getConnection()->transaction(function () use ($request, $cotizacion, &$nuevaVersionId) {
-                $cotizacion->setEstado('Tecnico Editada');
-                $cotizacion->save();
-
-                $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
-
-                $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
-
-                $nuevaVersion = VersionCotizacion::create([
-                    'numeroVersion' => (string) $nuevoNumeroVersion,
-                    'esLaMasReciente' => true,
-                    'cotizacionId' => $cotizacion->getId(),
-                ]);
-                $nuevaVersionId = $nuevaVersion->getId();
-
-                foreach ($request->materiales as $item) {
-                    PresentacionTipoMaterialVersionCotizacion::create([
-                        'cantidad' => $item['cantidad'],
-                        'versionCotizacionId' => $nuevaVersion->getId(),
-                        'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
-                    ]);
-                }
-            });
+            $nuevaVersionId = $this->crearNuevaVersion($cotizacion, $request->materiales);
         } catch (Exception $e) {
-            session()->flash('error', 'No se pudo actualizar la cotización: '.$e->getMessage());
+            session()->flash('error', __('tecnico_cotizacion.flash_update_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
         }
 
-        if ($pdfAnteriorPath && Storage::disk('public')->exists($pdfAnteriorPath)) {
-            Storage::disk('public')->delete($pdfAnteriorPath);
-            $versionMasReciente->pdfPath = null;
-            $versionMasReciente->save();
-        }
+        $this->pdfBuilder->eliminarPdfAnterior($pdfAnteriorPath, $versionMasReciente);
 
         try {
             $this->pdfBuilder->generarYGuardarPdf($nuevaVersionId, $project);
         } catch (Exception $e) {
-            session()->flash('error', 'Cotización actualizada, pero no se pudo generar el PDF: '.$e->getMessage());
+            session()->flash('error', __('tecnico_cotizacion.flash_update_pdf_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
         }
 
         try {
-            $sendMessage = app(SendMessageFactory::class)->make('email');
-
-            $newQuoteVersion = VersionCotizacion::findOrFail($nuevaVersionId);
-            $userThatModified = User::findOrFail(Auth::id());
-            $position = Cotizacion::where('proyectoId', $project->getId())
-                ->where('id', '<=', $cotizacion->getId())
-                ->orderBy('id')
-                ->count();
-
-            $sendMessage->send(
-                $cotizacion->getEstado(),
-                __('email.quote_edited_subject', ['project' => $project->getNombre()]),
-                __('email.quote_edited_body', ['id' => $position, 'project' => $project->getNombre()]),
-                $project->getNombre(),
-                $userThatModified->getName().' - CC: '.$userThatModified->getCedula(),
-                $newQuoteVersion->getnumeroVersion(),
-                $newQuoteVersion->getPdfPath()
-            );
+            $this->enviarEmailEdicion($cotizacion, $project, VersionCotizacion::findOrFail($nuevaVersionId));
         } catch (Exception $e) {
             session()->flash('error', __('email.quote_edited_error'));
         }
 
-        session()->flash('success', 'Nueva versión de la cotización creada correctamente.');
+        session()->flash('success', __('tecnico_cotizacion.flash_update_success'));
 
         return redirect()->route('tecnico.cotizacion.versions', [$project->getId(), $cotizacion->getId()]);
+    }
+
+    // Crea una nueva versión de la cotización con los materiales actualizados dentro de una transacción para asegurar la integridad de los datos.
+    private function crearNuevaVersion(Cotizacion $cotizacion, array $materiales): int
+    {
+        $nuevaVersionId = null;
+
+        Cotizacion::query()->getConnection()->transaction(function () use ($cotizacion, $materiales, &$nuevaVersionId) {
+            $cotizacion->setEstado('Tecnico Editada');
+            $cotizacion->save();
+
+            $cotizacion->versionCotizaciones()->update(['esLaMasReciente' => false]);
+
+            $nuevoNumeroVersion = $cotizacion->versionCotizaciones()->count() + 1;
+
+            $nuevaVersion = VersionCotizacion::create([
+                'numeroVersion' => (string) $nuevoNumeroVersion,
+                'esLaMasReciente' => true,
+                'cotizacionId' => $cotizacion->getId(),
+            ]);
+            $nuevaVersionId = $nuevaVersion->getId();
+
+            foreach ($materiales as $item) {
+                PresentacionTipoMaterialVersionCotizacion::create([
+                    'cantidad' => $item['cantidad'],
+                    'versionCotizacionId' => $nuevaVersion->getId(),
+                    'presentacionTipoMaterialId' => $item['presentacionTipoMaterialId'],
+                ]);
+            }
+        });
+
+        return $nuevaVersionId;
+    }
+
+    // Envía un correo notificando la edición de la cotización con los detalles del proyecto, versión y usuario que realizó la modificación.
+    private function enviarEmailEdicion(Cotizacion $cotizacion, Proyecto $project, VersionCotizacion $version): void
+    {
+        $sendMessage = app(SendMessageFactory::class)->make('email');
+        $userThatModified = User::findOrFail(Auth::id());
+        $position = Cotizacion::where('proyectoId', $project->getId())
+            ->where('id', '<=', $cotizacion->getId())
+            ->orderBy('id')
+            ->count();
+
+        $sendMessage->send(
+            $cotizacion->getEstado(),
+            __('email.quote_edited_subject', ['project' => $project->getNombre()]),
+            __('email.quote_edited_body', ['id' => $position, 'project' => $project->getNombre()]),
+            $project->getNombre(),
+            $userThatModified->getName().' - CC: '.$userThatModified->getCedula(),
+            $version->getnumeroVersion(),
+            $version->getPdfPath()
+        );
     }
 }

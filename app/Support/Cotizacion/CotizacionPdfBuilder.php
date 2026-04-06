@@ -52,6 +52,16 @@ class CotizacionPdfBuilder
         return compact('tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version');
     }
 
+    // Elimina el PDF de una versión del storage y limpia su ruta.
+    public function eliminarPdfAnterior(?string $path, ?VersionCotizacion $version): void
+    {
+        if ($path && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
+            $version->pdfPath = null;
+            $version->save();
+        }
+    }
+
     // Genera el PDF de una versión, lo guarda en el storage público y actualiza el campo pdfPath de la versión.
     public function generarYGuardarPdf(int $versionId, Proyecto $project): void
     {
