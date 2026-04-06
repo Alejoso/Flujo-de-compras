@@ -41,6 +41,11 @@ return [
     'in_progress' => 'En ejecución',
     'finished' => 'Finalizado',
 
+    // ─── Estado enum values (deben coincidir con la BD) ───────────
+    'estado_negociacion' => 'En Negociación',
+    'estado_ejecucion'   => 'En Ejecución',
+    'estado_finalizado'  => 'Finalizado',
+
     // ─── Index Meta Labels ────────────────────────────────────────
     'total_cost_label' => 'Costo total:',
     'client_label' => 'Cliente:',
@@ -70,7 +75,9 @@ return [
     // ─── Técnico Index ────────────────────────────────────────────
     'view_quotations_short' => 'Ver cotizaciones',
 
-    'project_created' => 'Se ha creado con exito el proyecto :name',
-    'project_updated' => 'Se ha actualizado el proyecto :name',
+    'project_created'      => 'Se ha creado con éxito el proyecto :name.',
+    'project_updated'      => 'Se ha actualizado el proyecto :name.',
+    'flash_save_error'     => 'No se pudo crear el proyecto: :error',
+    'flash_update_error'   => 'No se pudo actualizar el proyecto: :error',
 
 ];

@@ -15,18 +15,33 @@
     {{-- Search & Filters --}}
     <div class="um-card mb-4">
         <div class="um-card-header">
-            <div class="d-flex gap-2 flex-wrap align-items-center w-100">
+            <form method="GET" action="{{ route('admin.project.index') }}" class="d-flex gap-2 flex-wrap align-items-center w-100">
+                @if($viewData['estado'])
+                    <input type="hidden" name="estado" value="{{ $viewData['estado'] }}">
+                @endif
                 <div class="input-group search-group">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" placeholder="{{ __('proyecto.search_projects') }}">
+                    <button type="submit" class="input-group-text border-0 bg-transparent"><i class="bi bi-search"></i></button>
+                    <input type="text" name="search" value="{{ $viewData['search'] }}" class="form-control" placeholder="{{ __('proyecto.search_projects') }}">
                 </div>
                 <div class="d-flex gap-2 ms-auto flex-wrap">
-                    <button class="um-btn-primary">{{ __('proyecto.all') }}</button>
-                    <button class="um-btn-filter">{{ __('proyecto.in_negotiation') }}</button>
-                    <button class="um-btn-filter">{{ __('proyecto.in_progress') }}</button>
-                    <button class="um-btn-filter">{{ __('proyecto.finished') }}</button>
+                    <a href="{{ request()->fullUrlWithQuery(['estado' => '', 'page' => null]) }}"
+                       class="{{ $viewData['estado'] === '' ? 'um-btn-primary' : 'um-btn-filter' }}">
+                        {{ __('proyecto.all') }}
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['estado' => __('proyecto.estado_negociacion'), 'page' => null]) }}"
+                       class="{{ $viewData['estado'] === __('proyecto.estado_negociacion') ? 'um-btn-primary' : 'um-btn-filter' }}">
+                        {{ __('proyecto.in_negotiation') }}
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['estado' => __('proyecto.estado_ejecucion'), 'page' => null]) }}"
+                       class="{{ $viewData['estado'] === __('proyecto.estado_ejecucion') ? 'um-btn-primary' : 'um-btn-filter' }}">
+                        {{ __('proyecto.in_progress') }}
+                    </a>
+                    <a href="{{ request()->fullUrlWithQuery(['estado' => __('proyecto.estado_finalizado'), 'page' => null]) }}"
+                       class="{{ $viewData['estado'] === __('proyecto.estado_finalizado') ? 'um-btn-primary' : 'um-btn-filter' }}">
+                        {{ __('proyecto.finished') }}
+                    </a>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -39,7 +54,7 @@
                 {{-- Title and status--}}
                 <div class="d-flex justify-content-between align-items-start mb-1">
                     <h5 class="pj-title">{{ $proyecto->getNombre() }}</h5>
-                    <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($proyecto->getEstado())) }}">
+                    <span class="pj-badge pj-badge--{{ $proyecto->getEstadoBadgeKey() }}">
                         {{ $proyecto->getEstado() }}
                     </span>
                 </div>

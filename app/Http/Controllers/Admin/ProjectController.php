@@ -9,14 +9,22 @@ use App\Models\Cliente;
 use App\Models\Proyecto;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ProjectController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $viewData = [];
-        $viewData['projects'] = Proyecto::paginate(12);
+        $search = $request->query('search', '');
+        $estado = $request->query('estado', '');
+
+        $viewData['projects'] = Proyecto::when($search, fn ($q) => $q->where('nombre', 'ilike', "%{$search}%"))
+            ->when($estado, fn ($q) => $q->where('estado', $estado))
+            ->paginate(12)
+            ->withQueryString();
+        $viewData['search'] = $search;
+        $viewData['estado'] = $estado;
 
         return view('admin.project.index')->with('viewData', $viewData);
     }
@@ -38,7 +46,7 @@ class ProjectController extends Controller
             $project = Proyecto::create($validatedProjectData);
             session()->flash('success', __('proyecto.project_created', ['name' => $project->getNombre()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('proyecto.flash_save_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.project.index');
@@ -70,7 +78,7 @@ class ProjectController extends Controller
             $project->update($validatedProjectData);
             session()->flash('success', __('proyecto.project_updated', ['name' => $project->getNombre()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('proyecto.flash_update_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.project.index');
