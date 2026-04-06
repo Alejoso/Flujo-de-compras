@@ -8,7 +8,7 @@
         <h1 class="um-title">
             <i class="bi bi-clipboard-data-fill me-2"></i>
             {{ __('tecnico_cotizacion.title_index') }} {{ $viewData['numeroCotizacion'] }}
-            — {{ __('tecnico_cotizacion.label_estado') }}: {{ $viewData['cotizacion']->getEstado() }}
+            <span class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($viewData['cotizacion']->getEstado())) }}">{{ $viewData['cotizacion']->getEstado() }}</span>
         </h1>
         <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
             <i class="bi bi-arrow-left me-1"></i> {{ __('tecnico_cotizacion.btn_back') }}
@@ -30,13 +30,9 @@
     </div>
     @endif
 
-    @php
-        $versionActual = $viewData['versiones']->firstWhere('esLaMasReciente', true);
-    @endphp
-
-    @if($versionActual)
+    @if($viewData['versionActual'])
     <div class="d-flex justify-content-end mb-3">
-        <a href="{{ route('tecnico.cotizacion.edit', [$viewData['project']->getId(), $versionActual->getId()]) }}"
+        <a href="{{ route('tecnico.cotizacion.edit', [$viewData['project']->getId(), $viewData['versionActual']->getId()]) }}"
            class="um-btn-primary px-4 py-2">
             <i class="bi bi-clipboard-plus me-1"></i> {{ __('tecnico_cotizacion.btn_new_version') }}
         </a>
