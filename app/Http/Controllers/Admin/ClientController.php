@@ -31,9 +31,9 @@ class ClientController extends Controller
 
         try {
             $project = Cliente::create($validatedProjectData);
-            session()->flash('success', __('cliente.success_created').$project->getNombre());
+            session()->flash('success', __('cliente.success_created', ['name' => $project->getNombre()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('cliente.flash_save_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.client.index');
@@ -62,9 +62,9 @@ class ClientController extends Controller
         try {
             $client = Cliente::findOrFail($id);
             $client->update($validatedClientData);
-            session()->flash('success', __('cliente.success_edited').$client->getNombre());
+            session()->flash('success', __('cliente.success_edited', ['name' => $client->getNombre()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('cliente.flash_update_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.client.index');
@@ -76,15 +76,15 @@ class ClientController extends Controller
             $client = Cliente::findOrFail($id);
 
             if ($client->proyectos()->exists()) {
-                session()->flash('error', __('cliente.cant_delete').$client->getNombre().__('cliente.cant_delete_why'));
+                session()->flash('error', __('cliente.cant_delete', ['name' => $client->getNombre()]));
 
                 return redirect()->route('admin.client.index');
             }
 
             $client->delete();
-            session()->flash('success', __('cliente.success_deleted').$client->getNombre());
+            session()->flash('success', __('cliente.success_deleted', ['name' => $client->getNombre()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('cliente.flash_delete_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.client.index');

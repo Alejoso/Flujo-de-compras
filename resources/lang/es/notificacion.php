@@ -33,6 +33,8 @@ return [
     // ─── Test View ────────────────────────────────────────────────
     'tech_form' => 'Formulario técnico',
 
-    'user_added' => 'Se ha añadido a :name para recibir notificaciones',
-    'user_removed' => 'Se ha eliminado a :name de recibir notificaciones',
+    'user_added'        => 'Se ha añadido a :name para recibir notificaciones.',
+    'user_removed'      => 'Se ha eliminado a :name de recibir notificaciones.',
+    'flash_save_error'  => 'No se pudo agregar el usuario: :error',
+    'flash_destroy_error' => 'No se pudo eliminar el usuario: :error',
 ];

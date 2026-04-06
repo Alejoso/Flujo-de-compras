@@ -28,7 +28,7 @@ class NotificationController extends Controller
             $user->save();
             session()->flash('success', __('notificacion.user_added', ['name' => $user->getName()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('notificacion.flash_save_error', ['error' => $e->getMessage()]));
         }
 
         return back();
@@ -42,7 +42,7 @@ class NotificationController extends Controller
             $user->save();
             session()->flash('success', __('notificacion.user_removed', ['name' => $user->getName()]));
         } catch (Exception $e) {
-            session()->flash('error', $e->getMessage());
+            session()->flash('error', __('notificacion.flash_destroy_error', ['error' => $e->getMessage()]));
         }
 
         return back();

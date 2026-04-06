@@ -47,9 +47,7 @@
                 <div class="cot-card-body">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="cot-version-number">{{ __('tecnico_cotizacion.title_index') }} {{ $loop->iteration }}</span>
-                        <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($cotizacion->getEstado())) }}">
-                            {{ __('tecnico_cotizacion.label_estado') }}: {{ $cotizacion->getEstado() }}
-                        </span>
+                        <span class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($cotizacion->getEstado())) }}">{{ $cotizacion->getEstado() }}</span>
                     </div>
                     <p class="cot-project-meta mb-1">
                         <i class="bi bi-layers me-1"></i>

@@ -42,11 +42,12 @@ return [
     // ─── Empty State ──────────────────────────────────────────────
     'no_clients' => 'No hay clientes registrados aún.',
 
-    'success_created' => 'Se ha creado con exito el cliente ',
-    'success_edited' => 'Se ha actualizado al cliente ',
-
-    'cant_delete' => 'No se puede eliminar el cliente ',
-    'cant_delete_why' => ' porque tiene proyectos asociados. Primero elimine o reasigne los proyectos.',
-    'success_deleted' => 'Se ha eliminado exitosamente el cliente ',
+    'success_created'    => 'Se ha creado con éxito el cliente :name.',
+    'success_edited'     => 'Se ha actualizado al cliente :name.',
+    'cant_delete'        => 'No se puede eliminar el cliente :name porque tiene proyectos asociados. Primero elimine o reasigne los proyectos.',
+    'success_deleted'    => 'Se ha eliminado exitosamente el cliente :name.',
+    'flash_save_error'   => 'No se pudo crear el cliente: :error',
+    'flash_update_error' => 'No se pudo actualizar el cliente: :error',
+    'flash_delete_error' => 'No se pudo eliminar el cliente: :error',
 
 ];

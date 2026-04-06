@@ -78,7 +78,7 @@
                 <td>{{ $mat['unidad'] }}</td>
                 <td>
                   <input type="number" name="materiales[{{ $index }}][cantidad]" class="form-control"
-                    value="{{ $mat['cantidad'] }}" step="0.01" required>
+                    value="{{ $mat['cantidad'] }}" step="1" required>
                 </td>
                 <td>
                   <button type="button" class="btn btn-link text-danger btn-remove"><i class="bi bi-trash"></i></button>
@@ -99,5 +99,5 @@
 @endsection
 
 @push('scripts')
-  @vite('resources/js/tecnico/cotizacion-form.js')
+  <script src="{{ asset('js/tecnico/cotizacion-form.js') }}"></script>
 @endpush

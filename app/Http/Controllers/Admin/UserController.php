@@ -32,9 +32,9 @@ class UserController extends Controller
 
         try {
             User::create($validatedUserData);
-            session()->flash('success', 'Usuario creado exitosamente');
+            session()->flash('success', __('admin_user.flash_store_success'));
         } catch (Exception $e) {
-            session()->flash('error', 'No se pudo crear el usuario: '.$e->getMessage());
+            session()->flash('error', __('admin_user.flash_store_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.user.index');
@@ -61,9 +61,9 @@ class UserController extends Controller
 
         try {
             $user->update($data);
-            session()->flash('success', 'Usuario actualizado exitosamente');
+            session()->flash('success', __('admin_user.flash_update_success'));
         } catch (Exception $e) {
-            session()->flash('error', 'No se pudo actualizar el usuario: '.$e->getMessage());
+            session()->flash('error', __('admin_user.flash_update_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.user.index');
@@ -74,9 +74,9 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             $user->delete();
-            session()->flash('success', 'Usuario eliminado exitosamente');
+            session()->flash('success', __('admin_user.flash_destroy_success'));
         } catch (Exception $e) {
-            session()->flash('error', 'No se pudo eliminar el usuario: '.$e->getMessage());
+            session()->flash('error', __('admin_user.flash_destroy_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.user.index');
