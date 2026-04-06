@@ -2,21 +2,21 @@
     const app = document.getElementById('cotizacion-app');
     if (!app) return;
 
-    const searchUrl     = app.dataset.searchUrl;
-    const hasEmptyRow   = app.dataset.hasEmptyRow === '1';
+    const searchUrl = app.dataset.searchUrl;
+    const hasEmptyRow = app.dataset.hasEmptyRow === '1';
 
     const buscadorMaterial = document.getElementById('buscador-material');
-    const acList           = document.getElementById('autocomplete-list');
-    const selectorPres     = document.getElementById('selector-presentacion');
-    const displayUnidad    = document.getElementById('display-unidad');
-    const btnAdd           = document.getElementById('btn-add-material');
-    const tbody            = document.getElementById('lista-materiales');
-    const emptyRow         = document.getElementById('emptyRow');
-    const cotizacionForm   = document.getElementById('cotizacionForm');
+    const acList = document.getElementById('autocomplete-list');
+    const selectorPres = document.getElementById('selector-presentacion');
+    const displayUnidad = document.getElementById('display-unidad');
+    const btnAdd = document.getElementById('btn-add-material');
+    const tbody = document.getElementById('lista-materiales');
+    const emptyRow = document.getElementById('emptyRow');
+    const cotizacionForm = document.getElementById('cotizacionForm');
 
-    let tmData       = {};
+    let tmData = {};
     let selectedTmId = null;
-    let rowIdx       = parseInt(app.dataset.rowIdx, 10) || 0;
+    let rowIdx = parseInt(app.dataset.rowIdx, 10) || 0;
 
     // Muestra u oculta la fila de estado vacío (solo en la vista de crear)
 
@@ -29,10 +29,10 @@
 
     function resetPresentacion() {
         selectorPres.innerHTML = '<option value="">— elige material primero —</option>';
-        selectorPres.disabled  = true;
-        displayUnidad.value    = '';
-        btnAdd.disabled        = true;
-        selectedTmId           = null;
+        selectorPres.disabled = true;
+        displayUnidad.value = '';
+        btnAdd.disabled = true;
+        selectedTmId = null;
     }
 
     // Renderiza el dropdown de autocompletado con los resultados recibidos
@@ -63,21 +63,21 @@
     }
 
     function selectMaterial(tmId, label) {
-        selectedTmId           = tmId;
+        selectedTmId = tmId;
         buscadorMaterial.value = label;
         hideDropdown();
 
         selectorPres.innerHTML = '<option value="">Seleccione presentación...</option>';
         tmData[tmId].presentaciones.forEach(function (p) {
             const opt = document.createElement('option');
-            opt.value          = p.id;
-            opt.textContent    = p.nombre;
+            opt.value = p.id;
+            opt.textContent = p.nombre;
             opt.dataset.unidad = p.unidad;
             selectorPres.appendChild(opt);
         });
         selectorPres.disabled = false;
-        displayUnidad.value   = '';
-        btnAdd.disabled       = true;
+        displayUnidad.value = '';
+        btnAdd.disabled = true;
     }
 
     function fetchMateriales(query) {
@@ -117,18 +117,18 @@
         const opt = this.options[this.selectedIndex];
         if (opt.value) {
             displayUnidad.value = opt.dataset.unidad || '';
-            btnAdd.disabled     = false;
+            btnAdd.disabled = false;
         } else {
             displayUnidad.value = '';
-            btnAdd.disabled     = true;
+            btnAdd.disabled = true;
         }
     });
 
     btnAdd.addEventListener('click', function () {
-        const ptmId    = selectorPres.value;
+        const ptmId = selectorPres.value;
         const ptmNombre = selectorPres.options[selectorPres.selectedIndex].textContent;
-        const unidad   = displayUnidad.value;
-        const label    = tmData[selectedTmId].label;
+        const unidad = displayUnidad.value;
+        const label = tmData[selectedTmId].label;
 
         if (tbody.querySelector('tr[data-id="' + ptmId + '"]')) {
             alert('Esta combinación ya está en la lista.');

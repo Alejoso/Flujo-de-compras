@@ -12,7 +12,7 @@ class PresentacionTipoMaterialResource extends JsonResource
         $unidadMedida = $this->resource->tipoMaterial->getTipo()->getUnidadMedida();
 
         return [
-            'id'     => $this->resource->getId(),
+            'id' => $this->resource->getId(),
             'nombre' => $this->resource->getPresentacion()->getNombre(),
             'unidad' => $this->buildUnidad($unidadMedida),
         ];
@@ -23,7 +23,7 @@ class PresentacionTipoMaterialResource extends JsonResource
         $cantidad = $this->resource->getCantidadPresentacion();
 
         return $unidadMedida
-            ? $cantidad . ' ' . $unidadMedida->getAbreviatura()
+            ? $cantidad.' '.$unidadMedida->getAbreviatura()
             : (string) $cantidad;
     }
 }

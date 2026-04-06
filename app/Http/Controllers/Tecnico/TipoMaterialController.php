@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Tecnico;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Tecnico\TipoMaterialResource;
 use App\Services\Tecnico\TipoMaterialService;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TipoMaterialController extends Controller
 {

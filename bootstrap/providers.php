@@ -1,8 +1,8 @@
 <?php
 
 use App\Providers\AppServiceProvider;
-use App\Providers\OCRServiceProvider;
 use App\Providers\MessageServiceProvider;
+use App\Providers\OCRServiceProvider;
 
 return [
     AppServiceProvider::class,

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
+use App\Interfaces\SendMessageInterface;
 use App\Mail\SendQuote;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Mail;
-use App\Interfaces\SendMessageInterface;
 
 class EmailService implements SendMessageInterface
 {

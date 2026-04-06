@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Services\SendMessageFactory;
+use Illuminate\Support\ServiceProvider;
 
 class MessageServiceProvider extends ServiceProvider
 {

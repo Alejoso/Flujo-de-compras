@@ -17,13 +17,13 @@ return [
     'name' => 'Nombre',
     'cedula' => 'Cedula',
     'email' => 'Correo',
-    'phone' => 'Numero de celular', 
+    'phone' => 'Numero de celular',
 
     // ─── Placeholders  ─────────────────────────────────────────
     'placeholder_name' => 'Ej: Carlos',
     'placeholder_cedula' => 'Ej: 10179294...',
     'placeholder_email' => 'Ej: simon@gmail.com',
-    'placeholder_phone' => 'Ej: 3215027448', 
+    'placeholder_phone' => 'Ej: 3215027448',
 
     // ─── Card Headers /  btitles ─────────────────────────────────
     'client_info' => 'Información del cliente',
@@ -43,10 +43,10 @@ return [
     'no_clients' => 'No hay clientes registrados aún.',
 
     'success_created' => 'Se ha creado con exito el cliente ',
-    'success_edited'=> 'Se ha actualizado al cliente ',
+    'success_edited' => 'Se ha actualizado al cliente ',
 
-    'cant_delete'=> 'No se puede eliminar el cliente ',
-    'cant_delete_why'=> ' porque tiene proyectos asociados. Primero elimine o reasigne los proyectos.',
-    'success_deleted'=> 'Se ha eliminado exitosamente el cliente ',
+    'cant_delete' => 'No se puede eliminar el cliente ',
+    'cant_delete_why' => ' porque tiene proyectos asociados. Primero elimine o reasigne los proyectos.',
+    'success_deleted' => 'Se ha eliminado exitosamente el cliente ',
 
 ];

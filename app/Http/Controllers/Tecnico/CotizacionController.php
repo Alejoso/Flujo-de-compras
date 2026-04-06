@@ -11,13 +11,12 @@ use App\Models\Proyecto;
 use App\Models\TipoMaterial;
 use App\Models\User;
 use App\Models\VersionCotizacion;
-use Exception;
-use Illuminate\Http\RedirectResponse;
-
-// Send email with quote
 use App\Services\SendMessageFactory;
 use App\Support\Cotizacion\CotizacionBuilder;
+// Send email with quote
 use App\Support\Cotizacion\CotizacionPdfBuilder;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 

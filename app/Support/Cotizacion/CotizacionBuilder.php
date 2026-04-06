@@ -26,7 +26,7 @@ class CotizacionBuilder
         $unidadMedida = $tm->getTipo()->getUnidadMedida();
 
         return [$tm->getId() => [
-            'label'         => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
+            'label' => $tm->getMaterial()->getDescripcion().' — '.$tm->getTipo()->getEspecificacion(),
             'presentaciones' => $tm->getPresentacionTipoMateriales()
                 ->map(fn ($ptm) => $this->buildPresentacionEntry($ptm, $unidadMedida))
                 ->values(),
@@ -37,7 +37,7 @@ class CotizacionBuilder
     private function buildPresentacionEntry($ptm, $unidadMedida): array
     {
         return [
-            'id'     => $ptm->getId(),
+            'id' => $ptm->getId(),
             'nombre' => $ptm->getPresentacion()->getNombre(),
             'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
         ];
@@ -46,17 +46,17 @@ class CotizacionBuilder
     // Construye la entrada de un material de versión para las vistas de detalle y edición.
     private function buildMaterialEntry($item): array
     {
-        $ptm          = $item->getPresentacionTipoMaterial();
-        $tm           = $ptm->getTipoMaterial();
+        $ptm = $item->getPresentacionTipoMaterial();
+        $tm = $ptm->getTipoMaterial();
         $unidadMedida = $tm->getTipo()->getUnidadMedida();
 
         return [
-            'ptmId'        => $ptm->getId(),
-            'descripcion'  => $tm->getMaterial()->getDescripcion(),
+            'ptmId' => $ptm->getId(),
+            'descripcion' => $tm->getMaterial()->getDescripcion(),
             'especificacion' => $tm->getTipo()->getEspecificacion(),
             'presentacion' => $ptm->getPresentacion()->getNombre(),
-            'unidad'       => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
-            'cantidad'     => $item->getCantidad(),
+            'unidad' => $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : ''),
+            'cantidad' => $item->getCantidad(),
         ];
     }
 }

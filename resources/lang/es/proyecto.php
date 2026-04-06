@@ -60,17 +60,17 @@ return [
     'budget_used' => '0% del presupuesto utilizado',
 
     // ─── Show – Action Cards ──────────────────────────────────────
-    'view_charts'  => 'Ver Gráficas',
-    'charts_desc'  => 'Visualiza el progreso, costos y estadísticas del proyecto',
-    'view_quotations'  => 'Ver Cotizaciones',
-    'quotations_desc'  => 'Revisa y gestiona todas las cotizaciones asociadas',
-    'process_invoice_ocr'  => 'Procesar Factura OCR',
-    'ocr_desc'  => 'Extrae y estructura datos de facturas automáticamente',
+    'view_charts' => 'Ver Gráficas',
+    'charts_desc' => 'Visualiza el progreso, costos y estadísticas del proyecto',
+    'view_quotations' => 'Ver Cotizaciones',
+    'quotations_desc' => 'Revisa y gestiona todas las cotizaciones asociadas',
+    'process_invoice_ocr' => 'Procesar Factura OCR',
+    'ocr_desc' => 'Extrae y estructura datos de facturas automáticamente',
 
     // ─── Técnico Index ────────────────────────────────────────────
     'view_quotations_short' => 'Ver cotizaciones',
 
-    'project_created'       => 'Se ha creado con exito el proyecto :name',
-    'project_updated'       => 'Se ha actualizado el proyecto :name',
+    'project_created' => 'Se ha creado con exito el proyecto :name',
+    'project_updated' => 'Se ha actualizado el proyecto :name',
 
 ];

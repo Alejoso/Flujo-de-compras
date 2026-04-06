@@ -24,10 +24,8 @@ class TipoMaterialService
 
         return $query
             ->where(function (Builder $q) use ($term) {
-                $q->whereHas('material', fn (Builder $sub) =>
-                    $sub->where('descripcion', 'ilike', "%{$term}%")
-                )->orWhereHas('tipo', fn (Builder $sub) =>
-                    $sub->where('especificacion', 'ilike', "%{$term}%")
+                $q->whereHas('material', fn (Builder $sub) => $sub->where('descripcion', 'ilike', "%{$term}%")
+                )->orWhereHas('tipo', fn (Builder $sub) => $sub->where('especificacion', 'ilike', "%{$term}%")
                 );
             })
             ->limit(20)

@@ -11,7 +11,7 @@ class TipoMaterialResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'label'          => $this->buildLabel(),
+            'label' => $this->buildLabel(),
             'presentaciones' => PresentacionTipoMaterialResource::collection(
                 $this->resource->getPresentacionTipoMateriales()
             ),
@@ -32,7 +32,7 @@ class TipoMaterialResource extends JsonResource
     private function buildLabel(): string
     {
         return $this->resource->getMaterial()->getDescripcion()
-            . ' — '
-            . $this->resource->getTipo()->getEspecificacion();
+            .' — '
+            .$this->resource->getTipo()->getEspecificacion();
     }
 }
