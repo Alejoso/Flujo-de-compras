@@ -16,6 +16,7 @@ class VersionCotizacion extends Model
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['numeroVersion'] - string - contains the version number
      * $this->attributes['esLaMasReciente'] - bool - indicates if this is the most recent version
+     * $this->attributes['pdfPath'] - ?string - contains the path to the PDF file
      * $this->attributes['cotizacionId'] - int - contains the foreign key of the quotation
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp

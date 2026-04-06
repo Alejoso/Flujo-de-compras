@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('direccion');
             $table->string('ciudad');
             $table->double('costoTotal')->nullable();
-            $table->string('estado')->default('En Negociación');
+            $table->enum('estado', ['En Negociación', 'En Ejecución', 'Finalizado'])->default('En Negociación');
             $table->foreignId('clienteId')->constrained('clientes')->restrictOnDelete();
             $table->foreignId('creadoPor')->constrained('users')->nullOnDelete();
             $table->timestamps();

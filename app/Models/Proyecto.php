@@ -17,8 +17,8 @@ class Proyecto extends Model
      * $this->attributes['nombre'] - string - contains the name of the project
      * $this->attributes['direccion'] - string - contains the address of the project
      * $this->attributes['ciudad'] - string - contains the city of the project
-     * $this->attributes['costoTotal'] - float - contains the total cost of the project
-     * $this->attributes['estado'] - string - contains the state ('En Negociación', 'En Ejecución', 'Finalizado')
+     * $this->attributes['costoTotal'] - ?double - contains the total cost of the project
+     * $this->attributes['estado'] - enum('En Negociación', 'En Ejecución', 'Finalizado') - contains the state of the project
      * $this->attributes['clienteId'] - int - contains the foreign key of the client
      * $this->attributes['creadoPor'] - int - contains the foreign key of the user who created it
      * $this->attributes['created_at'] - string - contains the creation timestamp
@@ -97,6 +97,16 @@ class Proyecto extends Model
     public function setEstado(string $estado): void
     {
         $this->attributes['estado'] = $estado;
+    }
+
+    // Devuelve el sufijo CSS del badge según el estado
+    public function getEstadoBadgeKey(): string
+    {
+        return match($this->attributes['estado']) {
+            'En Negociación' => 'negociacion',
+            'En Ejecución'   => 'ejecucion',
+            default          => 'finalizado',
+        };
     }
 
     // timestamps

@@ -14,9 +14,9 @@ class Cliente extends Model
      * CLIENTE ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['nombre'] - string - contains the name of the client
-     * $this->attributes['cedula'] - string - contains the document number of the client
-     * $this->attributes['correo'] - string - contains the email of the client
-     * $this->attributes['celular'] - string - contains the phone number of the client
+     * $this->attributes['cedula'] - ?string - contains the document number of the client
+     * $this->attributes['correo'] - ?string - contains the email of the client
+     * $this->attributes['celular'] - ?string - contains the phone number of the client
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->proyectos - Proyecto[] - contains the projects associated with this client

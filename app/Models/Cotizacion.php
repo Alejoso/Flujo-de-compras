@@ -14,7 +14,7 @@ class Cotizacion extends Model
     /**
      * COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['estado'] - string - contains the state of the quotation  ['Tecnico', 'Tecnico Editada', 'Pendiente', 'Admin Editada', 'En Proceso', 'Facturada', 'Cancelada'])
+     * $this->attributes['estado'] - enum('Tecnico', 'Tecnico Editada', 'Pendiente', 'Admin Editada', 'En Proceso', 'Facturada', 'Cancelada') - contains the state of the quotation
      * $this->attributes['proyectoId'] - int - contains the foreign key of the project
      * $this->attributes['creadoPor'] - int - contains the foreign key of the user who created it
      * $this->attributes['facturaId'] - int|null - contains the foreign key of the invoice

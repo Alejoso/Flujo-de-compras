@@ -12,7 +12,7 @@ class PresentacionTipoMaterialVersionCotizacion extends Model
     /**
      * PRESENTACION TIPO MATERIAL VERSION COTIZACION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['cantidad'] - float - contains the quantity requested in this version
+     * $this->attributes['cantidad'] - double - contains the quantity requested in this version
      * $this->attributes['versionCotizacionId'] - int - contains the foreign key of the quotation version
      * $this->attributes['presentacionTipoMaterialId'] - int - contains the foreign key of the presentacion tipo material
      * $this->attributes['created_at'] - string - contains the creation timestamp

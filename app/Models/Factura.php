@@ -18,7 +18,7 @@ class Factura extends Model
      * $this->attributes['estado'] - string - contains the state of the invoice
      * $this->attributes['proyectoId'] - int - contains the foreign key of the project
      * $this->attributes['proveedorId'] - int - contains the foreign key of the supplier
-     * $this->attributes['cotizacionId'] - int|null - contains the foreign key of the quotation
+     * $this->attributes['cotizacionId'] - int - contains the foreign key of the quotation
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->proyecto - Proyecto - contains the project associated

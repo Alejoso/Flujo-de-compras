@@ -12,7 +12,7 @@ class PresentacionTipoMaterialFactura extends Model
     /**
      * PRESENTACION TIPO MATERIAL FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['precioUnitario'] - float - contains the unit price paid
+     * $this->attributes['precioUnitario'] - double(15,2) - contains the unit price paid
      * $this->attributes['cantidad'] - int - contains the quantity purchased
      * $this->attributes['facturaId'] - int - contains the foreign key of the invoice
      * $this->attributes['presentacionTipoMaterialId'] - int - contains the foreign key of the presentacion tipo material
