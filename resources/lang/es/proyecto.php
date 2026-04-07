@@ -87,4 +87,12 @@ return [
     // ─── Técnico Index ────────────────────────────────────────────
     'view_quotations_short' => 'Ver cotizaciones',
 
+    // ─── Quotations Validation ────────────────────────────────────
+    'no_quotations_registered' => 'No se han registrado cotizaciones aún.',
+    'quotations_found' => 'Se encontraron :count cotizaciones.',
+    'quotation' => 'Cotización',
+    'version_singular' => 'versión',
+    'version_plural' => 'versiones',
+    'view_versions' => 'Ver versiones',
+
 ];

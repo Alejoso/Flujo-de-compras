@@ -38,6 +38,7 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::post('/admin/project/save', $controllerRoute.'\Admin\ProjectController@save')->name('admin.project.save');
     Route::get('/admin/project/{id}/edit', $controllerRoute.'\Admin\ProjectController@edit')->name('admin.project.edit');
     Route::get('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@show')->name('admin.project.show');
+    Route::get('/admin/project/{id}/quotations', $controllerRoute.'\Admin\ProjectController@showQuotations')->name('admin.project.showQuotations');
     Route::patch('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@update')->name('admin.project.update');
     Route::delete('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@destroy')->name('admin.project.destroy');
 

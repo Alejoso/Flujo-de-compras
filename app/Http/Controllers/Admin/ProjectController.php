@@ -96,4 +96,15 @@ class ProjectController extends Controller
 
         return redirect()->route('admin.project.index');
     }
+
+    public function showQuotations(string $id): View
+    {
+        $viewData = [];
+        $viewData['project'] = Proyecto::findOrFail($id);
+        $viewData['cotizaciones'] = $viewData['project']->cotizaciones()
+            ->withCount('versionCotizaciones')
+            ->get();
+
+        return view('admin.project.quotations')->with('viewData', $viewData);
+    }
 }
