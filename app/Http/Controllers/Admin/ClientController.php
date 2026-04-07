@@ -8,14 +8,21 @@ use App\Http\Requests\Cliente\UpdateClienteRequest;
 use App\Models\Cliente;
 use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ClientController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $search = $request->query('search', '');
+
         $viewData = [];
-        $viewData['clients'] = Cliente::orderBy('id', 'asc')->paginate(12);
+        $viewData['clients'] = Cliente::when($search, fn ($q) => $q->where('nombre', 'ilike', "%{$search}%"))
+        ->orderBy("nombre","asc")
+        ->paginate(12);
+        
+        $viewData['search'] = $search;
 
         return view('admin.client.index')->with('viewData', $viewData);
     }

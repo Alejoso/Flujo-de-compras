@@ -13,6 +13,7 @@ return [
     'view_details' => 'Ver Detalles',
     'edit' => 'Editar',
     'new' => 'Nueva',
+    'delete'=> 'Borrar proyecto',
 
     // ─── Form Labels ──────────────────────────────────────────────
     'name' => 'Nombre',
@@ -71,13 +72,19 @@ return [
     'quotations_desc' => 'Revisa y gestiona todas las cotizaciones asociadas',
     'process_invoice_ocr' => 'Procesar Factura OCR',
     'ocr_desc' => 'Extrae y estructura datos de facturas automáticamente',
+    'confirm_delete_title'=> 'Borrar proyecto',
+    'confirm_delete'=> '¿Esta seguro que desea borrar el proyecto: :name?',
+
+    // ─── Flash messasges ────────────────────────────────────────────
+    'project_created' => 'Se ha creado con éxito el proyecto :name.',
+    'project_updated' => 'Se ha actualizado el proyecto :name.',
+    'flash_save_error' => 'No se pudo crear el proyecto: :error',
+    'flash_update_error' => 'No se pudo actualizar el proyecto: :error',
+
+    'flash_destroy_success' => 'El proyecto :name ha sido eliminado exitosamente.',
+    'flash_destroy_error' => 'No se pudo eliminar el proyecto: :error',
 
     // ─── Técnico Index ────────────────────────────────────────────
     'view_quotations_short' => 'Ver cotizaciones',
-
-    'project_created'      => 'Se ha creado con éxito el proyecto :name.',
-    'project_updated'      => 'Se ha actualizado el proyecto :name.',
-    'flash_save_error'     => 'No se pudo crear el proyecto: :error',
-    'flash_update_error'   => 'No se pudo actualizar el proyecto: :error',
 
 ];

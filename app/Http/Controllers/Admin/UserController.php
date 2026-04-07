@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['users'] = User::all();
+        $viewData['users'] = User::orderBy('name' , 'asc')->get();
 
         return view('admin.user.index')->with('viewData', $viewData);
     }

@@ -41,6 +41,7 @@ return [
 
     // ─── Empty State ──────────────────────────────────────────────
     'no_clients' => 'No hay clientes registrados aún.',
+    'null_data' => 'No registra',
 
     'success_created'    => 'Se ha creado con éxito el cliente :name.',
     'success_edited'     => 'Se ha actualizado al cliente :name.',

@@ -496,7 +496,7 @@ body {
 }
 
 .um-badge--technician,
-.um-badge--técnico {
+.um-badge--tecnico {
     background-color: rgba(37, 99, 235, 0.2);
     color: #60a5fa;
     border: 1px solid rgba(37, 99, 235, 0.3);
@@ -695,13 +695,13 @@ body {
 
 /* ── Card project view button ── */
 .um-btn-icon--view {
-    color: rgba(255,255,255,0.5);
-    border: 1px solid rgba(255,255,255,0.1);
+    color: #f5c800d2;
+    border: 1px solid #f5c800b1;
     border-radius: 8px;
 }
 
 .um-btn-icon--view:hover {
-    background-color: rgba(255,255,255,0.06);
+    background-color: #9d841247;
     color: #ffffff;
     border-color: rgba(255,255,255,0.2);
 }
@@ -900,6 +900,9 @@ body {
 
 /* ── Search input constraint ── */
 .search-group { max-width: 420px; }
+
+/* ── Search input constraint for client── */
+.search-group-client { max-width: 100%; }
 
 /* ── Project show ── */
 .pj-header-icon { color: #F5C800; }

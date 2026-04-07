@@ -46,7 +46,7 @@ class Cliente extends Model
     }
 
     // cedula
-    public function getCedula(): string
+    public function getCedula(): ?string
     {
         return $this->attributes['cedula'];
     }
@@ -57,7 +57,7 @@ class Cliente extends Model
     }
 
     // correo
-    public function getCorreo(): string
+    public function getCorreo(): ?string
     {
         return $this->attributes['correo'];
     }
@@ -68,7 +68,7 @@ class Cliente extends Model
     }
 
     // celular
-    public function getCelular(): string
+    public function getCelular(): ?string
     {
         return $this->attributes['celular'];
     }

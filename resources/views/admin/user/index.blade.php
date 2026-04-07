@@ -55,7 +55,7 @@
                         </td>
                         <td data-label="Cédula">{{ $user->getCedula() }}</td>
                         <td data-label="Teléfono">{{ $user->getNumeroTelefono() }}</td>
-                        <td data-label="Sueldo">{{ $user->getSueldo() }}</td>
+                        <td data-label="Sueldo">$ {{ number_format($user->getSueldo() , 0 , '' , '.') }}</td>
                         <td data-label="Notificaciones">
                             <span class="um-status um-status--{{ $user->getRecibeNotificaciones() ? '1' : '0' }}">
                                 {{ $user->getRecibeNotificaciones() ? 'Sí' : 'No' }}

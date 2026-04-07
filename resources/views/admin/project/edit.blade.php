@@ -107,14 +107,23 @@
                         </div>
 
                         {{-- Actions --}}
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <a href="{{ route('admin.project.index') }}"
-                               class="um-btn-icon um-btn-icon--edit px-3 py-2">
-                                {{ __('proyecto.cancel') }}
-                            </a>
-                            <button type="submit" class="um-btn-primary">
-                                <i class="bi bi-floppy me-1"></i> {{ __('proyecto.edit_project') }}
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            {{-- Lado izquierdo: Eliminar --}}
+                            <button type="button" class="um-btn-icon um-btn-icon--delete px-3 py-2"
+                                    data-bs-toggle="modal" data-bs-target="#deleteProjectModal">
+                                <i class="bi bi-trash me-1"></i> {{ __('proyecto.delete') }}
                             </button>
+
+                            {{-- Lado derecho: Cancelar + Guardar --}}
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.project.index') }}"
+                                class="um-btn-icon um-btn-icon--edit px-3 py-2">
+                                    {{ __('proyecto.cancel') }}
+                                </a>
+                                <button type="submit" class="um-btn-primary">
+                                    <i class="bi bi-floppy me-1"></i> {{ __('proyecto.edit_project') }}
+                                </button>
+                            </div>
                         </div>
 
                     </form>
@@ -123,5 +132,32 @@
         </div>
     </div>
 
+    {{-- Modal for confirmation on delete --}}
+    <div class="modal fade" id="deleteProjectModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light border-secondary">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title">{{ __('proyecto.confirm_delete_title') }}</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {{ __('proyecto.confirm_delete' , ['name' => $viewData['project']->getNombre()]) }}
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="um-btn-icon um-btn-icon--edit px-3 py-2" data-bs-dismiss="modal">
+                        {{ __('proyecto.cancel') }}
+                    </button>
+                    <form action="{{ route('admin.project.destroy', $viewData['project']->getId()) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="um-btn-icon um-btn-icon--delete px-3 py-2">
+                            <i class="bi bi-trash me-1"></i> {{ __('proyecto.delete') }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </div>
 @endsection

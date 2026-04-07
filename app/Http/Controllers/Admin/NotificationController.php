@@ -14,8 +14,8 @@ class NotificationController extends Controller
     public function index(): View
     {
         $viewData = [];
-        $viewData['usersWithNoNotifications'] = User::where('recibeNotificaciones', false)->get();
-        $viewData['userWithNotifications'] = User::where('recibeNotificaciones', true)->get();
+        $viewData['usersWithNoNotifications'] = User::where('recibeNotificaciones', false)->orderBy('name' , 'asc')->get();
+        $viewData['userWithNotifications'] = User::where('recibeNotificaciones', true)->orderBy('name' , 'asc')->get();
 
         return view('admin.notification.index')->with('viewData', $viewData);
     }

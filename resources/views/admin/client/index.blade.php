@@ -12,15 +12,15 @@
         </a>
     </div>
 
-    {{-- Search & Filters --}}
+    {{-- Search --}}
     <div class="um-card mb-4">
         <div class="um-card-header">
-            <div class="d-flex gap-2 flex-wrap align-items-center w-100">
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" placeholder="{{ __('cliente.search_clients') }}">
+            <form method="GET" action="{{ route('admin.client.index') }}" class="d-flex gap-2 flex-wrap align-items-center w-100 ">
+                <div class="input-group search-group-client flex-grow-1">
+                    <button type="submit" class="input-group-text border-0 bg-transparent"><i class="bi bi-search"></i></button>
+                    <input type="text" name="search" value="{{ $viewData['search'] }}" class="form-control" placeholder="{{ __('cliente.search_clients') }}">
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -39,7 +39,11 @@
                 <p class="mb-3">
                     <span class="pj-meta-label">{{ __('cliente.cedula_label') }} </span>
                     <span class="pj-meta-value">
+                        @if($client->getCedula() == null)
+                        {{ __('cliente.null_data') }}
+                        @else
                         {{ $client->getCedula() }}
+                        @endif
                     </span>
                 </p>
 
@@ -47,7 +51,11 @@
                 <div class="mb-3">
                     <span class="pj-meta-label">{{ __('cliente.email_label') }} </span>
                     <span class="pj-meta-value">
+                        @if($client->getCorreo() == null)
+                        {{ __('cliente.null_data') }}
+                        @else
                         {{ $client->getCorreo() }}
+                        @endif
                     </span>
                 </div>
 
@@ -55,7 +63,11 @@
                 <div class="mb-3">
                     <span class="pj-meta-label">{{ __('cliente.phone_label') }} </span>
                     <span class="pj-meta-value">
+                        @if($client->getCelular() == null)
+                        {{ __('cliente.null_data') }}
+                        @else
                         {{ $client->getCelular() }}
+                        @endif
                     </span>
                 </div>
 

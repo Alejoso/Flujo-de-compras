@@ -39,6 +39,7 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::get('/admin/project/{id}/edit', $controllerRoute.'\Admin\ProjectController@edit')->name('admin.project.edit');
     Route::get('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@show')->name('admin.project.show');
     Route::patch('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@update')->name('admin.project.update');
+    Route::delete('/admin/project/{id}', $controllerRoute.'\Admin\ProjectController@destroy')->name('admin.project.destroy');
 
     // Client routes
     Route::get('/admin/client', $controllerRoute.'\Admin\ClientController@index')->name('admin.client.index');

@@ -83,4 +83,17 @@ class ProjectController extends Controller
 
         return redirect()->route('admin.project.index');
     }
+
+    public function destroy(string $id): RedirectResponse
+    {
+        try {
+            $project = Proyecto::findOrFail($id);
+            $project->delete();
+            session()->flash('success', __('proyecto.flash_destroy_success' , ['name' => $project->getNombre()]));
+        } catch (Exception $e) {
+            session()->flash('error', __('proyecto.flash_destroy_error', ['error' => $e->getMessage()]));
+        }
+
+        return redirect()->route('admin.project.index');
+    }
 }
