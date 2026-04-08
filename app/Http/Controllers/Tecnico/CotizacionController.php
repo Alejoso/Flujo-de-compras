@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Tecnico;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCotizacionRequest;
-use App\Http\Requests\UpdateCotizacionRequest;
+use App\Http\Requests\Cotizacion\StoreCotizacionRequest;
+use App\Http\Requests\Cotizacion\UpdateCotizacionRequest;
 use App\Models\Cotizacion;
 use App\Models\Proyecto;
 use App\Models\TipoMaterial;

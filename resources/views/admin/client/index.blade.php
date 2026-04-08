@@ -89,7 +89,7 @@
         <div class="col-12">
             <div class="um-empty">
                 <i class="bi bi-folder-x fs-3 d-block mb-2"></i>
-                {{ __('cliente.no_clientes') }}
+                {{ __('cliente.no_clients') }}
             </div>
         </div>
         @endforelse

@@ -59,7 +59,22 @@
 
                     <div class="mb-3">
                         <label class="form-label">{{ __('admin_user.label_salary') }}</label>
-                        <input type="number" name="sueldo" class="form-control" step="0.01" value="{{ old('sueldo', $viewData['user']->getSueldo()) }}">
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="text"
+                                id="sueldoFormatted"
+                                class="form-control @error('sueldo') is-invalid @enderror"
+                                value="{{ number_format(old('sueldo', $viewData['user']->getSueldo()), 0, ',', '.') }}"
+                                placeholder="{{ __('admin_user.label_salary') }}"
+                                inputmode="numeric">
+                            <input type="hidden"
+                                name="sueldo"
+                                id="sueldoReal"
+                                value="{{ old('sueldo', $viewData['user']->getSueldo()) }}">
+                            @error('sueldo')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -83,6 +98,14 @@
         </div>
 
     </div>
+
+    @push('scripts')
+        <script src="{{ asset('js/Format/formatMiles.js') }}"></script>
+        <script>
+            formatMiles('sueldoFormatted', 'sueldoReal');
+        </script>
+    @endpush
+    
 </div>
 
 @endsection

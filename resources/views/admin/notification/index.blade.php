@@ -58,7 +58,7 @@
                                 @csrf
                                 @method('PATCH')
                                 <button type="submit" class="um-btn-delete" title="{{ __('notificacion.delete') }}">
-                                    <i class="bi bi-x-square-fill"></i>
+                                    <i class="bi bi-trash me-1"></i>
                                 </button>
                             </form>
                         </td>

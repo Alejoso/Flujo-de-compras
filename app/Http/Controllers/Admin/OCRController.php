@@ -3,15 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InvoiceUploadRequest;
-use App\Services\OCRSercive;
+use App\Http\Requests\Invoice\InvoiceUploadRequest;
+use App\Services\OCRService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class OCRController extends Controller
 {
-    public function process(InvoiceUploadRequest $request, OCRSercive $ocr): View|RedirectResponse
+    public function process(InvoiceUploadRequest $request, OCRService $ocr): View|RedirectResponse
     {
         $viewData = [];
 

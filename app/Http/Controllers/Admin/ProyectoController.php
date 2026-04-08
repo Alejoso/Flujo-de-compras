@@ -65,6 +65,7 @@ class ProyectoController extends Controller
         $viewData = [];
         $viewData['project'] = Proyecto::findOrFail($id);
         $viewData['clients'] = Cliente::orderBy('nombre', 'asc')->get();
+        $viewData['states'] = ['En Negociación', 'En Ejecución', 'Finalizado'];
 
         return view('admin.project.edit')->with('viewData', $viewData);
     }

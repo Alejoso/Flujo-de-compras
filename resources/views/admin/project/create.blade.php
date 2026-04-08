@@ -73,13 +73,15 @@
                                 <label class="form-label">{{ __('proyecto.total_cost') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number"
-                                           name="costoTotal"
-                                           class="form-control @error('costoTotal') is-invalid @enderror"
-                                           value="{{ old('costoTotal') }}"
-                                           step="0.01"
-                                           min="0"
-                                           placeholder="{{ __('proyecto.placeholder_cost') }}">
+                                    <input type="text"
+                                        id="costoTotalFormatted"
+                                        class="form-control @error('costoTotal') is-invalid @enderror"
+                                        value="{{ old('costoTotal') ? number_format(old('costoTotal'), 0, ',', '.') : '' }}"
+                                        placeholder="{{ __('proyecto.placeholder_cost') }}"
+                                        inputmode="numeric">
+                                    <input type="hidden"
+                                        name="costoTotal"
+                                        id="costoTotalReal">
                                     @error('costoTotal')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -122,6 +124,13 @@
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="{{ asset('js/Format/formatMiles.js') }}"></script>
+    <script>
+        formatMiles('costoTotalFormatted', 'costoTotalReal');
+    </script>
+    @endpush
 
 </div>
 @endsection

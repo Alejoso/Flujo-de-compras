@@ -74,13 +74,16 @@
                                 <label class="form-label">{{ __('proyecto.total_cost') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text">$</span>
-                                    <input type="number"
-                                           name="costoTotal"
-                                           class="form-control @error('costoTotal') is-invalid @enderror"
-                                           value="{{ $viewData['project']->getCostoTotal() }}"
-                                           step="0.01"
-                                           min="0"
-                                           placeholder="{{ __('proyecto.placeholder_cost') }}">
+                                    <input type="text"
+                                        id="costoTotalFormatted"
+                                        class="form-control @error('costoTotal') is-invalid @enderror"
+                                        value="{{ number_format($viewData['project']->getCostoTotal(), 0, ',', '.') }}"
+                                        placeholder="{{ __('proyecto.placeholder_cost') }}"
+                                        inputmode="numeric">
+                                    <input type="hidden"
+                                        name="costoTotal"
+                                        id="costoTotalReal"
+                                        value="{{ $viewData['project']->getCostoTotal() }}">
                                     @error('costoTotal')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -100,6 +103,22 @@
                                     @endforeach
                                 </select>
                                 @error('clienteId')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">{{ __('proyecto.client') }}</label>
+                                <select name="estado" class="form-select @error('estado') is-invalid @enderror">
+                                    @foreach($viewData['states'] as $state)
+                                    {{-- Show only the states that are not selected --}}
+                                        <option value="{{ $state }}"
+                                            {{ $viewData['project']->getEstado() === $state ? 'selected' : '' }}>
+                                            {{ $state }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('estado')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -158,6 +177,14 @@
             </div>
         </div>
     </div>
+
+    
+    @push('scripts')
+    <script src="{{ asset('js/Format/formatMiles.js') }}"></script>
+    <script>
+        formatMiles('costoTotalFormatted', 'costoTotalReal');
+    </script>
+    @endpush
     
 </div>
 @endsection

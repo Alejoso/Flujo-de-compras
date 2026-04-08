@@ -28,6 +28,7 @@ class UpdateProyectoRequest extends FormRequest
             'ciudad' => 'required|string|max:255',
             'costoTotal' => 'nullable|numeric',
             'clienteId' => 'required|numeric',
+            'estado'=> 'required|string|in:En Negociación,En Ejecución,Finalizado',
         ];
     }
 }
