@@ -49,28 +49,23 @@ class MaterialController extends Controller
         try {
             DB::beginTransaction();
 
-            // 1. Crear o encontrar el material
             if ($data['material_mode'] === 'new') {
                 $material = Material::create(['descripcion' => $data['descripcion']]);
             } else {
                 $material = Material::findOrFail($data['material_id']);
             }
 
-            // 2. Crear tipos, tipo_materiales y presentacion_tipo_materiales
             foreach ($data['tipos'] as $tipoData) {
-                // Crear el tipo
                 $tipo = Tipo::create([
                     'especificacion' => $tipoData['especificacion'],
                     'unidadMedidaId' => $tipoData['unidadMedidaId'] ?? null,
                 ]);
 
-                // Crear la relación tipo_material
                 $tipoMaterial = TipoMaterial::create([
                     'materialId' => $material->getId(),
                     'tipoId'     => $tipo->getId(),
                 ]);
 
-                // Crear las presentaciones para este tipo_material
                 foreach ($tipoData['presentaciones'] as $presData) {
                     PresentacionTipoMaterial::create([
                         'cantidadPresentacion' => $presData['cantidadPresentacion'],
