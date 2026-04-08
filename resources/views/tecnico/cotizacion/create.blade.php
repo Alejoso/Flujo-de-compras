@@ -1,118 +1,101 @@
-@extends('layouts.admin')
-@section('page-title', 'Nuevo Material')
+@extends('layouts.tecnico')
+@section('page-title', __('tecnico_cotizacion.title_create'))
 
 @section('content')
-  <div class="um-wrapper" id="material-app" data-unidades='@json(
-      $viewData['unidades']->map(
-          fn($u) => ['id' => $u->getId(), 'nombre' => $u->getNombre(), 'abreviatura' => $u->getAbreviatura()]))'
-    data-presentaciones='@json($viewData['presentaciones']->map(fn($p) => ['id' => $p->getId(), 'nombre' => $p->getNombre()]))'>
+  <div class="pj-wrapper" id="cotizacion-app" data-search-url="{{ route('tecnico.materiales.search') }}" data-row-idx="0"
+    data-has-empty-row="1">
 
-    {{-- Header --}}
     <div class="um-header">
-      <h1 class="um-title"><i class="bi bi-box-seam"></i> Nuevo Material</h1>
-      <a href="{{ route('admin.material.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
-        <i class="bi bi-arrow-left me-1"></i> Volver
+      <h1 class="um-title"><i class="bi bi-clipboard-plus me-2"></i>{{ __('tecnico_cotizacion.title_create') }}</h1>
+      <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}"
+        class="um-btn-icon um-btn-icon--edit px-3 py-2">
+        <i class="bi bi-arrow-left me-1"></i> {{ __('tecnico_cotizacion.btn_back') }}
       </a>
     </div>
 
-    {{-- Errores --}}
     @if ($errors->any())
-      <div class="alert mb-4"
-        style="background-color: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; border-radius: 10px; padding: 1rem;">
-        <strong><i class="bi bi-exclamation-triangle me-1"></i> Errores:</strong>
-        <ul class="mb-0 mt-1">
-          @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-          @endforeach
-        </ul>
+      <div class="alert mb-3 cot-alert-error">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {{ __('tecnico_cotizacion.msg_validation_error') }}
       </div>
     @endif
 
-    <form action="{{ route('admin.material.save') }}" method="POST" id="materialForm">
+    <form action="{{ route('tecnico.cotizacion.store', $viewData['project']->getId()) }}" method="POST"
+      id="cotizacionForm">
       @csrf
 
-      {{-- ═══ SECCIÓN 1: MATERIAL ═══ --}}
-      <div class="um-card mb-4">
-        <div class="um-card-header">
-          <div>
-            <p class="um-card-title">1. Material</p>
-            <p class="um-card-subtitle">Seleccione uno existente o cree uno nuevo</p>
+      <div class="cot-header-card mb-4">
+        <p class="cot-project-name">
+          <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getNombre() }}
+        </p>
+        <p class="cot-project-meta">
+          <i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCiudad() }} —
+          {{ $viewData['project']->getDireccion() }}
+        </p>
+
+        <div class="row mt-3 g-2 align-items-end">
+          <div class="col-md-4">
+            <label class="form-label fw-bold">{{ __('tecnico_cotizacion.label_material') }}</label>
+            <div class="ac-wrap">
+              <input type="text" id="buscador-material" class="form-control"
+                placeholder="{{ __('tecnico_cotizacion.msg_search_placeholder') }}" autocomplete="off">
+              <div id="autocomplete-list" class="ac-dropdown"></div>
+            </div>
           </div>
-        </div>
-        <div class="p-4">
-          <div class="row g-3">
-            <div class="col-12">
-              <div class="d-flex gap-3">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="material_mode" id="modeNew" value="new"
-                    {{ old('material_mode', 'new') === 'new' ? 'checked' : '' }}>
-                  <label class="form-check-label" for="modeNew" style="color: #fff;">Crear nuevo</label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="material_mode" id="modeExisting" value="existing"
-                    {{ old('material_mode') === 'existing' ? 'checked' : '' }}>
-                  <label class="form-check-label" for="modeExisting" style="color: #fff;">Seleccionar existente</label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12" id="newMaterialField">
-              <label class="form-label">Descripción del material</label>
-              <input type="text" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror"
-                value="{{ old('descripcion') }}" placeholder="Ej: Cable, Panel LED, Conector...">
-              @error('descripcion')
-                <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-            </div>
-
-            <div class="col-12" id="existingMaterialField" style="display: none;">
-              <label class="form-label">Material existente</label>
-              <select name="material_id" class="form-select @error('material_id') is-invalid @enderror">
-                <option value="">— Seleccione —</option>
-                @foreach ($viewData['materiales'] as $mat)
-                  <option value="{{ $mat->getId() }}" {{ old('material_id') == $mat->getId() ? 'selected' : '' }}>
-                    {{ $mat->getDescripcion() }}
-                  </option>
-                @endforeach
-              </select>
-              @error('material_id')
-                <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-            </div>
+          <div class="col-md-3">
+            <label class="form-label fw-bold">{{ __('tecnico_cotizacion.label_presentation') }}</label>
+            <select id="selector-presentacion" class="form-select" disabled>
+              <option value="">{{ __('tecnico_cotizacion.msg_select_material_first') }}</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label fw-bold">{{ __('tecnico_cotizacion.label_unit') }}</label>
+            <input type="text" id="display-unidad" class="form-control" readonly placeholder="—">
+          </div>
+          <div class="col-md-3">
+            <button type="button" id="btn-add-material" class="btn btn-primary w-100" disabled>
+              <i class="bi bi-plus-lg me-1"></i> {{ __('tecnico_cotizacion.btn_add_material') }}
+            </button>
           </div>
         </div>
       </div>
 
-      {{-- ═══ SECCIÓN 2: TIPOS ═══ --}}
-      <div class="um-card mb-4">
-        <div class="um-card-header">
-          <div>
-            <p class="um-card-title">2. Tipos y Presentaciones</p>
-            <p class="um-card-subtitle">Agregue los tipos (especificaciones) con sus presentaciones</p>
-          </div>
-          <button type="button" class="um-btn-primary" id="btnAddTipo">
-            <i class="bi bi-plus-lg"></i> Agregar Tipo
-          </button>
-        </div>
-        <div class="p-4" id="tiposContainer">
-          {{-- Los tipos se agregan dinámicamente via JS --}}
-        </div>
+      <div class="cot-table-wrap">
+        <table class="cot-table cot-edit-table" id="tabla-materiales">
+          <thead>
+            <tr>
+              <th>{{ __('tecnico_cotizacion.th_material_spec') }}</th>
+              <th>{{ __('tecnico_cotizacion.label_presentation') }}</th>
+              <th>{{ __('tecnico_cotizacion.label_unit') }}</th>
+              <th class="col-cantidad">{{ __('tecnico_cotizacion.label_quantity') }}</th>
+              <th class="col-actions"></th>
+            </tr>
+          </thead>
+          <tbody id="lista-materiales">
+            <tr id="emptyRow">
+              <td colspan="5" class="cot-empty">
+                <i class="bi bi-box-seam cot-empty-icon d-block mb-1"></i>
+                {{ __('tecnico_cotizacion.msg_add_materials_hint') }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      {{-- ═══ ACCIONES ═══ --}}
-      <div class="d-flex justify-content-end gap-2">
-        <a href="{{ route('admin.material.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
-          Cancelar
+      <div class="cot-footer">
+        <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}"
+          class="um-btn-icon um-btn-icon--edit px-4 py-2">
+          {{ __('tecnico_cotizacion.btn_cancel') }}
         </a>
-        <button type="submit" class="um-btn-primary">
-          <i class="bi bi-floppy me-1"></i> Guardar Material
+        <button type="submit" class="um-btn-primary px-4 py-2" id="submitBtn">
+          <i class="bi bi-send-fill me-1"></i> {{ __('tecnico_cotizacion.btn_send_quote') }}
         </button>
       </div>
-    </form>
 
+    </form>
   </div>
 @endsection
 
 @push('scripts')
-  <script src="{{ asset('js/admin/material-form.js') }}"></script>
+  <script src="{{ asset('js/tecnico/cotizacion-form.js') }}"></script>
 @endpush
