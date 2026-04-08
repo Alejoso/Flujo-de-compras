@@ -119,10 +119,6 @@
               </div>
             </div>
           </div>
-          <script>
-            const toastEl = document.querySelector('.toast');
-            toastEl && new bootstrap.Toast(toastEl).show();
-          </script>
         @endif
 
         {{-- End Message popup --}}
@@ -135,24 +131,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    const toggle = document.getElementById('sidebarToggle');
-    const sidebar = document.getElementById('adminSidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-
-    function openSidebar() {
-      sidebar.classList.add('open');
-      overlay.classList.add('open');
-    }
-
-    function closeSidebar() {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('open');
-    }
-
-    toggle && toggle.addEventListener('click', openSidebar);
-    overlay && overlay.addEventListener('click', closeSidebar);
-  </script>
+  <script src="{{ asset('js/admin/layout.js') }}"></script>
 </body>
 
 </html>
