@@ -54,6 +54,11 @@
           <span>Notificaciones</span>
         </a>
 
+        <a href="{{ route('admin.material.index') }}"
+          class="sidebar-link {{ request()->routeIs('admin.material*') ? 'active' : '' }}">
+          <i class="bi bi-box-seam"></i>
+          <span>Materiales</span>
+        </a>
 
         <a href="#" class="sidebar-link {{ request()->routeIs('admin.config*') ? 'active' : '' }}">
           <i class="bi bi-gear-fill"></i>
@@ -115,7 +120,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
               </div>
               <div class="toast-body">
-                {{ session('success') ?? session('error') ?? session('warning') ?? session('info') }}
+                {{ session('success') ?? (session('error') ?? (session('warning') ?? session('info'))) }}
               </div>
             </div>
           </div>

@@ -1096,3 +1096,79 @@ body {
     .um-table td[data-label="Acciones"] .um-actions { margin-left: auto; }
 
 }
+
+
+/* ── Pagination dark theme ── */
+.pagination {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+}
+
+.page-item .page-link {
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    min-height: 38px;
+}
+
+.page-item .page-link:hover {
+    background-color: rgba(245,200,0,0.1);
+    border-color: rgba(245,200,0,0.3);
+    color: #F5C800;
+}
+
+.page-item.active .page-link {
+    background-color: #F5C800;
+    border-color: #F5C800;
+    color: #000;
+    font-weight: 700;
+}
+
+.page-item.disabled .page-link {
+    background-color: rgba(255,255,255,0.02);
+    border-color: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.2);
+    cursor: not-allowed;
+}
+
+/* Forzar tamaño de los SVG de las flechas prev/next */
+.page-link svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Texto entre paginación (Showing X to Y of Z) */
+.pagination + div,
+nav + div {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+}
+
+/* Wrapper de paginación de Laravel (Tailwind default) */
+nav[role="navigation"] {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+}
+
+nav[role="navigation"] .relative.inline-flex {
+    gap: 4px;
+}
+
+nav[role="navigation"] p {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+}
