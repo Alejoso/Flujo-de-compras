@@ -58,7 +58,7 @@
                         @endif
                     </td>
                     <td class="cot-td-date" data-label="{{ __('tecnico_cotizacion.label_date') }}">{{ $version->getCreatedAt() }}</td>
-                    <td class="cot-td-actions" data-label="Acciones">
+                    <td class="cot-td-actions" data-label="{{ __('tecnico_cotizacion.th_actions') }}">
                         <a href="{{ route('tecnico.cotizacion.show', [$viewData['project']->getId(), $version->getId()]) }}"
                            class="um-btn-icon um-btn-icon--edit px-3 py-1">
                             <i class="bi bi-eye me-1"></i> {{ __('tecnico_cotizacion.btn_view_detail') }}

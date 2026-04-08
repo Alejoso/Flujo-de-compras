@@ -40,7 +40,7 @@
           <div class="col-md-3">
             <label class="form-label fw-bold">{{ __('tecnico_cotizacion.label_presentation') }}</label>
             <select id="selector-presentacion" class="form-select" disabled>
-              <option value="">— elige material primero —</option>
+              <option value="">{{ __('tecnico_cotizacion.msg_select_material_first') }}</option>
             </select>
           </div>
           <div class="col-md-2">

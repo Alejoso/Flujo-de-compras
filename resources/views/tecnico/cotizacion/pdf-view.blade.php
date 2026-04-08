@@ -25,8 +25,8 @@
 
       <div class="cot-doc-header">
         <h2>{{ $tecnico->getName() }}</h2>
-        <p>Tel: {{ $tecnico->getNumeroTelefono() }} &nbsp;&nbsp; Email: {{ $tecnico->getEmail() }}</p>
-        <p>{{ $project->getCiudad() }}, Colombia</p>
+        <p>{{ __('tecnico_cotizacion.pdf_label_tel') }}: {{ $tecnico->getNumeroTelefono() }} &nbsp;&nbsp; {{ __('tecnico_cotizacion.pdf_label_email') }}: {{ $tecnico->getEmail() }}</p>
+        <p>{{ $project->getCiudad() }}, {{ __('tecnico_cotizacion.pdf_country') }}</p>
       </div>
 
       <div class="cot-doc-title">{{ __('tecnico_cotizacion.title_index') }} {{ $numeroCotizacion }} - V{{ $version->getNumeroVersion() }}</div>

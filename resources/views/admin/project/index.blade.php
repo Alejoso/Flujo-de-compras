@@ -54,7 +54,7 @@
                 {{-- Title and status--}}
                 <div class="d-flex justify-content-between align-items-start mb-1">
                     <h5 class="pj-title">{{ $proyecto->getNombre() }}</h5>
-                    <span class="pj-badge pj-badge--{{ $proyecto->getEstadoBadgeKey() }}">
+                    <span class="pj-badge pj-badge--{{ match($proyecto->getEstado()) { 'En Negociación' => 'negociacion', 'En Ejecución' => 'ejecucion', default => 'finalizado' } }}">
                         {{ $proyecto->getEstado() }}
                     </span>
                 </div>
