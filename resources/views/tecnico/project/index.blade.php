@@ -62,14 +62,6 @@
                     {{ $project->getCiudad() }} — {{ $project->getDireccion() }}
                 </p>
 
-                {{-- Cost --}}
-                <div class="mb-3">
-                    <span class="pj-meta-label">{{ __('proyecto.total_cost_label') }} </span>
-                    <span class="pj-meta-value">
-                        {{ $project->getCostoTotal() ? '$ ' . number_format($project->getCostoTotal(), 0, ',', '.') : '—' }}
-                    </span>
-                </div>
-
                 {{-- Buttons --}}
                 <div class="mt-auto d-flex gap-2">
                     <a href="{{ route('tecnico.cotizacion.index', $project->getId()) }}"
