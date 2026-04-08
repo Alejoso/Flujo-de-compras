@@ -12,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class ProjectController extends Controller
+class ProyectoController extends Controller
 {
     public function index(Request $request): View
     {
@@ -89,7 +89,7 @@ class ProjectController extends Controller
         try {
             $project = Proyecto::findOrFail($id);
             $project->delete();
-            session()->flash('success', __('proyecto.flash_destroy_success' , ['name' => $project->getNombre()]));
+            session()->flash('success', __('proyecto.flash_destroy_success', ['name' => $project->getNombre()]));
         } catch (Exception $e) {
             session()->flash('error', __('proyecto.flash_destroy_error', ['error' => $e->getMessage()]));
         }

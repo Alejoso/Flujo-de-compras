@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class ClientController extends Controller
+class ClienteController extends Controller
 {
     public function index(Request $request): View
     {
@@ -21,7 +21,7 @@ class ClientController extends Controller
         $viewData['clients'] = Cliente::when($search, fn ($q) => $q->where('nombre', 'ilike', "%{$search}%"))
         ->orderBy("nombre","asc")
         ->paginate(12);
-        
+
         $viewData['search'] = $search;
 
         return view('admin.client.index')->with('viewData', $viewData);

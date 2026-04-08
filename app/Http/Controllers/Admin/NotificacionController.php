@@ -9,13 +9,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class NotificationController extends Controller
+class NotificacionController extends Controller
 {
     public function index(): View
     {
         $viewData = [];
-        $viewData['usersWithNoNotifications'] = User::where('recibeNotificaciones', false)->orderBy('name' , 'asc')->get();
-        $viewData['userWithNotifications'] = User::where('recibeNotificaciones', true)->orderBy('name' , 'asc')->get();
+        $viewData['usersWithNoNotifications'] = User::where('recibeNotificaciones', false)->orderBy('name', 'asc')->get();
+        $viewData['userWithNotifications'] = User::where('recibeNotificaciones', true)->orderBy('name', 'asc')->get();
 
         return view('admin.notification.index')->with('viewData', $viewData);
     }

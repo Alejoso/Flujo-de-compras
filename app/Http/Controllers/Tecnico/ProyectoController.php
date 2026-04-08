@@ -7,7 +7,7 @@ use App\Models\Proyecto;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class ProjectController extends Controller
+class ProyectoController extends Controller
 {
     public function index(Request $request): View
     {

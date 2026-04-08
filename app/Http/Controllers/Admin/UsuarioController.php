@@ -10,12 +10,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
-class UserController extends Controller
+class UsuarioController extends Controller
 {
     public function index(): View
     {
         $viewData = [];
-        $viewData['users'] = User::orderBy('name' , 'asc')->get();
+        $viewData['users'] = User::orderBy('name', 'asc')->get();
 
         return view('admin.user.index')->with('viewData', $viewData);
     }
@@ -73,6 +73,13 @@ class UserController extends Controller
     {
         try {
             $user = User::findOrFail($id);
+
+            if ($user->proyectos()->exists()) {
+                session()->flash('error', __('admin_user.cant_delete_has_projects', ['name' => $user->getName()]));
+
+                return redirect()->route('admin.user.index');
+            }
+
             $user->delete();
             session()->flash('success', __('admin_user.flash_destroy_success'));
         } catch (Exception $e) {
