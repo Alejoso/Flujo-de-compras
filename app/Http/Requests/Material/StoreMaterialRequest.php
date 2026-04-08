@@ -14,7 +14,7 @@ class StoreMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'material_mode'                              => 'required|in:new,existing',
+            'material_mode' => 'required|in:new,existing',
             'material_id'                                => 'required_if:material_mode,existing|nullable|exists:materiales,id',
             'descripcion'                                => 'required_if:material_mode,new|nullable|string|max:255',
 
