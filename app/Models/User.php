@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\Proyecto;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -32,6 +33,7 @@ class User extends Authenticatable
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
      * $this->cotizaciones - Cotizacion[] - contains the quotations that the user has done
+     * $this->proyectos - Proyecto[] - contains the projects created by the user
      */
     protected $fillable = [
         'name',
@@ -159,6 +161,11 @@ class User extends Authenticatable
     public function cotizaciones(): HasMany
     {
         return $this->hasMany(Cotizacion::class, 'creadoPor');
+    }
+
+    public function proyectos(): HasMany
+    {
+        return $this->hasMany(Proyecto::class, 'creadoPor');
     }
 
     // Relations setters and getters

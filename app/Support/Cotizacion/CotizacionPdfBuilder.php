@@ -34,20 +34,14 @@ class CotizacionPdfBuilder
 
         $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
 
-        $materiales = $version->getPresentacionTipoMaterialVersionCotizaciones()->map(function ($item) {
-            $ptm = $item->getPresentacionTipoMaterial();
-            $tm = $ptm->getTipoMaterial();
-            $unidadMedida = $tm->getTipo()->getUnidadMedida();
-            $unidades = $ptm->getCantidadPresentacion().($unidadMedida ? ' '.$unidadMedida->getAbreviatura() : '');
-
-            return [
-                'cantidad' => $item->getCantidad(),
-                'unidades' => $unidades,
-                'presentacion' => $ptm->getPresentacion()->getNombre(),
-                'descripcion' => $tm->getMaterial()->getDescripcion(),
-                'especificacion' => strtoupper($tm->getTipo()->getEspecificacion()),
-            ];
-        });
+        $materiales = $version->getPresentacionTipoMaterialVersionCotizaciones()->map(fn ($item) => [
+            'cantidad' => $item->getCantidad(),
+            'unidades' => ($ptm = $item->getPresentacionTipoMaterial())->getCantidadPresentacion()
+                                .(($u = $ptm->getTipoMaterial()->getTipo()->getUnidadMedida()) ? ' '.$u->getAbreviatura() : ''),
+            'presentacion' => $ptm->getPresentacion()->getNombre(),
+            'descripcion' => $ptm->getTipoMaterial()->getMaterial()->getDescripcion(),
+            'especificacion' => strtoupper($ptm->getTipoMaterial()->getTipo()->getEspecificacion()),
+        ]);
 
         return compact('tecnico', 'fecha', 'materiales', 'numeroCotizacion', 'version');
     }

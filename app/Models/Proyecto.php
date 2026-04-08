@@ -99,16 +99,6 @@ class Proyecto extends Model
         $this->attributes['estado'] = $estado;
     }
 
-    // Devuelve el sufijo CSS del badge según el estado
-    public function getEstadoBadgeKey(): string
-    {
-        return match($this->attributes['estado']) {
-            'En Negociación' => 'negociacion',
-            'En Ejecución'   => 'ejecucion',
-            default          => 'finalizado',
-        };
-    }
-
     // timestamps
     public function getCreatedAt(): string
     {

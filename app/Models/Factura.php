@@ -15,7 +15,7 @@ class Factura extends Model
      * FACTURA ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
      * $this->attributes['valorTotal'] - int - contains the total value of the invoice
-     * $this->attributes['estado'] - string - contains the state of the invoice
+     * $this->attributes['estado'] - enum('Pendiente', 'Aprobada', 'Rechazada', 'Pagada', 'Cancelada') - contains the state of the invoice
      * $this->attributes['proyectoId'] - int - contains the foreign key of the project
      * $this->attributes['proveedorId'] - int - contains the foreign key of the supplier
      * $this->attributes['cotizacionId'] - int - contains the foreign key of the quotation
