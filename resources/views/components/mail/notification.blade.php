@@ -1,8 +1,8 @@
-<x-mail.layout title="Notificación Técnica">
- 
+<x-mail.layout :title="__('email.notification_system_title')">
+
     <x-mail.header
-        label="Notificación del sistema"
-        title="Actividad registrada en el sistema"
+        :label="__('email.notification_system_label')"
+        :title="__('email.notification_system_title')"
     />
  
     <x-mail.card title="Descripción de la acción">

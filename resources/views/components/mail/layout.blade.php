@@ -5,7 +5,7 @@
     <meta name="supported-color-schemes" content="light dark">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Notificación' }}</title>
+    <title>{{ $title ?? __('email.notification_default_title') }}</title>
     <style>
 
         @media (prefers-color-scheme: dark) {
@@ -191,6 +191,40 @@
         .footer .app-name {
             color: #F5C800;
             font-weight: 600;
+        }
+
+        /* Botón primario */
+        .btn-primary {
+            display: inline-block;
+            background-color: #F5C800;
+            color: #000000;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 13px 36px;
+            border-radius: 10px;
+            letter-spacing: 0.2px;
+        }
+
+        .btn-wrapper {
+            text-align: center;
+            padding: 8px 0 16px 0;
+        }
+
+        /* Nota de enlace manual */
+        .link-note {
+            font-size: 12px;
+            color: #5A5A5A;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            line-height: 1.6;
+            word-break: break-all;
+        }
+
+        .link-note a {
+            color: #F5C800;
+            text-decoration: none;
         }
 </style>
 </head>
