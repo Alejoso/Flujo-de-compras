@@ -77,12 +77,13 @@ class Proyecto extends Model
         $this->attributes['ciudad'] = $ciudad;
     }
 
-    // costoTotal
+    // costoTotal - double en BD, PHP no soporta double, se usa float
     public function getCostoTotal(): ?float
     {
         return $this->attributes['costoTotal'];
     }
 
+    // double en BD, PHP no soporta double, se usa float
     public function setCostoTotal(?float $costoTotal): void
     {
         $this->attributes['costoTotal'] = $costoTotal;

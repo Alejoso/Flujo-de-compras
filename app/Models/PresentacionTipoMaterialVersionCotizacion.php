@@ -32,12 +32,13 @@ class PresentacionTipoMaterialVersionCotizacion extends Model
         return $this->attributes['id'];
     }
 
-    // cantidad
+    // cantidad - double en BD, PHP no soporta double, se usa float
     public function getCantidad(): float
     {
         return $this->attributes['cantidad'];
     }
 
+    // double en BD, PHP no soporta double, se usa float
     public function setCantidad(float $cantidad): void
     {
         $this->attributes['cantidad'] = $cantidad;

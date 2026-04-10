@@ -34,12 +34,13 @@ class PresentacionTipoMaterialFactura extends Model
         return $this->attributes['id'];
     }
 
-    // precioUnitario
+    // precioUnitario - double en BD, PHP no soporta double, se usa float
     public function getPrecioUnitario(): float
     {
         return $this->attributes['precioUnitario'];
     }
 
+    // double en BD, PHP no soporta double, se usa float
     public function setPrecioUnitario(float $precioUnitario): void
     {
         $this->attributes['precioUnitario'] = $precioUnitario;
