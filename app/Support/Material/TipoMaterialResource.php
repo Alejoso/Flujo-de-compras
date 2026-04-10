@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Tecnico;
+namespace App\Support\Material;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;

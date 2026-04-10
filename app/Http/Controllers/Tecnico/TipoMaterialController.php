@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Tecnico;
 
 use App\Http\Controllers\Controller;
-use App\Services\Tecnico\TipoMaterialResource;
+use App\Support\Material\TipoMaterialResource;
 use App\Services\Tecnico\TipoMaterialService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

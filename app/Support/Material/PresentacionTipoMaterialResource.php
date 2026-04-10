@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Tecnico;
+namespace App\Support\Material;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
