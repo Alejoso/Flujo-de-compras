@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Proyecto;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -166,6 +167,11 @@ class User extends Authenticatable
     public function proyectos(): HasMany
     {
         return $this->hasMany(Proyecto::class, 'creadoPor');
+    }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 
     // Relations setters and getters

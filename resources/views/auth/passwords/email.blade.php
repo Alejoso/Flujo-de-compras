@@ -27,37 +27,40 @@
 
             @if (session('status'))
                 <div class="alert alert-success mb-3">{{ session('status') }}</div>
-            @endif
-
-            <form method="POST" action="{{ route('password.email') }}">
-                @csrf
-
-                <div class="login-field">
-                    <label for="email" class="login-label">Correo electrónico</label>
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        class="login-input @error('email') is-invalid @enderror"
-                        value="{{ old('email') }}"
-                        placeholder="tucorreo@ejemplo.com"
-                        required
-                        autocomplete="email"
-                        autofocus
-                    >
-                    @error('email')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="login-btn">
-                    Enviar enlace de recuperación
-                </button>
-
-                <a class="login-forgot" href="{{ route('login') }}">
+                <a class="login-btn d-block text-center text-decoration-none" href="{{ route('login') }}">
                     Volver al inicio de sesión
                 </a>
-            </form>
+            @else
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+
+                    <div class="login-field">
+                        <label for="email" class="login-label">Correo electrónico</label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            class="login-input @error('email') is-invalid @enderror"
+                            value="{{ old('email') }}"
+                            placeholder="tucorreo@ejemplo.com"
+                            required
+                            autocomplete="email"
+                            autofocus
+                        >
+                        @error('email')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        Enviar enlace de recuperación
+                    </button>
+
+                    <a class="login-forgot" href="{{ route('login') }}">
+                        Volver al inicio de sesión
+                    </a>
+                </form>
+            @endif
         </div>
 
         <p class="login-footer">© {{ date('Y') }} {{ config('app.name') }}. Todos los derechos reservados.</p>
