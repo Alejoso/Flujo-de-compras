@@ -16,6 +16,7 @@ return [
     'btn_new_version' => 'Nueva Versión',
     'btn_send_quote' => 'Enviar Cotización',
     'btn_save_version' => 'Guardar Nueva Versión',
+    'btn_submit_final' => 'Enviar versión final',
     'btn_view_versions' => 'Ver versiones',
     'btn_view_detail' => 'Ver detalle',
     'btn_view_pdf' => 'Ver PDF',
@@ -61,7 +62,8 @@ return [
     'status_technician' => 'Técnico',
     'status_technician_edited' => 'Técnico editado',
     'status_pending' => 'Pendiente',
-    'status_admin_edited' => 'Editada por administración',
+    'status_technician_final' => 'Versión final técnico',
+    'status_admin_edited' => 'Admin editada',
     'status_in_process' => 'En proceso',
     'status_invoiced' => 'Facturada',
     'status_cancelled' => 'Cancelada',
@@ -75,6 +77,9 @@ return [
     'flash_store_pdf_error' => 'Cotización creada, pero no se pudo generar el PDF: :error',
     'flash_update_error' => 'No se pudo actualizar la cotización: :error',
     'flash_update_pdf_error' => 'Cotización actualizada, pero no se pudo generar el PDF: :error',
+    'flash_submit_success' => 'Cotización enviada al administrador correctamente.',
+    'flash_submit_invalid' => 'Solo puedes enviar cotizaciones en estado Técnico o Técnico editado.',
+    'flash_edit_blocked' => 'No puedes editar esta cotización, ya fue enviada o está siendo procesada.',
 
     // Heading with version number (used in edit)
     'new_version_from' => 'Nueva Versión desde v.:version',

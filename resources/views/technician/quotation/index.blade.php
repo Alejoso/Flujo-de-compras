@@ -1,18 +1,13 @@
-@extends('layouts.admin')
-@section('page-title', __('project.view_quotations'))
-
-@push('styles')
-  <link href="{{ asset('css/technician.css') }}" rel="stylesheet">
-@endpush
+@extends('layouts.technician')
+@section('page-title', __('technician_quotation.title_index'))
 
 @section('content')
   <div class="pj-wrapper">
 
     <div class="um-header">
-      <h1 class="um-title"><i class="bi bi-clipboard-data-fill me-2"></i>{{ __('project.view_quotations') }}</h1>
-      <a href="{{ route('admin.project.show', $viewData['project']->getId()) }}"
-        class="um-btn-icon um-btn-icon--edit px-3 py-2">
-        <i class="bi bi-arrow-left me-1"></i> {{ __('project.back') }}
+      <h1 class="um-title"><i class="bi bi-clipboard-data-fill me-2"></i>{{ __('technician_quotation.title_index') }}</h1>
+      <a href="{{ route('technician.project.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
+        <i class="bi bi-arrow-left me-1"></i> {{ __('technician_quotation.btn_back') }}
       </a>
     </div>
 
@@ -31,18 +26,22 @@
         @if($viewData['project']->getClient())
           <span><i class="bi bi-building me-1"></i>{{ $viewData['project']->getClient()->getName() }}</span>
         @endif
-        @if($viewData['project']->getTotalCost())
-          <span><i class="bi bi-cash-stack me-1"></i>$ {{ number_format($viewData['project']->getTotalCost(), 0, ',', '.') }}</span>
-        @endif
         <span><i class="bi bi-clipboard-data me-1"></i>{{ $viewData['quotations']->count() }} {{ $viewData['quotations']->count() === 1 ? __('technician_quotation.version_singular') : __('technician_quotation.label_quotations') }}</span>
       </div>
+    </div>
+
+    <div class="d-flex justify-content-end mb-3">
+      <a href="{{ route('technician.quotation.create', $viewData['project']->getId()) }}"
+        class="um-btn-primary px-4 py-2">
+        <i class="bi bi-clipboard-plus me-1"></i> {{ __('technician_quotation.btn_new_quote') }}
+      </a>
     </div>
 
     @if ($viewData['quotations']->isEmpty())
       <div class="cot-table-wrap">
         <div class="cot-empty py-4 text-center">
           <i class="bi bi-clipboard-x cot-empty-icon d-block mb-1"></i>
-          {{ __('project.no_quotations_registered') }}
+          {{ __('technician_quotation.msg_empty_cotizaciones') }}
         </div>
       </div>
     @else
@@ -52,9 +51,10 @@
             <div class="cot-card h-100">
               <div class="cot-card-body">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                  <span class="cot-version-number">{{ __('project.quotation') }} {{ $loop->iteration }}</span>
-                  <span class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($quotation->getStatus())) }}">
-                    {{ match ($quotation->getStatus()) {
+                  <span class="cot-version-number">{{ __('technician_quotation.title_index') }}
+                    {{ $loop->iteration }}</span>
+                  <span
+                    class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($quotation->getStatus())) }}">{{ match ($quotation->getStatus()) {
                         'Technician' => __('technician_quotation.status_technician'),
                         'Technician Edited' => __('technician_quotation.status_technician_edited'),
                         'Pending' => __('technician_quotation.status_pending'),
@@ -62,15 +62,14 @@
                         'In Process' => __('technician_quotation.status_in_process'),
                         'Invoiced' => __('technician_quotation.status_invoiced'),
                         default => __('technician_quotation.status_cancelled'),
-                    } }}
-                  </span>
+                    } }}</span>
                 </div>
                 <p class="cot-project-meta mb-1">
                   <i class="bi bi-layers me-1"></i>
                   {{ $quotation->quotation_versions_count }}
                   {{ $quotation->quotation_versions_count === 1
-                      ? __('project.version_singular')
-                      : __('project.version_plural') }}
+                      ? __('technician_quotation.version_singular')
+                      : __('technician_quotation.version_plural') }}
                 </p>
                 <p class="cot-project-meta mb-1">
                   <i class="bi bi-calendar3 me-1"></i>{{ $quotation->getCreatedAt() }}
@@ -78,9 +77,9 @@
                 <p class="cot-project-meta mb-3">
                   <i class="bi bi-person me-1"></i>{{ $quotation->getCreator()->getName() }}
                 </p>
-                <a href="{{ route('admin.quotation.versions', [$viewData['project']->getId(), $quotation->getId()]) }}"
+                <a href="{{ route('technician.quotation.versions', [$viewData['project']->getId(), $quotation->getId()]) }}"
                   class="um-btn-icon um-btn-icon--edit px-3 py-1 w-100 text-center">
-                  <i class="bi bi-list-ul me-1"></i> {{ __('project.view_versions') }}
+                  <i class="bi bi-list-ul me-1"></i> {{ __('technician_quotation.btn_view_versions') }}
                 </a>
               </div>
             </div>

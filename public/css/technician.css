@@ -253,29 +253,29 @@
     color: #fff;
 }
 
-.cot-td-tipo {
+.cot-td-type {
     color: rgba(255,255,255,0.6);
 }
 
-.cot-td-unidad {
+.cot-td-unit {
     color: rgba(255,255,255,0.5);
     font-size: 0.85rem;
 }
 
-.cot-td-cantidad {
+.cot-td-quantity {
     color: var(--primary);
     font-weight: 600;
 }
 
 .cot-col-material { width: 45%; }
-.cot-col-unidad   { width: 20%; }
-.cot-col-cantidad { width: 20%; }
+.cot-col-unit   { width: 20%; }
+.cot-col-quantity { width: 20%; }
 .cot-col-action   { width: 15%; }
 
 .cot-col-show-material { width: 35%; }
-.cot-col-show-tipo     { width: 25%; }
-.cot-col-show-unidad   { width: 20%; }
-.cot-col-show-cantidad { width: 20%; }
+.cot-col-show-type     { width: 25%; }
+.cot-col-show-unit   { width: 20%; }
+.cot-col-show-quantity { width: 20%; }
 
 .cot-empty {
     text-align: center;
@@ -608,7 +608,7 @@
         display: block;
     }
 
-    .cot-show-table .cot-td-tipo {
+    .cot-show-table .cot-td-type {
         grid-area: tipo;
         padding: 0 12px 12px;
         font-size: 0.8rem;
@@ -618,7 +618,7 @@
         display: block;
     }
 
-    .cot-show-table .cot-td-unidad {
+    .cot-show-table .cot-td-unit {
         grid-area: unidad;
         padding: 0 12px 12px;
         font-size: 0.8rem;
@@ -630,7 +630,7 @@
         justify-content: flex-end;
     }
 
-    .cot-show-table .cot-td-cantidad {
+    .cot-show-table .cot-td-quantity {
         grid-area: cantidad;
         padding: 12px 12px 3px;
         font-size: 1rem;
@@ -861,5 +861,5 @@
 }
 
 /* ── Cotizacion table column widths ── */
-.col-cantidad { width: 150px; }
+.col-quantity { width: 150px; }
 .col-actions  { width: 50px; }

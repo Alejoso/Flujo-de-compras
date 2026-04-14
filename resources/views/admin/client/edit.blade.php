@@ -1,14 +1,14 @@
 @extends('layouts.admin')
-@section('page-title', __('cliente.edit_client'))
+@section('page-title', __('client.edit_client'))
 
 @section('content')
 <div class="um-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-        <h1 class="um-title"><i class="bi bi-pencil-fill"></i> {{ __('cliente.edit_client') }}</h1>
+        <h1 class="um-title"><i class="bi bi-pencil-fill"></i> {{ __('client.edit_client') }}</h1>
         <a href="{{ route('admin.client.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
-            <i class="bi bi-arrow-left me-1"></i> {{ __('cliente.back') }}
+            <i class="bi bi-arrow-left me-1"></i> {{ __('client.back') }}
         </a>
     </div>
 
@@ -18,8 +18,8 @@
             <div class="um-card">
                 <div class="um-card-header">
                     <div>
-                        <p class="um-card-title">{{ __('cliente.client_info_name', ['name' => $viewData['client']->getName()]) }}</p>
-                        <p class="um-card-subtitle">{{ __('cliente.update_info') }}</p>
+                        <p class="um-card-title">{{ __('client.client_info_name', ['name' => $viewData['client']->getName()]) }}</p>
+                        <p class="um-card-subtitle">{{ __('client.update_info') }}</p>
                     </div>
                 </div>
 
@@ -32,12 +32,12 @@
 
                             {{-- Nombre --}}
                             <div class="col-12">
-                                <label class="form-label">{{ __('cliente.name') }}</label>
+                                <label class="form-label">{{ __('client.name') }}</label>
                                 <input type="text"
                                        name="name"
                                        class="form-control @error('name') is-invalid @enderror"
                                        value="{{ $viewData['client']->getName() }}"
-                                       placeholder="{{ __('cliente.placeholder_name') }}">
+                                       placeholder="{{ __('client.placeholder_name') }}">
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -45,12 +45,12 @@
 
                             {{-- Cedula --}}
                             <div class="col-12">
-                                <label class="form-label">{{ __('cliente.cedula') }}</label>
+                                <label class="form-label">{{ __('client.cedula') }}</label>
                                 <input type="text"
                                        name="id_number"
                                        class="form-control @error('id_number') is-invalid @enderror"
                                        value="{{ $viewData['client']->getIdNumber() }}"
-                                       placeholder="{{ __('cliente.placeholder_cedula') }}">
+                                       placeholder="{{ __('client.placeholder_cedula') }}">
                                 @error('id_number')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -58,12 +58,12 @@
 
                             {{-- Correo --}}
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('cliente.email') }}</label>
+                                <label class="form-label">{{ __('client.email') }}</label>
                                 <input type="email"
                                        name="email"
                                        class="form-control @error('email') is-invalid @enderror"
                                        value="{{ $viewData['client']->getEmail() }}"
-                                       placeholder="{{ __('cliente.placeholder_email') }}">
+                                       placeholder="{{ __('client.placeholder_email') }}">
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -71,13 +71,13 @@
 
                             {{-- Celular --}}
                             <div class="col-md-6">
-                                <label class="form-label">{{ __('cliente.phone') }}</label>
+                                <label class="form-label">{{ __('client.phone') }}</label>
                                 <div class="input-group">
                                     <input type="string"
                                            name="phone"
                                            class="form-control @error('phone') is-invalid @enderror"
                                            value="{{ $viewData['client']->getPhone() }}"
-                                           placeholder="{{ __('cliente.placeholder_phone') }}">
+                                           placeholder="{{ __('client.placeholder_phone') }}">
                                     @error('phone')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -96,10 +96,10 @@
                             <div class="d-flex gap-2">
                                 <a href="{{ route('admin.client.index') }}"
                                 class="um-btn-icon um-btn-icon--edit px-3 py-2">
-                                    {{ __('cliente.cancel') }}
+                                    {{ __('client.cancel') }}
                                 </a>
                                 <button type="submit" class="um-btn-primary">
-                                    <i class="bi bi-floppy me-1"></i> {{ __('cliente.edit_client') }}
+                                    <i class="bi bi-floppy me-1"></i> {{ __('client.edit_client') }}
                                 </button>
                             </div>
 
@@ -112,7 +112,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="um-btn-icon um-btn-icon--delete px-3 py-2">
-                            <i class="bi bi-trash me-1"></i> {{ __('cliente.delete') }}
+                            <i class="bi bi-trash me-1"></i> {{ __('client.delete') }}
                         </button>
                     </form>
                 </div>

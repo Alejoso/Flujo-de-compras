@@ -1,12 +1,12 @@
-@extends('layouts.tecnico')
-@section('page-title', __('proyecto.projects'))
+@extends('layouts.technician')
+@section('page-title', __('project.projects'))
 
 @section('content')
   <div class="pj-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-      <h1 class="um-title"><i class="bi bi-folder-fill me-2"></i>{{ __('proyecto.projects') }}</h1>
+      <h1 class="um-title"><i class="bi bi-folder-fill me-2"></i>{{ __('project.projects') }}</h1>
     </div>
 
     {{-- Search & Filters --}}
@@ -20,24 +20,24 @@
           <div class="input-group search-group">
             <button type="submit" class="input-group-text border-0 bg-transparent"><i class="bi bi-search"></i></button>
             <input type="text" name="search" value="{{ $viewData['search'] }}" class="form-control"
-              placeholder="{{ __('proyecto.search_projects') }}">
+              placeholder="{{ __('project.search_projects') }}">
           </div>
           <div class="d-flex gap-2 ms-auto flex-wrap">
             <a href="{{ request()->fullUrlWithQuery(['status' => '', 'page' => null]) }}"
               class="{{ $viewData['status'] === '' ? 'um-btn-primary' : 'um-btn-filter' }}">
-              {{ __('proyecto.all') }}
+              {{ __('project.all') }}
             </a>
             <a href="{{ request()->fullUrlWithQuery(['status' => 'Negotiation', 'page' => null]) }}"
               class="{{ $viewData['status'] === 'Negotiation' ? 'um-btn-primary' : 'um-btn-filter' }}">
-              {{ __('proyecto.in_negotiation') }}
+              {{ __('project.in_negotiation') }}
             </a>
             <a href="{{ request()->fullUrlWithQuery(['status' => 'In Progress', 'page' => null]) }}"
               class="{{ $viewData['status'] === 'In Progress' ? 'um-btn-primary' : 'um-btn-filter' }}">
-              {{ __('proyecto.in_progress') }}
+              {{ __('project.in_progress') }}
             </a>
             <a href="{{ request()->fullUrlWithQuery(['status' => 'Completed', 'page' => null]) }}"
               class="{{ $viewData['status'] === 'Completed' ? 'um-btn-primary' : 'um-btn-filter' }}">
-              {{ __('proyecto.finished') }}
+              {{ __('project.finished') }}
             </a>
           </div>
         </form>
@@ -56,9 +56,9 @@
               <span
                 class="pj-badge pj-badge--{{ match ($project->getStatus()) {'Negotiation' => 'negociacion','In Progress' => 'ejecucion',default => 'finalizado'} }}">
                 {{ match ($project->getStatus()) {
-                    'Negotiation' => __('proyecto.status_negotiation'),
-                    'In Progress' => __('proyecto.status_in_progress'),
-                    default => __('proyecto.status_completed'),
+                    'Negotiation' => __('project.status_negotiation'),
+                    'In Progress' => __('project.status_in_progress'),
+                    default => __('project.status_completed'),
                 } }}
               </span>
             </div>
@@ -73,11 +73,11 @@
             <div class="mt-auto d-flex gap-2">
               <a href="{{ route('technician.quotation.index', $project->getId()) }}"
                 class="um-btn-icon um-btn-icon--edit flex-fill d-flex justify-content-center py-2">
-                <i class="bi bi-clipboard-data me-1"></i> {{ __('proyecto.view_quotations_short') }}
+                <i class="bi bi-clipboard-data me-1"></i> {{ __('project.view_quotations_short') }}
               </a>
               <a href="{{ route('technician.quotation.create', $project->getId()) }}"
                 class="um-btn-primary flex-fill d-flex justify-content-center py-2">
-                <i class="bi bi-clipboard-plus me-1"></i> {{ __('proyecto.new') }}
+                <i class="bi bi-clipboard-plus me-1"></i> {{ __('project.new') }}
               </a>
             </div>
 
@@ -87,7 +87,7 @@
         <div class="col-12">
           <div class="um-empty">
             <i class="bi bi-folder-x fs-3 d-block mb-2"></i>
-            {{ __('proyecto.no_projects') }}
+            {{ __('project.no_projects') }}
           </div>
         </div>
       @endforelse

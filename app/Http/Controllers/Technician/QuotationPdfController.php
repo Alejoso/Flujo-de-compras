@@ -17,7 +17,7 @@ class QuotationPdfController extends Controller
     {
         [$project, $data] = $this->loadPdfData($projectId, $versionId);
 
-        return view('tecnico.cotizacion.pdf-view', array_merge(['project' => $project], $data));
+        return view('technician.quotation.pdf-view', array_merge(['project' => $project], $data));
     }
 
     // Generates and directly downloads the PDF for a specific version.
@@ -25,7 +25,7 @@ class QuotationPdfController extends Controller
     {
         [$project, $data] = $this->loadPdfData($projectId, $versionId);
 
-        return Pdf::loadView('pdf.cotizacion', array_merge(['project' => $project], $data))
+        return Pdf::loadView('pdf.quotation', array_merge(['project' => $project], $data))
             ->setPaper('a4', 'portrait')
             ->download('p'.$project->getId().'_c'.$data['quotationNumber'].'_v'.$data['version']->getVersionNumber().'.pdf');
     }

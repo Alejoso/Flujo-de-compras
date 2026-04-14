@@ -100,4 +100,24 @@ return [
     'version_plural' => 'versiones',
     'view_versions' => 'Ver versiones',
 
+    // ─── Admin quotation actions ──────────────────────────────────
+    'btn_return_to_technician' => 'Devolver al técnico',
+    'btn_confirm_final' => 'Confirmar versión final',
+    'btn_accept_quotation' => 'Aceptar',
+    'btn_reject_quotation' => 'Rechazar',
+
+    // ─── Admin quotation flash messages ──────────────────────────
+    'flash_confirm_final_success' => 'Cotización confirmada como versión final.',
+    'flash_confirm_final_invalid_status' => 'Solo se puede confirmar una cotización en estado Pendiente.',
+    'flash_accept_success' => 'Cotización aceptada. Pasa a estado En Proceso.',
+    'flash_accept_invalid_status' => 'Solo se puede aceptar una cotización en estado Versión Final Técnico o Admin Editada.',
+    'flash_reject_success' => 'Cotización devuelta al técnico para revisión.',
+    'flash_reject_invalid_status' => 'No se puede rechazar en el estado actual.',
+
+    // ─── Reject modal ─────────────────────────────────────────────
+    'modal_reject_title' => 'Devolver al técnico',
+    'modal_reject_body' => '¿Está seguro que desea devolver esta cotización al técnico? El estado cambiará a "Técnico editado".',
+    'modal_cancel' => 'Cancelar',
+    'modal_reject_confirm' => 'Sí, devolver',
+
 ];

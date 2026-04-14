@@ -27,7 +27,7 @@ class QuotationBuilder
 
         return [$mt->getId() => [
             'label' => $mt->getMaterial()->getDescription().' — '.$mt->getType()->getSpecification(),
-            'presentaciones' => $mt->getPresentationMaterialTypes()
+            'presentations' => $mt->getPresentationMaterialTypes()
                 ->map(fn ($pmt) => $this->buildPresentationEntry($pmt, $unitOfMeasure))
                 ->values(),
         ]];
@@ -38,8 +38,8 @@ class QuotationBuilder
     {
         return [
             'id' => $pmt->getId(),
-            'nombre' => $pmt->getPresentation()->getName(),
-            'unidad' => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
+            'name' => $pmt->getPresentation()->getName(),
+            'unit' => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
         ];
     }
 
@@ -52,11 +52,11 @@ class QuotationBuilder
 
         return [
             'ptmId' => $pmt->getId(),
-            'descripcion' => $mt->getMaterial()->getDescription(),
-            'especificacion' => $mt->getType()->getSpecification(),
-            'presentacion' => $pmt->getPresentation()->getName(),
-            'unidad' => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
-            'cantidad' => $item->getQuantity(),
+            'description' => $mt->getMaterial()->getDescription(),
+            'specification' => $mt->getType()->getSpecification(),
+            'presentation' => $pmt->getPresentation()->getName(),
+            'unit' => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
+            'quantity' => $item->getQuantity(),
         ];
     }
 }

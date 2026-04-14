@@ -44,9 +44,9 @@ class ProjectController extends Controller
 
         try {
             $project = Project::create($validatedProjectData);
-            session()->flash('success', __('proyecto.project_created', ['name' => $project->getName()]));
+            session()->flash('success', __('project.project_created', ['name' => $project->getName()]));
         } catch (Exception $e) {
-            session()->flash('error', __('proyecto.flash_save_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('project.flash_save_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.project.index');
@@ -77,9 +77,9 @@ class ProjectController extends Controller
         try {
             $project = Project::findOrFail($id);
             $project->update($validatedProjectData);
-            session()->flash('success', __('proyecto.project_updated', ['name' => $project->getName()]));
+            session()->flash('success', __('project.project_updated', ['name' => $project->getName()]));
         } catch (Exception $e) {
-            session()->flash('error', __('proyecto.flash_update_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('project.flash_update_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.project.index');
@@ -90,9 +90,9 @@ class ProjectController extends Controller
         try {
             $project = Project::findOrFail($id);
             $project->delete();
-            session()->flash('success', __('proyecto.flash_destroy_success', ['name' => $project->getName()]));
+            session()->flash('success', __('project.flash_destroy_success', ['name' => $project->getName()]));
         } catch (Exception $e) {
-            session()->flash('error', __('proyecto.flash_destroy_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('project.flash_destroy_error', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.project.index');

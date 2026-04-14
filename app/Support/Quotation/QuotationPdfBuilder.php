@@ -27,23 +27,23 @@ class QuotationPdfBuilder
     public function preparePdfData(QuotationVersion $version): array
     {
         $quotation = $version->getQuotation();
-        $tecnico = $quotation->getCreator();
+        $technician = $quotation->getCreator();
         $quotationNumber = Quotation::where('project_id', $quotation->project->getId())
             ->where('id', '<=', $quotation->getId())
             ->count();
 
-        $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
+        $date = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
 
-        $materiales = $version->getPresentationMaterialTypeQuotationVersions()->map(fn ($item) => [
-            'cantidad' => $item->getQuantity(),
-            'unidades' => ($pmt = $item->getPresentationMaterialType())->getPresentationQuantity()
+        $materials = $version->getPresentationMaterialTypeQuotationVersions()->map(fn ($item) => [
+            'quantity' => $item->getQuantity(),
+            'units' => ($pmt = $item->getPresentationMaterialType())->getPresentationQuantity()
                                     .(($u = $pmt->getMaterialType()->getType()->getUnitOfMeasure()) ? ' '.$u->getAbbreviation() : ''),
-            'presentacion' => $pmt->getPresentation()->getName(),
-            'descripcion' => $pmt->getMaterialType()->getMaterial()->getDescription(),
-            'especificacion' => strtoupper($pmt->getMaterialType()->getType()->getSpecification()),
+            'presentation' => $pmt->getPresentation()->getName(),
+            'description' => $pmt->getMaterialType()->getMaterial()->getDescription(),
+            'specification' => strtoupper($pmt->getMaterialType()->getType()->getSpecification()),
         ]);
 
-        return compact('tecnico', 'fecha', 'materiales', 'quotationNumber', 'version');
+        return compact('technician', 'date', 'materials', 'quotationNumber', 'version');
     }
 
     // Deletes the PDF of a version from storage and clears its path.
@@ -61,19 +61,19 @@ class QuotationPdfBuilder
     {
         $version = $this->loadVersionWithRelations($versionId);
         [
-            'tecnico' => $tecnico,
-            'fecha' => $fecha,
-            'materiales' => $materiales,
+            'technician' => $technician,
+            'date' => $date,
+            'materials' => $materials,
             'quotationNumber' => $quotationNumber,
             'version' => $version,
         ] = $this->preparePdfData($version);
 
-        $pdf = Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'quotationNumber', 'version'))
+        $pdf = Pdf::loadView('pdf.quotation', compact('project', 'technician', 'date', 'materials', 'quotationNumber', 'version'))
             ->setPaper('a4', 'portrait');
 
         $versionNumber = $version->getVersionNumber();
-        $relativePath = 'proyecto_'.$project->getId()
-            .'/cotizacion_'.$quotationNumber
+        $relativePath = 'project_'.$project->getId()
+            .'/quotation_'.$quotationNumber
             .'/p'.$project->getId().'_c'.$quotationNumber.'_v'.$versionNumber.'.pdf';
 
         Storage::disk('public')->put($relativePath, $pdf->output());

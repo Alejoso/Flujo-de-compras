@@ -21,6 +21,6 @@ class ProjectController extends Controller
         $viewData['search'] = $search;
         $viewData['status'] = $status;
 
-        return view('tecnico.project.index')->with('viewData', $viewData);
+        return view('technician.project.index')->with('viewData', $viewData);
     }
 }

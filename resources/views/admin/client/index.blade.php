@@ -1,14 +1,14 @@
 @extends('layouts.admin')
-@section('page-title', __('cliente.clients'))
+@section('page-title', __('client.clients'))
 
 @section('content')
 <div class="pj-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-        <h1 class="um-title"><i class="bi bi-person-heart"></i> {{ __('cliente.clients') }}</h1>
+        <h1 class="um-title"><i class="bi bi-person-heart"></i> {{ __('client.clients') }}</h1>
         <a href="{{ route('admin.client.create') }}" class="um-btn-primary">
-            <i class="bi bi-plus-lg"></i> {{ __('cliente.new_client') }}
+            <i class="bi bi-plus-lg"></i> {{ __('client.new_client') }}
         </a>
     </div>
 
@@ -18,7 +18,7 @@
             <form method="GET" action="{{ route('admin.client.index') }}" class="d-flex gap-2 flex-wrap align-items-center w-100 ">
                 <div class="input-group search-group-client flex-grow-1">
                     <button type="submit" class="input-group-text border-0 bg-transparent"><i class="bi bi-search"></i></button>
-                    <input type="text" name="search" value="{{ $viewData['search'] }}" class="form-control" placeholder="{{ __('cliente.search_clients') }}">
+                    <input type="text" name="search" value="{{ $viewData['search'] }}" class="form-control" placeholder="{{ __('client.search_clients') }}">
                 </div>
             </form>
         </div>
@@ -37,10 +37,10 @@
 
                 {{-- Cedula --}}
                 <p class="mb-3">
-                    <span class="pj-meta-label">{{ __('cliente.cedula_label') }} </span>
+                    <span class="pj-meta-label">{{ __('client.cedula_label') }} </span>
                     <span class="pj-meta-value">
                         @if($client->getIdNumber() == null)
-                        {{ __('cliente.null_data') }}
+                        {{ __('client.null_data') }}
                         @else
                         {{ $client->getIdNumber() }}
                         @endif
@@ -49,10 +49,10 @@
 
                 {{-- Correo --}}
                 <div class="mb-3">
-                    <span class="pj-meta-label">{{ __('cliente.email_label') }} </span>
+                    <span class="pj-meta-label">{{ __('client.email_label') }} </span>
                     <span class="pj-meta-value">
                         @if($client->getEmail() == null)
-                        {{ __('cliente.null_data') }}
+                        {{ __('client.null_data') }}
                         @else
                         {{ $client->getEmail() }}
                         @endif
@@ -61,10 +61,10 @@
 
                 {{-- Celular --}}
                 <div class="mb-3">
-                    <span class="pj-meta-label">{{ __('cliente.phone_label') }} </span>
+                    <span class="pj-meta-label">{{ __('client.phone_label') }} </span>
                     <span class="pj-meta-value">
                         @if($client->getPhone() == null)
-                        {{ __('cliente.null_data') }}
+                        {{ __('client.null_data') }}
                         @else
                         {{ $client->getPhone() }}
                         @endif
@@ -75,11 +75,11 @@
                 <div class="mt-auto d-flex gap-2">
                     <a href="{{ route('admin.client.show', ['id' => $client->getId()]) }}"
                        class="um-btn-icon um-btn-icon--view flex-fill justify-content-center py-2">
-                        <i class="bi bi-eye me-1"></i> {{ __('cliente.view_projects') }}
+                        <i class="bi bi-eye me-1"></i> {{ __('client.view_projects') }}
                     </a>
                     <a href="{{ route('admin.client.edit', ['id' => $client->getId()]) }}"
                        class="um-btn-icon um-btn-icon--edit flex-fill justify-content-center py-2">
-                        <i class="bi bi-pencil-fill me-1"></i> {{ __('cliente.edit') }}
+                        <i class="bi bi-pencil-fill me-1"></i> {{ __('client.edit') }}
                     </a>
                 </div>
 
@@ -89,7 +89,7 @@
         <div class="col-12">
             <div class="um-empty">
                 <i class="bi bi-folder-x fs-3 d-block mb-2"></i>
-                {{ __('cliente.no_clients') }}
+                {{ __('client.no_clients') }}
             </div>
         </div>
         @endforelse

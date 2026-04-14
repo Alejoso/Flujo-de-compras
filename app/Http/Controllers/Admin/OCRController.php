@@ -22,7 +22,7 @@ class OCRController extends Controller
 
             $viewData['invoiceData'] = $ocr->processInvoice($bytes, $nombre);
         } catch (Exception $e) {
-            session()->flash('error', __('admin_factura.flash_process_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('admin_invoice.flash_process_error', ['error' => $e->getMessage()]));
 
             return redirect()->back();
         }
