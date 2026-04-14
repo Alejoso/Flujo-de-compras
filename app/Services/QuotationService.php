@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\Quotation;
 use App\Models\PresentationMaterialTypeQuotationVersion;
 use App\Models\Project;
+use App\Models\Quotation;
 use App\Models\QuotationVersion;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +19,7 @@ class QuotationService
         Quotation::query()->getConnection()->transaction(function () use ($project, $materials, &$quotationId, &$versionId) {
             $quotation = Quotation::create([
                 'project_id' => $project->getId(),
-                'status'     => 'Technician',
+                'status' => 'Technician',
                 'created_by' => Auth::id(),
             ]);
             $quotationId = $quotation->getId();
@@ -27,14 +27,14 @@ class QuotationService
             $version = QuotationVersion::create([
                 'version_number' => '1',
                 'is_most_recent' => true,
-                'quotation_id'   => $quotation->getId(),
+                'quotation_id' => $quotation->getId(),
             ]);
             $versionId = $version->getId();
 
             foreach ($materials as $item) {
                 PresentationMaterialTypeQuotationVersion::create([
-                    'quantity'                      => $item['quantity'],
-                    'quotation_version_id'          => $version->getId(),
+                    'quantity' => $item['quantity'],
+                    'quotation_version_id' => $version->getId(),
                     'presentation_material_type_id' => $item['presentation_material_type_id'],
                 ]);
             }
@@ -59,14 +59,14 @@ class QuotationService
             $newVersion = QuotationVersion::create([
                 'version_number' => (string) $newVersionNumber,
                 'is_most_recent' => true,
-                'quotation_id'   => $quotation->getId(),
+                'quotation_id' => $quotation->getId(),
             ]);
             $newVersionId = $newVersion->getId();
 
             foreach ($materials as $item) {
                 PresentationMaterialTypeQuotationVersion::create([
-                    'quantity'                      => $item['quantity'],
-                    'quotation_version_id'          => $newVersion->getId(),
+                    'quantity' => $item['quantity'],
+                    'quotation_version_id' => $newVersion->getId(),
                     'presentation_material_type_id' => $item['presentation_material_type_id'],
                 ]);
             }

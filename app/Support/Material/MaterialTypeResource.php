@@ -11,7 +11,7 @@ class MaterialTypeResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'label'          => $this->buildLabel(),
+            'label' => $this->buildLabel(),
             'presentaciones' => PresentationMaterialTypeResource::collection(
                 $this->resource->getPresentationMaterialTypes()
             ),

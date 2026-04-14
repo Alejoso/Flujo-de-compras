@@ -19,8 +19,8 @@ class ClientController extends Controller
 
         $viewData = [];
         $viewData['clients'] = Client::when($search, fn ($q) => $q->where('name', 'ilike', "%{$search}%"))
-        ->orderBy('name', 'asc')
-        ->paginate(12);
+            ->orderBy('name', 'asc')
+            ->paginate(12);
 
         $viewData['search'] = $search;
 

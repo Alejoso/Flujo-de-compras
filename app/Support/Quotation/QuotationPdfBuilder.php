@@ -2,8 +2,8 @@
 
 namespace App\Support\Quotation;
 
-use App\Models\Quotation;
 use App\Models\Project;
+use App\Models\Quotation;
 use App\Models\QuotationVersion;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -35,11 +35,11 @@ class QuotationPdfBuilder
         $fecha = Carbon::parse($version->getCreatedAt())->locale('es')->isoFormat('MMMM D, YYYY');
 
         $materiales = $version->getPresentationMaterialTypeQuotationVersions()->map(fn ($item) => [
-            'cantidad'       => $item->getQuantity(),
-            'unidades'       => ($pmt = $item->getPresentationMaterialType())->getPresentationQuantity()
+            'cantidad' => $item->getQuantity(),
+            'unidades' => ($pmt = $item->getPresentationMaterialType())->getPresentationQuantity()
                                     .(($u = $pmt->getMaterialType()->getType()->getUnitOfMeasure()) ? ' '.$u->getAbbreviation() : ''),
-            'presentacion'   => $pmt->getPresentation()->getName(),
-            'descripcion'    => $pmt->getMaterialType()->getMaterial()->getDescription(),
+            'presentacion' => $pmt->getPresentation()->getName(),
+            'descripcion' => $pmt->getMaterialType()->getMaterial()->getDescription(),
             'especificacion' => strtoupper($pmt->getMaterialType()->getType()->getSpecification()),
         ]);
 
@@ -61,11 +61,11 @@ class QuotationPdfBuilder
     {
         $version = $this->loadVersionWithRelations($versionId);
         [
-            'tecnico'         => $tecnico,
-            'fecha'           => $fecha,
-            'materiales'      => $materiales,
+            'tecnico' => $tecnico,
+            'fecha' => $fecha,
+            'materiales' => $materiales,
             'quotationNumber' => $quotationNumber,
-            'version'         => $version,
+            'version' => $version,
         ] = $this->preparePdfData($version);
 
         $pdf = Pdf::loadView('pdf.cotizacion', compact('project', 'tecnico', 'fecha', 'materiales', 'quotationNumber', 'version'))

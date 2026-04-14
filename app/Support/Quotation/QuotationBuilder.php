@@ -26,7 +26,7 @@ class QuotationBuilder
         $unitOfMeasure = $mt->getType()->getUnitOfMeasure();
 
         return [$mt->getId() => [
-            'label'         => $mt->getMaterial()->getDescription().' — '.$mt->getType()->getSpecification(),
+            'label' => $mt->getMaterial()->getDescription().' — '.$mt->getType()->getSpecification(),
             'presentaciones' => $mt->getPresentationMaterialTypes()
                 ->map(fn ($pmt) => $this->buildPresentationEntry($pmt, $unitOfMeasure))
                 ->values(),
@@ -37,7 +37,7 @@ class QuotationBuilder
     private function buildPresentationEntry($pmt, $unitOfMeasure): array
     {
         return [
-            'id'     => $pmt->getId(),
+            'id' => $pmt->getId(),
             'nombre' => $pmt->getPresentation()->getName(),
             'unidad' => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
         ];
@@ -47,16 +47,16 @@ class QuotationBuilder
     private function buildMaterialEntry($item): array
     {
         $pmt = $item->getPresentationMaterialType();
-        $mt  = $pmt->getMaterialType();
+        $mt = $pmt->getMaterialType();
         $unitOfMeasure = $mt->getType()->getUnitOfMeasure();
 
         return [
-            'ptmId'         => $pmt->getId(),
-            'descripcion'   => $mt->getMaterial()->getDescription(),
+            'ptmId' => $pmt->getId(),
+            'descripcion' => $mt->getMaterial()->getDescription(),
             'especificacion' => $mt->getType()->getSpecification(),
-            'presentacion'  => $pmt->getPresentation()->getName(),
-            'unidad'        => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
-            'cantidad'      => $item->getQuantity(),
+            'presentacion' => $pmt->getPresentation()->getName(),
+            'unidad' => $pmt->getPresentationQuantity().($unitOfMeasure ? ' '.$unitOfMeasure->getAbbreviation() : ''),
+            'cantidad' => $item->getQuantity(),
         ];
     }
 }

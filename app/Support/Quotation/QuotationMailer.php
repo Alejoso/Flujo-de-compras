@@ -2,10 +2,10 @@
 
 namespace App\Support\Quotation;
 
-use App\Models\Quotation;
 use App\Models\Project;
-use App\Models\User;
+use App\Models\Quotation;
 use App\Models\QuotationVersion;
+use App\Models\User;
 use App\Services\EmailService;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +14,7 @@ class QuotationMailer
     // Sends an email notifying the creation of a quotation.
     public function sendCreationEmail(Quotation $quotation, Project $project, QuotationVersion $version): void
     {
-        $emailService = new EmailService();
+        $emailService = new EmailService;
         $user = User::findOrFail(Auth::id());
         $position = $this->positionInProject($quotation, $project);
 
@@ -32,7 +32,7 @@ class QuotationMailer
     // Sends an email notifying the editing of a quotation.
     public function sendEditEmail(Quotation $quotation, Project $project, QuotationVersion $version): void
     {
-        $emailService = new EmailService();
+        $emailService = new EmailService;
         $user = User::findOrFail(Auth::id());
         $position = $this->positionInProject($quotation, $project);
 

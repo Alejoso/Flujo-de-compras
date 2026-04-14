@@ -13,7 +13,7 @@ return [
     'view_details' => 'Ver Detalles',
     'edit' => 'Editar',
     'new' => 'Nueva',
-    'delete'=> 'Borrar proyecto',
+    'delete' => 'Borrar proyecto',
 
     // ─── Form Labels ──────────────────────────────────────────────
     'name' => 'Nombre',
@@ -44,8 +44,8 @@ return [
 
     // ─── Estado enum values (deben coincidir con la BD) ───────────
     'estado_negociacion' => 'Negotiation',
-    'estado_ejecucion'   => 'In Progress',
-    'estado_finalizado'  => 'Completed',
+    'estado_ejecucion' => 'In Progress',
+    'estado_finalizado' => 'Completed',
 
     // ─── Index Meta Labels ────────────────────────────────────────
     'total_cost_label' => 'Costo total:',
@@ -72,8 +72,8 @@ return [
     'quotations_desc' => 'Revisa y gestiona todas las cotizaciones asociadas',
     'process_invoice_ocr' => 'Procesar Factura OCR',
     'ocr_desc' => 'Extrae y estructura datos de facturas automáticamente',
-    'confirm_delete_title'=> 'Borrar proyecto',
-    'confirm_delete'=> '¿Esta seguro que desea borrar el proyecto: :name?',
+    'confirm_delete_title' => 'Borrar proyecto',
+    'confirm_delete' => '¿Esta seguro que desea borrar el proyecto: :name?',
 
     // ─── Status labels ───────────────────────────────────────────
     'status_negotiation' => 'En negociación',

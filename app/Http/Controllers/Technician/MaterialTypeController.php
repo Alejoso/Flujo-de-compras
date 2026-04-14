@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Technician;
 
 use App\Http\Controllers\Controller;
-use App\Support\Material\MaterialTypeResource;
 use App\Services\Technician\MaterialTypeService;
+use App\Support\Material\MaterialTypeResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 

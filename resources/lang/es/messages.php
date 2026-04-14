@@ -2,7 +2,7 @@
 
 return [
     'success' => 'Éxito',
-    'error'   => 'Error',
+    'error' => 'Error',
     'warning' => 'Advertencia',
-    'info'    => 'Información',
+    'info' => 'Información',
 ];

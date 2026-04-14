@@ -35,9 +35,9 @@ return [
 
     // Table headers
     'th_material_spec' => 'Material / Especificación',
-    'th_material'      => 'Material',
-    'th_type_spec'     => 'Tipo / Especificación',
-    'th_actions'       => 'Acciones',
+    'th_material' => 'Material',
+    'th_type_spec' => 'Tipo / Especificación',
+    'th_actions' => 'Acciones',
 
     // Messages
     'msg_validation_error' => 'Revisa los campos marcados antes de enviar.',
@@ -45,17 +45,17 @@ return [
     'msg_empty_versiones' => 'Esta cotización no tiene versiones aún.',
     'msg_empty_materials' => 'Sin materiales registrados.',
     'msg_add_materials_hint' => 'Agrega materiales usando los selectores de arriba',
-    'msg_search_placeholder'   => 'Escriba para buscar...',
+    'msg_search_placeholder' => 'Escriba para buscar...',
     'msg_select_material_first' => '— elige material primero —',
 
     // PDF view
-    'pdf_intro'            => 'A continuación se presenta una tabla con los materiales a cotizar:',
-    'pdf_th_quantity'      => 'Cantidad',
-    'pdf_th_description'   => 'Descripción',
+    'pdf_intro' => 'A continuación se presenta una tabla con los materiales a cotizar:',
+    'pdf_th_quantity' => 'Cantidad',
+    'pdf_th_description' => 'Descripción',
     'pdf_th_specification' => 'Especificación',
-    'pdf_label_tel'        => 'Tel',
-    'pdf_label_email'      => 'Email',
-    'pdf_country'          => 'Colombia',
+    'pdf_label_tel' => 'Tel',
+    'pdf_label_email' => 'Email',
+    'pdf_country' => 'Colombia',
 
     // Status labels
     'status_technician' => 'Técnico',

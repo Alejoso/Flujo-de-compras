@@ -24,12 +24,12 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'       => 'required|string|max:255',
-            'address'    => 'required|string|max:255',
-            'city'       => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
             'total_cost' => 'nullable|numeric',
-            'client_id'  => 'required|numeric',
-            'status'     => 'required|string|in:Negotiation,In Progress,Completed',
+            'client_id' => 'required|numeric',
+            'status' => 'required|string|in:Negotiation,In Progress,Completed',
         ];
     }
 }

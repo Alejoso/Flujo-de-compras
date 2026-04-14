@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Models\Material;
+use App\Models\MaterialType;
 use App\Models\Presentation;
 use App\Models\PresentationMaterialType;
 use App\Models\Type;
-use App\Models\MaterialType;
 use App\Models\UnitOfMeasure;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -57,20 +57,20 @@ class MaterialController extends Controller
 
             foreach ($data['types'] as $typeData) {
                 $type = Type::create([
-                    'specification'    => $typeData['specification'],
+                    'specification' => $typeData['specification'],
                     'unit_of_measure_id' => $typeData['unit_of_measure_id'] ?? null,
                 ]);
 
                 $materialType = MaterialType::create([
                     'material_id' => $material->getId(),
-                    'type_id'     => $type->getId(),
+                    'type_id' => $type->getId(),
                 ]);
 
                 foreach ($typeData['presentations'] as $presData) {
                     PresentationMaterialType::create([
                         'presentation_quantity' => $presData['presentation_quantity'],
-                        'presentation_id'       => $presData['presentation_id'],
-                        'material_type_id'      => $materialType->getId(),
+                        'presentation_id' => $presData['presentation_id'],
+                        'material_type_id' => $materialType->getId(),
                     ]);
                 }
             }
