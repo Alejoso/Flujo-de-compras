@@ -101,9 +101,11 @@ class ProjectController extends Controller
     public function showQuotations(string $id): View
     {
         $viewData = [];
-        $viewData['project'] = Project::findOrFail($id);
+        $viewData['project'] = Project::with('client')->findOrFail($id);
         $viewData['quotations'] = $viewData['project']->quotations()
             ->withCount('quotationVersions')
+            ->with('creator')
+            ->orderBy('id')
             ->get();
 
         return view('admin.project.quotations')->with('viewData', $viewData);

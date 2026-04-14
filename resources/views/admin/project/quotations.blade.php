@@ -1,6 +1,10 @@
 @extends('layouts.admin')
 @section('page-title', __('proyecto.view_quotations'))
 
+@push('styles')
+  <link href="{{ asset('css/tecnico.css') }}" rel="stylesheet">
+@endpush
+
 @section('content')
   <div class="pj-wrapper">
 
@@ -12,14 +16,26 @@
       </a>
     </div>
 
-    <div class="cot-header-card mb-4">
-      <p class="cot-project-name">
-        <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getName() }}
-      </p>
-      <p class="cot-project-meta">
-        <i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCity() }} —
-        {{ $viewData['project']->getAddress() }}
-      </p>
+    <div class="cot-header-card mb-4 text-center">
+      <p class="cot-project-label mb-1"><i class="bi bi-folder-fill cot-icon-primary me-1"></i>{{ __('tecnico_cotizacion.label_project') }}</p>
+      <h2 class="cot-project-title mb-2">{{ $viewData['project']->getName() }}</h2>
+      <span class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($viewData['project']->getStatus())) }}">
+        {{ match($viewData['project']->getStatus()) {
+            'Negotiation' => __('proyecto.status_negotiation'),
+            'In Progress'  => __('proyecto.status_in_progress'),
+            default        => __('proyecto.status_completed'),
+        } }}
+      </span>
+      <div class="cot-project-details justify-content-center mt-3">
+        <span><i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCity() }}, {{ $viewData['project']->getAddress() }}</span>
+        @if($viewData['project']->getClient())
+          <span><i class="bi bi-building me-1"></i>{{ $viewData['project']->getClient()->getName() }}</span>
+        @endif
+        @if($viewData['project']->getTotalCost())
+          <span><i class="bi bi-cash-stack me-1"></i>$ {{ number_format($viewData['project']->getTotalCost(), 0, ',', '.') }}</span>
+        @endif
+        <span><i class="bi bi-clipboard-data me-1"></i>{{ $viewData['quotations']->count() }} {{ $viewData['quotations']->count() === 1 ? __('tecnico_cotizacion.version_singular') : __('tecnico_cotizacion.label_quotations') }}</span>
+      </div>
     </div>
 
     @if ($viewData['quotations']->isEmpty())
@@ -37,8 +53,8 @@
               <div class="cot-card-body">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <span class="cot-version-number">{{ __('proyecto.quotation') }} {{ $loop->iteration }}</span>
-                  <span
-                    class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($cotizacion->getStatus())) }}">{{ match ($cotizacion->getStatus()) {
+                  <span class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($cotizacion->getStatus())) }}">
+                    {{ match ($cotizacion->getStatus()) {
                         'Technician' => __('tecnico_cotizacion.status_technician'),
                         'Technician Edited' => __('tecnico_cotizacion.status_technician_edited'),
                         'Pending' => __('tecnico_cotizacion.status_pending'),
@@ -46,12 +62,13 @@
                         'In Process' => __('tecnico_cotizacion.status_in_process'),
                         'Invoiced' => __('tecnico_cotizacion.status_invoiced'),
                         default => __('tecnico_cotizacion.status_cancelled'),
-                    } }}</span>
+                    } }}
+                  </span>
                 </div>
                 <p class="cot-project-meta mb-1">
                   <i class="bi bi-layers me-1"></i>
-                  {{ $cotizacion->version_cotizaciones_count }}
-                  {{ $cotizacion->version_cotizaciones_count === 1
+                  {{ $cotizacion->quotation_versions_count }}
+                  {{ $cotizacion->quotation_versions_count === 1
                       ? __('proyecto.version_singular')
                       : __('proyecto.version_plural') }}
                 </p>
