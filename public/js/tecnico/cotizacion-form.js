@@ -113,7 +113,7 @@
         tdMaterial.textContent = label;
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
-        hiddenInput.name = 'materiales[' + rowIdx + '][presentacionTipoMaterialId]';
+        hiddenInput.name = 'materials[' + rowIdx + '][presentation_material_type_id]';
         hiddenInput.value = ptmId;
         tdMaterial.appendChild(hiddenInput);
 
@@ -129,7 +129,7 @@
         const tdCantidad = document.createElement('td');
         const cantidadInput = document.createElement('input');
         cantidadInput.type = 'number';
-        cantidadInput.name = 'materiales[' + rowIdx + '][cantidad]';
+        cantidadInput.name = 'materials[' + rowIdx + '][quantity]';
         cantidadInput.className = 'form-control';
         cantidadInput.value = '1';
         cantidadInput.min = '1';

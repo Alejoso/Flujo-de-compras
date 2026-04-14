@@ -26,11 +26,11 @@ class AppServiceProvider extends ServiceProvider
         RedirectIfAuthenticated::redirectUsing(function ($request) {
             $user = auth()->user();
 
-            if ($user->getRol() === 'admin') {
+            if ($user->getRole() === 'admin') {
                 return route('admin.project.index');
             }
 
-            return route('tecnico.project.index');
+            return route('technician.project.index');
         });
     }
 }

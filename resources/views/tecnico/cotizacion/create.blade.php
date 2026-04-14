@@ -2,12 +2,12 @@
 @section('page-title', __('tecnico_cotizacion.title_create'))
 
 @section('content')
-  <div class="pj-wrapper" id="cotizacion-app" data-search-url="{{ route('tecnico.materiales.search') }}" data-row-idx="0"
+  <div class="pj-wrapper" id="cotizacion-app" data-search-url="{{ route('technician.materials.search') }}" data-row-idx="0"
     data-has-empty-row="1">
 
     <div class="um-header">
       <h1 class="um-title"><i class="bi bi-clipboard-plus me-2"></i>{{ __('tecnico_cotizacion.title_create') }}</h1>
-      <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}"
+      <a href="{{ route('technician.quotation.index', $viewData['project']->getId()) }}"
         class="um-btn-icon um-btn-icon--edit px-3 py-2">
         <i class="bi bi-arrow-left me-1"></i> {{ __('tecnico_cotizacion.btn_back') }}
       </a>
@@ -20,17 +20,17 @@
       </div>
     @endif
 
-    <form action="{{ route('tecnico.cotizacion.store', $viewData['project']->getId()) }}" method="POST"
+    <form action="{{ route('technician.quotation.store', $viewData['project']->getId()) }}" method="POST"
       id="cotizacionForm">
       @csrf
 
       <div class="cot-header-card mb-4">
         <p class="cot-project-name">
-          <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getNombre() }}
+          <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getName() }}
         </p>
         <p class="cot-project-meta">
-          <i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCiudad() }} —
-          {{ $viewData['project']->getDireccion() }}
+          <i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCity() }} —
+          {{ $viewData['project']->getAddress() }}
         </p>
 
         <div class="row mt-3 g-2 align-items-end">
@@ -83,7 +83,7 @@
       </div>
 
       <div class="cot-footer">
-        <a href="{{ route('tecnico.cotizacion.index', $viewData['project']->getId()) }}"
+        <a href="{{ route('technician.quotation.index', $viewData['project']->getId()) }}"
           class="um-btn-icon um-btn-icon--edit px-4 py-2">
           {{ __('tecnico_cotizacion.btn_cancel') }}
         </a>

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('proyectos', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('direccion');
-            $table->string('ciudad');
-            $table->double('costoTotal')->nullable();
-            $table->enum('estado', ['En Negociación', 'En Ejecución', 'Finalizado'])->default('En Negociación');
-            $table->foreignId('clienteId')->constrained('clientes')->restrictOnDelete();
-            $table->foreignId('creadoPor')->constrained('users')->nullOnDelete();
+            $table->string('name');
+            $table->string('address');
+            $table->string('city');
+            $table->double('total_cost')->nullable();
+            $table->enum('status', ['Negotiation', 'In Progress', 'Completed'])->default('Negotiation');
+            $table->foreignId('client_id')->constrained('clients')->restrictOnDelete();
+            $table->foreignId('created_by')->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('proyectos');
+        Schema::dropIfExists('projects');
     }
 };

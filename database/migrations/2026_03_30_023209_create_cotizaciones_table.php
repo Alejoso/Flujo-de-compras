@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cotizaciones', function (Blueprint $table) {
+        Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->enum('estado', ['Tecnico', 'Tecnico Editada', 'Pendiente', 'Admin Editada', 'En Proceso', 'Facturada', 'Cancelada'])->default('Tecnico');
-            $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
-            $table->foreignId('creadoPor')->constrained('users')->cascadeOnDelete();
+            $table->enum('status', ['Technician', 'Technician Edited', 'Pending', 'Admin Edited', 'In Process', 'Invoiced', 'Cancelled'])->default('Technician');
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cotizaciones');
+        Schema::dropIfExists('quotations');
     }
 };

@@ -57,6 +57,15 @@ return [
     'pdf_label_email'      => 'Email',
     'pdf_country'          => 'Colombia',
 
+    // Status labels
+    'status_technician' => 'Técnico',
+    'status_technician_edited' => 'Técnico editado',
+    'status_pending' => 'Pendiente',
+    'status_admin_edited' => 'Editada por administración',
+    'status_in_process' => 'En proceso',
+    'status_invoiced' => 'Facturada',
+    'status_cancelled' => 'Cancelada',
+
     // Flash messages — success
     'flash_store_success' => 'Cotización creada correctamente para el proyecto ":project".',
     'flash_update_success' => 'Nueva versión de la cotización creada correctamente.',
@@ -73,5 +82,9 @@ return [
     // Singular/plural versions count
     'version_singular' => 'versión',
     'version_plural' => 'versiones',
+
+    // Project header card labels
+    'label_project' => 'Proyecto',
+    'label_quotations' => 'cotizaciones',
 
 ];

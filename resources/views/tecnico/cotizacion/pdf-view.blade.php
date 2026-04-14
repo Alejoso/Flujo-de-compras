@@ -1,5 +1,5 @@
 @extends('layouts.tecnico')
-@section('page-title', __('tecnico_cotizacion.title_index') . ' — V' . $version->getNumeroVersion())
+@section('page-title', __('tecnico_cotizacion.title_index') . ' — V' . $version->getVersionNumber())
 
 @section('content')
   <div class="pj-wrapper">
@@ -7,14 +7,14 @@
     <div class="um-header">
       <h1 class="um-title">
         <i class="bi bi-file-earmark-pdf me-2"></i>
-        {{ __('tecnico_cotizacion.title_index') }} — V{{ $version->getNumeroVersion() }}
+        {{ __('tecnico_cotizacion.title_index') }} — V{{ $version->getVersionNumber() }}
       </h1>
       <div class="d-flex gap-2">
-        <a href="{{ route('tecnico.cotizacion.pdfDownload', [$project->getId(), $version->getId()]) }}"
+        <a href="{{ route('technician.quotation.pdfDownload', [$project->getId(), $version->getId()]) }}"
           class="um-btn-primary px-3 py-2">
           <i class="bi bi-download me-1"></i> {{ __('tecnico_cotizacion.btn_download_pdf') }}
         </a>
-        <a href="{{ route('tecnico.cotizacion.versions', [$project->getId(), $version->getCotizacion()->getId()]) }}"
+        <a href="{{ route('technician.quotation.versions', [$project->getId(), $version->getQuotation()->getId()]) }}"
           class="um-btn-icon um-btn-icon--edit px-3 py-2">
           <i class="bi bi-arrow-left me-1"></i> {{ __('tecnico_cotizacion.btn_back') }}
         </a>
@@ -25,12 +25,14 @@
 
       <div class="cot-doc-header">
         <h2>{{ $tecnico->getName() }}</h2>
-        <p>{{ __('tecnico_cotizacion.pdf_label_tel') }}: {{ $tecnico->getNumeroTelefono() }} &nbsp;&nbsp; {{ __('tecnico_cotizacion.pdf_label_email') }}: {{ $tecnico->getEmail() }}</p>
-        <p>{{ $project->getCiudad() }}, {{ __('tecnico_cotizacion.pdf_country') }}</p>
+        <p>{{ __('tecnico_cotizacion.pdf_label_tel') }}: {{ $tecnico->getPhoneNumber() }} &nbsp;&nbsp;
+          {{ __('tecnico_cotizacion.pdf_label_email') }}: {{ $tecnico->getEmail() }}</p>
+        <p>{{ $project->getCity() }}, {{ __('tecnico_cotizacion.pdf_country') }}</p>
       </div>
 
-      <div class="cot-doc-title">{{ __('tecnico_cotizacion.title_index') }} {{ $numeroCotizacion }} - V{{ $version->getNumeroVersion() }}</div>
-      <div class="cot-doc-title">{{ $project->getNombre() }}</div>
+      <div class="cot-doc-title">{{ __('tecnico_cotizacion.title_index') }} {{ $quotationNumber }} -
+        V{{ $version->getVersionNumber() }}</div>
+      <div class="cot-doc-title">{{ $project->getName() }}</div>
       <div class="cot-doc-date">{{ $fecha }}</div>
 
       <p class="cot-doc-intro">{{ __('tecnico_cotizacion.pdf_intro') }}</p>
@@ -47,7 +49,7 @@
           @foreach ($materiales as $item)
             <tr>
               <td>
-                @if($item['presentacion'])
+                @if ($item['presentacion'])
                   {{ $item['cantidad'] }} {{ $item['presentacion'] }} de {{ $item['unidades'] }}
                 @else
                   {{ $item['cantidad'] }} {{ $item['unidades'] }}

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cotizaciones', function (Blueprint $table) {
-            $table->foreignId('facturaId')->nullable()->constrained('facturas')->nullOnDelete();
+        Schema::table('quotations', function (Blueprint $table) {
+            $table->foreignId('invoice_id')->nullable()->constrained('invoices')->nullOnDelete();
         });
     }
 
@@ -21,9 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cotizaciones', function (Blueprint $table) {
-            $table->dropForeign(['facturaId']);
-            $table->dropColumn('facturaId');
+        Schema::table('quotations', function (Blueprint $table) {
+            $table->dropForeign(['invoice_id']);
+            $table->dropColumn('invoice_id');
         });
     }
 };

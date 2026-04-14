@@ -59,11 +59,6 @@
           <i class="bi bi-box-seam"></i>
           <span>Materiales</span>
         </a>
-
-        <a href="#" class="sidebar-link {{ request()->routeIs('admin.config*') ? 'active' : '' }}">
-          <i class="bi bi-gear-fill"></i>
-          <span>Configuración</span>
-        </a>
       </nav>
 
       <div class="sidebar-footer">
@@ -71,7 +66,13 @@
           <div class="user-avatar">{{ strtoupper(substr(Auth::user()->getName(), 0, 1)) }}</div>
           <div class="user-info">
             <span class="user-name">{{ Auth::user()->getName() }}</span>
-            <span class="user-role">{{ Auth::user()->getRol() }}</span>
+            <span
+              class="user-role">{{ match (Auth::user()->getRole()) {
+                  'admin' => __('admin_user.rol_admin'),
+                  'technician' => __('admin_user.rol_tecnico'),
+                  'tecnico' => __('admin_user.rol_tecnico'),
+                  default => Auth::user()->getRole(),
+              } }}</span>
           </div>
         </div>
         <a href="{{ route('logout') }}" class="sidebar-logout"

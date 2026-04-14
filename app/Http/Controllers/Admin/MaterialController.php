@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Models\Material;
-use App\Models\Presentacion;
-use App\Models\PresentacionTipoMaterial;
-use App\Models\Tipo;
-use App\Models\TipoMaterial;
-use App\Models\UnidadMedida;
+use App\Models\Presentation;
+use App\Models\PresentationMaterialType;
+use App\Models\Type;
+use App\Models\MaterialType;
+use App\Models\UnitOfMeasure;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,9 +23,9 @@ class MaterialController extends Controller
         $search = $request->query('search', '');
 
         $viewData = [];
-        $viewData['materiales'] = Material::with(['tipoMateriales.tipo.unidadMedida', 'tipoMateriales.presentacionTipoMateriales.presentacion'])
-            ->when($search, fn ($q) => $q->where('descripcion', 'ilike', "%{$search}%"))
-            ->orderBy('descripcion', 'asc')
+        $viewData['materials'] = Material::with(['materialTypes.type.unitOfMeasure', 'materialTypes.presentationMaterialTypes.presentation'])
+            ->when($search, fn ($q) => $q->where('description', 'ilike', "%{$search}%"))
+            ->orderBy('description', 'asc')
             ->paginate(15);
         $viewData['search'] = $search;
 
@@ -35,9 +35,9 @@ class MaterialController extends Controller
     public function create(): View
     {
         $viewData = [];
-        $viewData['materiales'] = Material::orderBy('descripcion')->get();
-        $viewData['unidades'] = UnidadMedida::orderBy('nombre')->get();
-        $viewData['presentaciones'] = Presentacion::orderBy('nombre')->get();
+        $viewData['materials'] = Material::orderBy('description')->get();
+        $viewData['unitOfMeasures'] = UnitOfMeasure::orderBy('name')->get();
+        $viewData['presentations'] = Presentation::orderBy('name')->get();
 
         return view('admin.material.create')->with('viewData', $viewData);
     }
@@ -50,36 +50,36 @@ class MaterialController extends Controller
             DB::beginTransaction();
 
             if ($data['material_mode'] === 'new') {
-                $material = Material::create(['descripcion' => $data['descripcion']]);
+                $material = Material::create(['description' => $data['description']]);
             } else {
                 $material = Material::findOrFail($data['material_id']);
             }
 
-            foreach ($data['tipos'] as $tipoData) {
-                $tipo = Tipo::create([
-                    'especificacion' => $tipoData['especificacion'],
-                    'unidadMedidaId' => $tipoData['unidadMedidaId'] ?? null,
+            foreach ($data['types'] as $typeData) {
+                $type = Type::create([
+                    'specification'    => $typeData['specification'],
+                    'unit_of_measure_id' => $typeData['unit_of_measure_id'] ?? null,
                 ]);
 
-                $tipoMaterial = TipoMaterial::create([
-                    'materialId' => $material->getId(),
-                    'tipoId'     => $tipo->getId(),
+                $materialType = MaterialType::create([
+                    'material_id' => $material->getId(),
+                    'type_id'     => $type->getId(),
                 ]);
 
-                foreach ($tipoData['presentaciones'] as $presData) {
-                    PresentacionTipoMaterial::create([
-                        'cantidadPresentacion' => $presData['cantidadPresentacion'],
-                        'presentacionId'       => $presData['presentacionId'],
-                        'tipoMaterialId'       => $tipoMaterial->getId(),
+                foreach ($typeData['presentations'] as $presData) {
+                    PresentationMaterialType::create([
+                        'presentation_quantity' => $presData['presentation_quantity'],
+                        'presentation_id'       => $presData['presentation_id'],
+                        'material_type_id'      => $materialType->getId(),
                     ]);
                 }
             }
 
             DB::commit();
-            session()->flash('success', 'Material "' . $material->getDescripcion() . '" creado exitosamente.');
+            session()->flash('success', __('material.success_created', ['name' => $material->getDescription()]));
         } catch (Exception $e) {
             DB::rollBack();
-            session()->flash('error', 'Error al crear el material: ' . $e->getMessage());
+            session()->flash('error', __('material.error_create', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.material.index');
@@ -89,11 +89,11 @@ class MaterialController extends Controller
     {
         try {
             $material = Material::findOrFail($id);
-            $nombre = $material->getDescripcion();
+            $description = $material->getDescription();
             $material->delete();
-            session()->flash('success', 'Material "' . $nombre . '" eliminado exitosamente.');
+            session()->flash('success', __('material.success_deleted', ['name' => $description]));
         } catch (Exception $e) {
-            session()->flash('error', 'Error al eliminar: ' . $e->getMessage());
+            session()->flash('error', __('material.error_delete', ['error' => $e->getMessage()]));
         }
 
         return redirect()->route('admin.material.index');

@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\Proyecto;
 use App\Notifications\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,25 +25,25 @@ class User extends Authenticatable
      * $this->attributes['password'] - string - contains the password
      * $this->attributes['remember_token'] - string|null - stores the token used for "remember me" sessions
      * End of default laravel fields
-     * $this->attributes['rol'] - string - contains the role of the user (Can be admin or técnico)
-     * $this->attributes['cedula'] - string - contains the document number of the user
-     * $this->attributes['sueldo'] - string - contains the salary of the user
-     * $this->attributes['numeroTelefono'] - string - contains the phone number
-     * $this->attributes['recibeNotificaciones'] - bool - Is true or false. True if the user will recieve email quotes
+     * $this->attributes['role'] - string - contains the role of the user (can be admin or technician)
+     * $this->attributes['id_number'] - string - contains the document number of the user
+     * $this->attributes['salary'] - string - contains the salary of the user
+     * $this->attributes['phone_number'] - string - contains the phone number
+     * $this->attributes['receives_notifications'] - bool - true if the user will receive email quotes
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
-     * $this->cotizaciones - Cotizacion[] - contains the quotations that the user has done
-     * $this->proyectos - Proyecto[] - contains the projects created by the user
+     * $this->quotations - Quotation[] - contains the quotations that the user has created
+     * $this->projects - Project[] - contains the projects created by the user
      */
     protected $fillable = [
         'name',
         'email',
         'password',
-        'rol',
-        'cedula',
-        'sueldo',
-        'numeroTelefono',
-        'recibeNotificaciones',
+        'role',
+        'id_number',
+        'salary',
+        'phone_number',
+        'receives_notifications',
     ];
 
     protected $hidden = [
@@ -92,59 +91,59 @@ class User extends Authenticatable
         return $this->attributes['remember_token'];
     }
 
-    // rol
-    public function getRol(): string
+    // role
+    public function getRole(): string
     {
-        return $this->attributes['rol'];
+        return $this->attributes['role'];
     }
 
-    public function setRol(string $rol): void
+    public function setRole(string $role): void
     {
-        $this->attributes['rol'] = $rol;
+        $this->attributes['role'] = $role;
     }
 
-    // cedula
-    public function getCedula(): string
+    // id_number
+    public function getIdNumber(): string
     {
-        return $this->attributes['cedula'];
+        return $this->attributes['id_number'];
     }
 
-    public function setCedula(string $cedula): void
+    public function setIdNumber(string $idNumber): void
     {
-        $this->attributes['cedula'] = $cedula;
+        $this->attributes['id_number'] = $idNumber;
     }
 
-    // sueldo
-    public function getSueldo(): string
+    // salary
+    public function getSalary(): string
     {
-        return $this->attributes['sueldo'];
+        return $this->attributes['salary'];
     }
 
-    public function setSueldo(string $sueldo): void
+    public function setSalary(string $salary): void
     {
-        $this->attributes['sueldo'] = $sueldo;
+        $this->attributes['salary'] = $salary;
     }
 
-    // numeroTelefono
-    public function getNumeroTelefono(): string
+    // phone_number
+    public function getPhoneNumber(): string
     {
-        return $this->attributes['numeroTelefono'];
+        return $this->attributes['phone_number'];
     }
 
-    public function setNumeroTelefono(string $numeroTelefono): void
+    public function setPhoneNumber(string $phoneNumber): void
     {
-        $this->attributes['numeroTelefono'] = $numeroTelefono;
+        $this->attributes['phone_number'] = $phoneNumber;
     }
 
-    // recibe_notificaciones
-    public function getRecibeNotificaciones(): bool
+    // receives_notifications
+    public function getReceivesNotifications(): bool
     {
-        return $this->attributes['recibeNotificaciones'];
+        return $this->attributes['receives_notifications'];
     }
 
-    public function setRecibeNotificaciones(bool $recibeNotificaciones): void
+    public function setReceivesNotifications(bool $receivesNotifications): void
     {
-        $this->attributes['recibeNotificaciones'] = $recibeNotificaciones;
+        $this->attributes['receives_notifications'] = $receivesNotifications;
     }
 
     // timestamps
@@ -159,14 +158,14 @@ class User extends Authenticatable
     }
 
     // Relations
-    public function cotizaciones(): HasMany
+    public function quotations(): HasMany
     {
-        return $this->hasMany(Cotizacion::class, 'creadoPor');
+        return $this->hasMany(Quotation::class, 'created_by');
     }
 
-    public function proyectos(): HasMany
+    public function projects(): HasMany
     {
-        return $this->hasMany(Proyecto::class, 'creadoPor');
+        return $this->hasMany(Project::class, 'created_by');
     }
 
     public function sendPasswordResetNotification($token): void
@@ -175,13 +174,13 @@ class User extends Authenticatable
     }
 
     // Relations setters and getters
-    public function getCotizaciones(): Collection
+    public function getQuotations(): Collection
     {
-        return $this->cotizaciones;
+        return $this->quotations;
     }
 
-    public function setCotizaciones(Collection $cotizaciones): void
+    public function setQuotations(Collection $quotations): void
     {
-        $this->cotizaciones = $cotizaciones;
+        $this->quotations = $quotations;
     }
 }

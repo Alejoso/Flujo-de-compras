@@ -8,18 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('cedula')->unique()->nullable();
-            $table->string('correo')->nullable();
-            $table->string('celular')->nullable();
+            $table->string('name');
+            $table->string('id_number')->unique()->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('clientes');
+        Schema::dropIfExists('clients');
     }
 };

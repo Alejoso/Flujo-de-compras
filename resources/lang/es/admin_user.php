@@ -39,7 +39,7 @@ return [
     'label_notifications'         => 'Recibe notificaciones',
 
     // Rol options
-    'rol_admin'         => 'Admin',
+    'rol_admin'         => 'Administrador',
     'rol_tecnico'       => 'Técnico',
 
     // Boolean labels

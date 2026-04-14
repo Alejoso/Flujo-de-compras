@@ -18,11 +18,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->string('rol');
-            $table->string('cedula')->unique();
-            $table->integer('sueldo')->nullable();
-            $table->string('numeroTelefono');
-            $table->boolean('recibeNotificaciones')->default(false);
+            $table->string('role');
+            $table->string('id_number')->unique();
+            $table->integer('salary')->nullable();
+            $table->string('phone_number');
+            $table->boolean('receives_notifications')->default(false);
             $table->timestamps();
         });
 

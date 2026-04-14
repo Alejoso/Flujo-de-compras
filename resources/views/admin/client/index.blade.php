@@ -32,17 +32,17 @@
 
                 {{-- Nombre --}}
                 <div class="d-flex justify-content-center align-items-start mb-1">
-                    <h5 class="pj-title">{{ $client->getNombre() }}</h5>
+                    <h5 class="pj-title">{{ $client->getName() }}</h5>
                 </div>
 
                 {{-- Cedula --}}
                 <p class="mb-3">
                     <span class="pj-meta-label">{{ __('cliente.cedula_label') }} </span>
                     <span class="pj-meta-value">
-                        @if($client->getCedula() == null)
+                        @if($client->getIdNumber() == null)
                         {{ __('cliente.null_data') }}
                         @else
-                        {{ $client->getCedula() }}
+                        {{ $client->getIdNumber() }}
                         @endif
                     </span>
                 </p>
@@ -51,10 +51,10 @@
                 <div class="mb-3">
                     <span class="pj-meta-label">{{ __('cliente.email_label') }} </span>
                     <span class="pj-meta-value">
-                        @if($client->getCorreo() == null)
+                        @if($client->getEmail() == null)
                         {{ __('cliente.null_data') }}
                         @else
-                        {{ $client->getCorreo() }}
+                        {{ $client->getEmail() }}
                         @endif
                     </span>
                 </div>
@@ -63,10 +63,10 @@
                 <div class="mb-3">
                     <span class="pj-meta-label">{{ __('cliente.phone_label') }} </span>
                     <span class="pj-meta-value">
-                        @if($client->getCelular() == null)
+                        @if($client->getPhone() == null)
                         {{ __('cliente.null_data') }}
                         @else
-                        {{ $client->getCelular() }}
+                        {{ $client->getPhone() }}
                         @endif
                     </span>
                 </div>

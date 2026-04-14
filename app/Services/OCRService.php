@@ -38,7 +38,7 @@ class OCRService
         ]);
 
         if ($response->failed()) {
-            throw new Exception('Error en OCR: '.$response->body());
+            throw new Exception('OCR error: '.$response->body());
         }
 
         return $response->json('pages.0.markdown'); // ojo: índice 0, no 1
@@ -70,7 +70,7 @@ class OCRService
         ]);
 
         if ($response->failed()) {
-            throw new Exception('Error estructurando datos: '.$response->body());
+            throw new Exception('Error structuring data: '.$response->body());
         }
 
         $content = $response->json('choices.0.message.content');

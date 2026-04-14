@@ -30,11 +30,11 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('administrador'),
             'remember_token' => Str::random(10),
-            'rol' => 'admin',
-            'cedula' => '1234567890',
-            'sueldo' => 5000000,
-            'numeroTelefono' => '3001234567',
-            'recibeNotificaciones' => true,
+            'role' => 'admin',
+            'id_number' => '1234567890',
+            'salary' => 5000000,
+            'phone_number' => '3001234567',
+            'receives_notifications' => true,
         ];
     }
 

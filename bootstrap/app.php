@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Middleware\AdminAuthMiddleware;
-use App\Http\Middleware\TecnicoAuthMiddleware;
+use App\Http\Middleware\TechnicianAuthMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -14,8 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'admin' => AdminAuthMiddleware::class,
-            'tecnico' => TecnicoAuthMiddleware::class,
+            'admin'      => AdminAuthMiddleware::class,
+            'technician' => TechnicianAuthMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unidad_medidas', function (Blueprint $table) {
+        Schema::create('unit_of_measures', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('abreviatura');
+            $table->string('name');
+            $table->string('abbreviation');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unidad_medidas');
+        Schema::dropIfExists('unit_of_measures');
     }
 };

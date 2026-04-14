@@ -12,7 +12,7 @@ class InvoiceUploadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->getRol() === 'admin';
+        return $this->user()->getRole() === 'admin';
     }
 
     /**

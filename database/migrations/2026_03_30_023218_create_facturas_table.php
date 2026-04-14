@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facturas', function (Blueprint $table) {
+        Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->integer('valorTotal');
-            $table->enum('estado', ['Pendiente', 'Aprobada', 'Rechazada', 'Pagada', 'Cancelada']);
-            $table->foreignId('proyectoId')->constrained('proyectos')->cascadeOnDelete();
-            $table->foreignId('proveedorId')->constrained('proveedores')->cascadeOnDelete();
-            $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();
+            $table->integer('total_value');
+            $table->enum('status', ['Pending', 'Approved', 'Rejected', 'Paid', 'Cancelled']);
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->foreignId('supplier_id')->constrained('suppliers')->cascadeOnDelete();
+            $table->foreignId('quotation_id')->constrained('quotations')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facturas');
+        Schema::dropIfExists('invoices');
     }
 };

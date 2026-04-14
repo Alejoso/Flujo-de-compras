@@ -43,9 +43,9 @@ return [
     'finished' => 'Finalizado',
 
     // ─── Estado enum values (deben coincidir con la BD) ───────────
-    'estado_negociacion' => 'En Negociación',
-    'estado_ejecucion'   => 'En Ejecución',
-    'estado_finalizado'  => 'Finalizado',
+    'estado_negociacion' => 'Negotiation',
+    'estado_ejecucion'   => 'In Progress',
+    'estado_finalizado'  => 'Completed',
 
     // ─── Index Meta Labels ────────────────────────────────────────
     'total_cost_label' => 'Costo total:',
@@ -74,6 +74,11 @@ return [
     'ocr_desc' => 'Extrae y estructura datos de facturas automáticamente',
     'confirm_delete_title'=> 'Borrar proyecto',
     'confirm_delete'=> '¿Esta seguro que desea borrar el proyecto: :name?',
+
+    // ─── Status labels ───────────────────────────────────────────
+    'status_negotiation' => 'En negociación',
+    'status_in_progress' => 'En ejecución',
+    'status_completed' => 'Finalizado',
 
     // ─── Flash messasges ────────────────────────────────────────────
     'project_created' => 'Se ha creado con éxito el proyecto :name.',

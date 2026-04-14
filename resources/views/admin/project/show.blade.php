@@ -1,12 +1,12 @@
 @extends('layouts.admin')
-@section('page-title', $viewData['project']->getNombre())
+@section('page-title', $viewData['project']->getName())
 
 @section('content')
   <div class="pj-wrapper">
 
     {{-- Header --}}
     <div class="um-header">
-      <h1 class="um-title"><i class="bi bi-folder-fill"></i> {{ $viewData['project']->getNombre() }}</h1>
+      <h1 class="um-title"><i class="bi bi-folder-fill"></i> {{ $viewData['project']->getName() }}</h1>
       <a href="{{ route('admin.project.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
         <i class="bi bi-arrow-left me-1"></i> {{ __('proyecto.back') }}
       </a>
@@ -19,33 +19,38 @@
           <i class="bi bi-folder2-open pj-header-icon"></i>
           <span class="um-card-title um-card-title--sm">{{ __('proyecto.project_info') }}</span>
         </div>
-        <span class="pj-badge pj-badge--{{ str_replace(' ', '_', strtolower($viewData['project']->getEstado())) }}">
-          {{ $viewData['project']->getEstado() }}
+        <span
+          class="pj-badge pj-badge--{{ match ($viewData['project']->getStatus()) {'Negotiation' => 'negociacion','In Progress' => 'ejecucion',default => 'finalizado'} }}">
+          {{ match ($viewData['project']->getStatus()) {
+              'Negotiation' => __('proyecto.status_negotiation'),
+              'In Progress' => __('proyecto.status_in_progress'),
+              default => __('proyecto.status_completed'),
+          } }}
         </span>
       </div>
 
       <div class="row g-4 p-4">
         <div class="col-md-6">
           <p class="pj-field-label">{{ __('proyecto.name') }}</p>
-          <p class="pj-field-value">{{ $viewData['project']->getNombre() }}</p>
+          <p class="pj-field-value">{{ $viewData['project']->getName() }}</p>
         </div>
         <div class="col-md-6">
           <p class="pj-field-label"><i class="bi bi-geo-alt me-1"></i> {{ __('proyecto.address') }}</p>
-          <p class="pj-field-value">{{ $viewData['project']->getDireccion() }}</p>
+          <p class="pj-field-value">{{ $viewData['project']->getAddress() }}</p>
         </div>
         <div class="col-md-6">
           <p class="pj-field-label"><i class="bi bi-building me-1"></i> {{ __('proyecto.city') }}</p>
-          <p class="pj-field-value">{{ $viewData['project']->getCiudad() }}</p>
+          <p class="pj-field-value">{{ $viewData['project']->getCity() }}</p>
         </div>
         <div class="col-md-6">
           <p class="pj-field-label"><i class="bi bi-person"></i> {{ __('proyecto.client') }}</p>
           <p class="pj-field-value">
-            {{ $viewData['project']->getCliente()->getNombre() . ' - ' . __('proyecto.cc_label') . ' ' . $viewData['project']->getCliente()->getCedula() }}
+            {{ $viewData['project']->getClient()->getName() . ' - ' . __('proyecto.cc_label') . ' ' . $viewData['project']->getClient()->getIdNumber() }}
           </p>
         </div>
         <div class="col-md-6">
           <p class="pj-field-label"><i class="bi bi-person-check-fill"></i> {{ __('proyecto.created_by') }}</p>
-          <p class="pj-field-value">{{ $viewData['project']->getCreadoPorUser()->getName() }}</p>
+          <p class="pj-field-value">{{ $viewData['project']->getCreatedByUser()->getName() }}</p>
         </div>
       </div>
     </div>

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('version_cotizaciones', function (Blueprint $table) {
+        Schema::create('quotation_versions', function (Blueprint $table) {
             $table->id();
-            $table->string('numeroVersion');
-            $table->boolean('esLaMasReciente')->default(true);
-            $table->foreignId('cotizacionId')->constrained('cotizaciones')->cascadeOnDelete();
-            $table->string('pdfPath')->nullable();
+            $table->string('version_number');
+            $table->boolean('is_most_recent')->default(true);
+            $table->foreignId('quotation_id')->constrained('quotations')->cascadeOnDelete();
+            $table->string('pdf_path')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('version_cotizaciones');
+        Schema::dropIfExists('quotation_versions');
     }
 };

@@ -8,18 +8,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Material extends Model
 {
-    protected $table = 'materiales';
+    protected $table = 'materials';
 
     /**
      * MATERIAL ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-     * $this->attributes['descripcion'] - string - contains the description of the material
+     * $this->attributes['description'] - string - contains the description of the material
      * $this->attributes['created_at'] - string - contains the creation timestamp
      * $this->attributes['updated_at'] - string - contains the update timestamp
-     * $this->tipoMateriales - TipoMaterial[] - contains the type materials associated with this material
+     * $this->materialTypes - MaterialType[] - contains the material types associated with this material
      */
     protected $fillable = [
-        'descripcion',
+        'description',
     ];
 
     // id
@@ -28,15 +28,15 @@ class Material extends Model
         return $this->attributes['id'];
     }
 
-    // descripcion
-    public function getDescripcion(): string
+    // description
+    public function getDescription(): string
     {
-        return $this->attributes['descripcion'];
+        return $this->attributes['description'];
     }
 
-    public function setDescripcion(string $descripcion): void
+    public function setDescription(string $description): void
     {
-        $this->attributes['descripcion'] = $descripcion;
+        $this->attributes['description'] = $description;
     }
 
     // timestamps
@@ -51,19 +51,19 @@ class Material extends Model
     }
 
     // Relations
-    public function tipoMateriales(): HasMany
+    public function materialTypes(): HasMany
     {
-        return $this->hasMany(TipoMaterial::class, 'materialId');
+        return $this->hasMany(MaterialType::class, 'material_id');
     }
 
     // Relations setters and getters
-    public function getTipoMateriales(): Collection
+    public function getMaterialTypes(): Collection
     {
-        return $this->tipoMateriales;
+        return $this->materialTypes;
     }
 
-    public function setTipoMateriales(Collection $tipoMateriales): void
+    public function setMaterialTypes(Collection $materialTypes): void
     {
-        $this->tipoMateriales = $tipoMateriales;
+        $this->materialTypes = $materialTypes;
     }
 }

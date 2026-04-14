@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('presentacion_tipo_material_version_cotizaciones', function (Blueprint $table) {
+        Schema::create('presentation_material_type_quotation_versions', function (Blueprint $table) {
             $table->id();
-            $table->double('cantidad');
-            $table->foreignId('versionCotizacionId')->constrained('version_cotizaciones')->cascadeOnDelete();
-            $table->foreignId('presentacionTipoMaterialId')->constrained('presentacion_tipo_materiales')->cascadeOnDelete();
+            $table->double('quantity');
+            $table->foreignId('quotation_version_id')->constrained('quotation_versions')->cascadeOnDelete();
+            $table->foreignId('presentation_material_type_id')->constrained('presentation_material_types')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('presentacion_tipo_material_version_cotizaciones');
+        Schema::dropIfExists('presentation_material_type_quotation_versions');
     }
 };

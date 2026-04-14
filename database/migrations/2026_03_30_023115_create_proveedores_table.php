@@ -8,18 +8,18 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('proveedores', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('nit');
-            $table->string('nombre');
-            $table->string('nombreAsesor');
-            $table->string('numeroCuenta')->nullable();
+            $table->string('name');
+            $table->string('advisor_name');
+            $table->string('account_number')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('proveedores');
+        Schema::dropIfExists('suppliers');
     }
 };

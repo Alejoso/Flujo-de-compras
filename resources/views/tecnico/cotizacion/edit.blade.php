@@ -2,30 +2,29 @@
 @section('page-title', __('tecnico_cotizacion.title_edit'))
 
 @section('content')
-  <div class="pj-wrapper" id="cotizacion-app"
-    data-search-url="{{ route('tecnico.materiales.search') }}"
-    data-row-idx="{{ count($viewData['materialesVersion']) }}"
-    data-has-empty-row="0">
+  <div class="pj-wrapper" id="cotizacion-app" data-search-url="{{ route('technician.materials.search') }}"
+    data-row-idx="{{ count($viewData['versionMaterials']) }}" data-has-empty-row="0">
 
     <div class="um-header">
       <h1 class="um-title">
         <i class="bi bi-pencil-square me-2"></i>
-        {{ __('tecnico_cotizacion.new_version_from', ['version' => $viewData['version']->getNumeroVersion()]) }}
+        {{ __('tecnico_cotizacion.new_version_from', ['version' => $viewData['version']->getVersionNumber()]) }}
       </h1>
-      <a href="{{ route('tecnico.cotizacion.show', [$viewData['project']->getId(), $viewData['version']->getId()]) }}"
+      <a href="{{ route('technician.quotation.show', [$viewData['project']->getId(), $viewData['version']->getId()]) }}"
         class="um-btn-icon um-btn-icon--secondary px-3 py-2">
         <i class="bi bi-x-circle me-1"></i> {{ __('tecnico_cotizacion.btn_cancel') }}
       </a>
     </div>
 
-    <form action="{{ route('tecnico.cotizacion.update', [$viewData['project']->getId(), $viewData['version']->getId()]) }}"
+    <form
+      action="{{ route('technician.quotation.update', [$viewData['project']->getId(), $viewData['version']->getId()]) }}"
       method="POST">
       @csrf
       @method('PATCH')
 
       <div class="cot-header-card mb-4">
         <p class="cot-project-name">
-          <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getNombre() }}
+          <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getName() }}
         </p>
 
         <div class="row mt-3 g-2 align-items-end">
@@ -67,17 +66,17 @@
             </tr>
           </thead>
           <tbody id="lista-materiales">
-            @foreach ($viewData['materialesVersion'] as $index => $mat)
+            @foreach ($viewData['versionMaterials'] as $index => $mat)
               <tr data-id="{{ $mat['ptmId'] }}">
                 <td>
                   {{ $mat['descripcion'] }} — {{ $mat['especificacion'] }}
-                  <input type="hidden" name="materiales[{{ $index }}][presentacionTipoMaterialId]"
+                  <input type="hidden" name="materials[{{ $index }}][presentation_material_type_id]"
                     value="{{ $mat['ptmId'] }}">
                 </td>
                 <td>{{ $mat['presentacion'] }}</td>
                 <td>{{ $mat['unidad'] }}</td>
                 <td>
-                  <input type="number" name="materiales[{{ $index }}][cantidad]" class="form-control"
+                  <input type="number" name="materials[{{ $index }}][quantity]" class="form-control"
                     value="{{ $mat['cantidad'] }}" step="1" required>
                 </td>
                 <td>

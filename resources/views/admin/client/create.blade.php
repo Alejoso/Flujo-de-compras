@@ -33,11 +33,11 @@
                             <div class="col-12">
                                 <label class="form-label">{{ __('cliente.name') }}</label>
                                 <input type="text"
-                                       name="nombre"
-                                       class="form-control @error('nombre') is-invalid @enderror"
-                                       value="{{ old('nombre') }}"
+                                       name="name"
+                                       class="form-control @error('name') is-invalid @enderror"
+                                       value="{{ old('name') }}"
                                        placeholder="{{ __('cliente.placeholder_name') }}">
-                                @error('nombre')
+                                @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -46,11 +46,11 @@
                             <div class="col-12">
                                 <label class="form-label">{{ __('cliente.cedula') }}</label>
                                 <input type="text"
-                                       name="cedula"
-                                       class="form-control @error('cedula') is-invalid @enderror"
-                                       value="{{ old('cedula') }}"
+                                       name="id_number"
+                                       class="form-control @error('id_number') is-invalid @enderror"
+                                       value="{{ old('id_number') }}"
                                        placeholder="{{ __('cliente.placeholder_cedula') }}">
-                                @error('cedula')
+                                @error('id_number')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -59,11 +59,11 @@
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('cliente.email') }}</label>
                                 <input type="email"
-                                       name="correo"
-                                       class="form-control @error('correo') is-invalid @enderror"
-                                       value="{{ old('correo') }}"
+                                       name="email"
+                                       class="form-control @error('email') is-invalid @enderror"
+                                       value="{{ old('email') }}"
                                        placeholder="{{ __('cliente.placeholder_email') }}">
-                                @error('correo')
+                                @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -73,11 +73,11 @@
                                 <label class="form-label">{{ __('cliente.phone') }}</label>
                                 <div class="input-group">
                                     <input type="string"
-                                           name="celular"
-                                           class="form-control @error('celular') is-invalid @enderror"
-                                           value="{{ old('celular') }}"
+                                           name="phone"
+                                           class="form-control @error('phone') is-invalid @enderror"
+                                           value="{{ old('phone') }}"
                                            placeholder="{{ __('cliente.placeholder_phone') }}">
-                                    @error('celular')
+                                    @error('phone')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
