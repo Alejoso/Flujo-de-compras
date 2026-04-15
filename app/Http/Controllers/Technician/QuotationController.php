@@ -37,7 +37,7 @@ class QuotationController extends Controller
             ->orderBy('id')
             ->get();
 
-        return view('tecnico.cotizacion.index')->with('viewData', $viewData);
+        return view('technician.quotation.index')->with('viewData', $viewData);
     }
 
     // Displays all versions of a specific quotation.
@@ -54,7 +54,7 @@ class QuotationController extends Controller
             ->where('id', '<=', $quotationId)
             ->count();
 
-        return view('tecnico.cotizacion.versions')->with('viewData', $viewData);
+        return view('technician.quotation.versions')->with('viewData', $viewData);
     }
 
     // Displays the detail of a specific version with its materials.
@@ -71,7 +71,7 @@ class QuotationController extends Controller
 
         $viewData['versionMaterials'] = $this->builder->buildVersionMaterials($viewData['version']);
 
-        return view('tecnico.cotizacion.show')->with('viewData', $viewData);
+        return view('technician.quotation.show')->with('viewData', $viewData);
     }
 
     // Displays the form for creating a new quotation with the available materials.
@@ -86,7 +86,7 @@ class QuotationController extends Controller
         ])->get();
         $viewData['materialTypeData'] = $this->builder->buildMaterialTypeData($materialTypes);
 
-        return view('tecnico.cotizacion.create')->with('viewData', $viewData);
+        return view('technician.quotation.create')->with('viewData', $viewData);
     }
 
     // Saves a new quotation with its first version and materials. Generates the PDF and sends an email notification.
@@ -98,7 +98,7 @@ class QuotationController extends Controller
             ['quotationId' => $quotationId, 'versionId' => $versionId] =
                 $this->quotationService->createQuotation($project, $request->materials);
         } catch (Exception $e) {
-            session()->flash('error', __('tecnico_cotizacion.flash_store_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('technician_quotation.flash_store_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('technician.quotation.index', $id);
         }
@@ -106,7 +106,7 @@ class QuotationController extends Controller
         try {
             $this->pdfBuilder->generateAndSavePdf($versionId, $project);
         } catch (Exception $e) {
-            session()->flash('error', __('tecnico_cotizacion.flash_store_pdf_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('technician_quotation.flash_store_pdf_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('technician.quotation.versions', [$id, $quotationId]);
         }
@@ -121,7 +121,7 @@ class QuotationController extends Controller
             session()->flash('error', __('email.quote_created_error'));
         }
 
-        session()->flash('success', __('tecnico_cotizacion.flash_store_success', ['project' => $project->getName()]));
+        session()->flash('success', __('technician_quotation.flash_store_success', ['project' => $project->getName()]));
 
         return redirect()->route('technician.quotation.versions', [$id, $quotationId]);
     }
@@ -145,7 +145,7 @@ class QuotationController extends Controller
         $viewData['materialTypeData'] = $this->builder->buildMaterialTypeData($materialTypes);
         $viewData['versionMaterials'] = $this->builder->buildVersionMaterials($viewData['version']);
 
-        return view('tecnico.cotizacion.edit')->with('viewData', $viewData);
+        return view('technician.quotation.edit')->with('viewData', $viewData);
     }
 
     // Creates a new version of the quotation with updated materials, regenerates the PDF, and sends an email notification.
@@ -162,7 +162,7 @@ class QuotationController extends Controller
         try {
             $newVersionId = $this->quotationService->createNewVersion($quotation, $request->materials);
         } catch (Exception $e) {
-            session()->flash('error', __('tecnico_cotizacion.flash_update_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('technician_quotation.flash_update_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('technician.quotation.versions', [$project->getId(), $quotation->getId()]);
         }
@@ -172,7 +172,7 @@ class QuotationController extends Controller
         try {
             $this->pdfBuilder->generateAndSavePdf($newVersionId, $project);
         } catch (Exception $e) {
-            session()->flash('error', __('tecnico_cotizacion.flash_update_pdf_error', ['error' => $e->getMessage()]));
+            session()->flash('error', __('technician_quotation.flash_update_pdf_error', ['error' => $e->getMessage()]));
 
             return redirect()->route('technician.quotation.versions', [$project->getId(), $quotation->getId()]);
         }
@@ -183,8 +183,27 @@ class QuotationController extends Controller
             session()->flash('error', __('email.quote_edited_error'));
         }
 
-        session()->flash('success', __('tecnico_cotizacion.flash_update_success'));
+        session()->flash('success', __('technician_quotation.flash_update_success'));
 
         return redirect()->route('technician.quotation.versions', [$project->getId(), $quotation->getId()]);
+    }
+
+    // Submits the quotation to admin by setting status to Pending.
+    public function submit(string $projectId, string $quotationId): RedirectResponse
+    {
+        $quotation = Quotation::findOrFail($quotationId);
+
+        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
+            session()->flash('error', __('technician_quotation.flash_submit_invalid'));
+
+            return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
+        }
+
+        $quotation->setStatus('Pending');
+        $quotation->save();
+
+        session()->flash('success', __('technician_quotation.flash_submit_success'));
+
+        return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
     }
 }
