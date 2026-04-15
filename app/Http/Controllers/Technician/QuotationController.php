@@ -126,25 +126,6 @@ class QuotationController extends Controller
         return redirect()->route('technician.quotation.versions', [$id, $quotationId]);
     }
 
-    // Submits the quotation to the admin for review by changing status to Pending.
-    public function submit(string $projectId, string $quotationId): RedirectResponse
-    {
-        $quotation = Quotation::findOrFail($quotationId);
-
-        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
-            session()->flash('error', __('tecnico_cotizacion.flash_submit_invalid'));
-
-            return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
-        }
-
-        $quotation->setStatus('Pending');
-        $quotation->save();
-
-        session()->flash('success', __('tecnico_cotizacion.flash_submit_success'));
-
-        return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
-    }
-
     // Displays the form for editing the materials of the most recent version of a quotation.
     public function edit(string $projectId, string $versionId): View|RedirectResponse
     {
@@ -156,7 +137,7 @@ class QuotationController extends Controller
 
         $quotationStatus = $viewData['version']->quotation->getStatus();
         if (!in_array($quotationStatus, ['Technician', 'Technician Edited'])) {
-            session()->flash('error', __('tecnico_cotizacion.flash_edit_blocked'));
+            session()->flash('error', __('technician_quotation.flash_edit_blocked'));
 
             return redirect()->route('technician.quotation.versions', [$projectId, $viewData['version']->quotation->getId()]);
         }
@@ -186,7 +167,7 @@ class QuotationController extends Controller
         $quotation = $currentVersion->quotation;
 
         if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
-            session()->flash('error', __('tecnico_cotizacion.flash_edit_blocked'));
+            session()->flash('error', __('technician_quotation.flash_edit_blocked'));
 
             return redirect()->route('technician.quotation.versions', [$projectId, $quotation->getId()]);
         }
