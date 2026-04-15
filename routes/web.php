@@ -39,13 +39,6 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::get('/admin/proyecto/{id}/edit', $controllerRoute.'\Admin\ProjectController@edit')->name('admin.project.edit');
     Route::get('/admin/proyecto/{id}', $controllerRoute.'\Admin\ProjectController@show')->name('admin.project.show');
     Route::get('/admin/proyecto/{id}/cotizaciones', $controllerRoute.'\Admin\ProjectController@showQuotations')->name('admin.project.showQuotations');
-    Route::get('/admin/proyecto/{id}/cotizacion/{quotationId}/versiones', $controllerRoute.'\Admin\QuotationController@versions')->name('admin.quotation.versions');
-    Route::get('/admin/proyecto/{id}/cotizacion/{versionId}/detalle', $controllerRoute.'\Admin\QuotationController@show')->name('admin.quotation.show');
-    Route::get('/admin/proyecto/{id}/cotizacion/{versionId}/editar', $controllerRoute.'\Admin\QuotationController@edit')->name('admin.quotation.edit');
-    Route::patch('/admin/proyecto/{id}/cotizacion/{versionId}/actualizar', $controllerRoute.'\Admin\QuotationController@update')->name('admin.quotation.update');
-    Route::post('/admin/proyecto/{id}/cotizacion/{quotationId}/confirmar-final', $controllerRoute.'\Admin\QuotationController@confirmFinal')->name('admin.quotation.confirmFinal');
-    Route::post('/admin/proyecto/{id}/cotizacion/{quotationId}/aceptar', $controllerRoute.'\Admin\QuotationController@accept')->name('admin.quotation.accept');
-    Route::post('/admin/proyecto/{id}/cotizacion/{quotationId}/rechazar', $controllerRoute.'\Admin\QuotationController@reject')->name('admin.quotation.reject');
     Route::patch('/admin/proyecto/{id}', $controllerRoute.'\Admin\ProjectController@update')->name('admin.project.update');
     Route::delete('/admin/proyecto/{id}', $controllerRoute.'\Admin\ProjectController@destroy')->name('admin.project.destroy');
 
@@ -57,15 +50,6 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::get('/admin/cliente/{id}', $controllerRoute.'\Admin\ClientController@show')->name('admin.client.show');
     Route::patch('/admin/cliente/{id}', $controllerRoute.'\Admin\ClientController@update')->name('admin.client.update');
     Route::delete('/admin/cliente/{id}', $controllerRoute.'\Admin\ClientController@destroy')->name('admin.client.destroy');
-
-    // Quotation routes (admin)
-    Route::get('/admin/proyecto/{id}/cotizacion/{quotationId}/versiones', $controllerRoute.'\Admin\QuotationController@versions')->name('admin.quotation.versions');
-    Route::get('/admin/proyecto/{id}/cotizacion/{versionId}/detalle', $controllerRoute.'\Admin\QuotationController@show')->name('admin.quotation.show');
-    Route::get('/admin/proyecto/{id}/cotizacion/{versionId}/editar', $controllerRoute.'\Admin\QuotationController@edit')->name('admin.quotation.edit');
-    Route::patch('/admin/proyecto/{id}/cotizacion/{versionId}/actualizar', $controllerRoute.'\Admin\QuotationController@update')->name('admin.quotation.update');
-    Route::post('/admin/proyecto/{id}/cotizacion/{quotationId}/confirmar-final', $controllerRoute.'\Admin\QuotationController@confirmFinal')->name('admin.quotation.confirmFinal');
-    Route::post('/admin/proyecto/{id}/cotizacion/{quotationId}/aceptar', $controllerRoute.'\Admin\QuotationController@accept')->name('admin.quotation.accept');
-    Route::post('/admin/proyecto/{id}/cotizacion/{quotationId}/rechazar', $controllerRoute.'\Admin\QuotationController@reject')->name('admin.quotation.reject');
 
     // Material routes
     Route::get('admin/material', $controllerRoute.'\Admin\MaterialController@index')->name('admin.material.index');
@@ -87,7 +71,6 @@ Route::middleware('technician')->group(function () use ($controllerRoute) {
     Route::patch('/tecnico/proyecto/{id}/cotizacion/{versionId}/update', $controllerRoute.'\Technician\QuotationController@update')->name('technician.quotation.update');
     Route::get('/tecnico/proyecto/{id}/cotizacion/{versionId}/pdf', $controllerRoute.'\Technician\QuotationPdfController@pdfView')->name('technician.quotation.pdfView');
     Route::get('/tecnico/proyecto/{id}/cotizacion/{versionId}/pdf/download', $controllerRoute.'\Technician\QuotationPdfController@pdfDownload')->name('technician.quotation.pdfDownload');
-    Route::post('/tecnico/proyecto/{id}/cotizacion/{quotationId}/enviar', $controllerRoute.'\Technician\QuotationController@submit')->name('technician.quotation.submit');
     Route::get('/tecnico/materiales/buscar', $controllerRoute.'\Technician\MaterialTypeController@search')->name('technician.materials.search');
 });
 

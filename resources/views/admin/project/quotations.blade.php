@@ -79,10 +79,6 @@
                 <p class="cot-project-meta mb-3">
                   <i class="bi bi-person me-1"></i>{{ $quotation->getCreator()->getName() }}
                 </p>
-                <a href="{{ route('admin.quotation.versions', [$viewData['project']->getId(), $quotation->getId()]) }}"
-                  class="um-btn-icon um-btn-icon--edit px-3 py-1 w-100 text-center">
-                  <i class="bi bi-list-ul me-1"></i> {{ __('project.view_versions') }}
-                </a>
               </div>
             </div>
           </div>
