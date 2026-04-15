@@ -73,6 +73,10 @@ return [
     'flash_update_success' => 'Nueva versión de la cotización creada correctamente.',
 
     // Flash messages — error
+    'flash_edit_blocked' => 'No puedes editar esta cotización porque ya fue procesada por el administrador.',
+    'btn_submit_final' => 'Enviar versión final',
+    'flash_submit_success' => 'Versión final enviada al administrador para revisión.',
+    'flash_submit_invalid' => 'Solo puedes enviar cotizaciones con estado Técnico o Técnico Editada.',
     'flash_store_error' => 'No se pudo crear la cotización: :error',
     'flash_store_pdf_error' => 'Cotización creada, pero no se pudo generar el PDF: :error',
     'flash_update_error' => 'No se pudo actualizar la cotización: :error',

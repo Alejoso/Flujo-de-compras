@@ -57,7 +57,6 @@
                     class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($quotation->getStatus())) }}">{{ match ($quotation->getStatus()) {
                         'Technician' => __('technician_quotation.status_technician'),
                         'Technician Edited' => __('technician_quotation.status_technician_edited'),
-                        'Pending' => __('technician_quotation.status_pending'),
                         'Technician Final' => __('technician_quotation.status_technician_final'),
                         'Admin Edited' => __('technician_quotation.status_admin_edited'),
                         'In Process' => __('technician_quotation.status_in_process'),
