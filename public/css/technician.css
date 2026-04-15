@@ -352,6 +352,13 @@
     border: 1px solid rgba(255,140,0,0.25);
 }
 
+/* Technician Final — verde lima */
+.cot-estado--technician-final {
+    background: rgba(132,204,22,0.12);
+    color: #a3e635;
+    border: 1px solid rgba(132,204,22,0.25);
+}
+
 /* Pending — azul */
 .cot-estado--pending {
     background: rgba(59,130,246,0.12);

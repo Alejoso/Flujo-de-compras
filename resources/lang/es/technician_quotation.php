@@ -77,9 +77,9 @@ return [
     'flash_store_pdf_error' => 'Cotización creada, pero no se pudo generar el PDF: :error',
     'flash_update_error' => 'No se pudo actualizar la cotización: :error',
     'flash_update_pdf_error' => 'Cotización actualizada, pero no se pudo generar el PDF: :error',
-    'flash_submit_success' => 'Cotización enviada al administrador correctamente.',
-    'flash_submit_invalid' => 'Solo puedes enviar cotizaciones en estado Técnico o Técnico editado.',
-    'flash_edit_blocked' => 'No puedes editar esta cotización, ya fue enviada o está siendo procesada.',
+    'flash_submit_success' => 'Versión final enviada al administrador para revisión.',
+    'flash_submit_invalid' => 'Solo puedes enviar cotizaciones con estado Técnico o Técnico Editada.',
+    'flash_edit_blocked' => 'No puedes editar esta cotización porque ya fue procesada por el administrador.',
 
     // Heading with version number (used in edit)
     'new_version_from' => 'Nueva Versión desde v.:version',

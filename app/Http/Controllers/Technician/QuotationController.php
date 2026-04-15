@@ -126,11 +126,41 @@ class QuotationController extends Controller
         return redirect()->route('technician.quotation.versions', [$id, $quotationId]);
     }
 
+    // Submits the quotation to the admin for review by changing status to Pending.
+    public function submit(string $projectId, string $quotationId): RedirectResponse
+    {
+        $quotation = Quotation::findOrFail($quotationId);
+
+        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
+            session()->flash('error', __('tecnico_cotizacion.flash_submit_invalid'));
+
+            return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
+        }
+
+        $quotation->setStatus('Pending');
+        $quotation->save();
+
+        session()->flash('success', __('tecnico_cotizacion.flash_submit_success'));
+
+        return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
+    }
+
     // Displays the form for editing the materials of the most recent version of a quotation.
-    public function edit(string $projectId, string $versionId): View
+    public function edit(string $projectId, string $versionId): View|RedirectResponse
     {
         $viewData = [];
         $viewData['project'] = Project::findOrFail($projectId);
+        $viewData['version'] = QuotationVersion::with([
+            'quotation',
+        ])->findOrFail($versionId);
+
+        $quotationStatus = $viewData['version']->quotation->getStatus();
+        if (!in_array($quotationStatus, ['Technician', 'Technician Edited'])) {
+            session()->flash('error', __('tecnico_cotizacion.flash_edit_blocked'));
+
+            return redirect()->route('technician.quotation.versions', [$projectId, $viewData['version']->quotation->getId()]);
+        }
+
         $viewData['version'] = QuotationVersion::with([
             'presentationMaterialTypeQuotationVersions.presentationMaterialType.presentation',
             'presentationMaterialTypeQuotationVersions.presentationMaterialType.materialType.material',
@@ -154,6 +184,12 @@ class QuotationController extends Controller
         $project = Project::findOrFail($projectId);
         $currentVersion = QuotationVersion::findOrFail($versionId);
         $quotation = $currentVersion->quotation;
+
+        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
+            session()->flash('error', __('tecnico_cotizacion.flash_edit_blocked'));
+
+            return redirect()->route('technician.quotation.versions', [$projectId, $quotation->getId()]);
+        }
         $mostRecentVersion = $quotation->quotationVersions()->where('is_most_recent', true)->first();
         $previousPdfPath = ($mostRecentVersion && $mostRecentVersion->getVersionNumber() !== '1')
             ? $mostRecentVersion->getPdfPath()

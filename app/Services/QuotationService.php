@@ -44,12 +44,12 @@ class QuotationService
     }
 
     // Creates a new version of the quotation with the given materials inside a transaction.
-    public function createNewVersion(Quotation $quotation, array $materials): int
+    public function createNewVersion(Quotation $quotation, array $materials, string $status = 'Technician Edited'): int
     {
         $newVersionId = null;
 
-        Quotation::query()->getConnection()->transaction(function () use ($quotation, $materials, &$newVersionId) {
-            $quotation->setStatus('Technician Edited');
+        Quotation::query()->getConnection()->transaction(function () use ($quotation, $materials, $status, &$newVersionId) {
+            $quotation->setStatus($status);
             $quotation->save();
 
             $quotation->quotationVersions()->update(['is_most_recent' => false]);
