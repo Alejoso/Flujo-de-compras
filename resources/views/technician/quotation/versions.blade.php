@@ -34,21 +34,6 @@
       </p>
     </div>
 
-    @if ($viewData['currentVersion'] && in_array($viewData['quotation']->getStatus(), ['Technician', 'Technician Edited']))
-      <div class="d-flex justify-content-between mb-3">
-        <form action="{{ route('technician.quotation.submit', [$viewData['project']->getId(), $viewData['quotation']->getId()]) }}" method="POST">
-          @csrf
-          <button type="submit" class="um-btn-primary px-4 py-2">
-            <i class="bi bi-send-fill me-1"></i> {{ __('technician_quotation.btn_submit_final') }}
-          </button>
-        </form>
-        <a href="{{ route('technician.quotation.edit', [$viewData['project']->getId(), $viewData['currentVersion']->getId()]) }}"
-          class="um-btn-primary px-4 py-2">
-          <i class="bi bi-clipboard-plus me-1"></i> {{ __('technician_quotation.btn_new_version') }}
-        </a>
-      </div>
-    @endif
-
     <div class="cot-table-wrap">
       <table class="cot-table cot-versions-table">
         <thead>

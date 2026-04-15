@@ -65,7 +65,6 @@ Route::middleware('technician')->group(function () use ($controllerRoute) {
     Route::get('/tecnico/proyecto/{id}/cotizacion/create', $controllerRoute.'\Technician\QuotationController@create')->name('technician.quotation.create');
     Route::post('/tecnico/proyecto/{id}/cotizacion', $controllerRoute.'\Technician\QuotationController@store')->name('technician.quotation.store');
     Route::get('/tecnico/proyecto/{id}/cotizacion/{quotationId}/versiones', $controllerRoute.'\Technician\QuotationController@versions')->name('technician.quotation.versions');
-    Route::post('/tecnico/proyecto/{id}/cotizacion/{quotationId}/enviar', $controllerRoute.'\Technician\QuotationController@submit')->name('technician.quotation.submit');
     Route::get('/tecnico/proyecto/{id}/cotizacion/{versionId}', $controllerRoute.'\Technician\QuotationController@show')->name('technician.quotation.show');
     Route::get('/tecnico/proyecto/{id}/cotizacion/{versionId}/edit', $controllerRoute.'\Technician\QuotationController@edit')->name('technician.quotation.edit');
     Route::patch('/tecnico/proyecto/{id}/cotizacion/{versionId}/update', $controllerRoute.'\Technician\QuotationController@update')->name('technician.quotation.update');
