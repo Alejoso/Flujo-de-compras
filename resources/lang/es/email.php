@@ -28,4 +28,14 @@ return [
     'quote_edited_body' => 'Se ha editado la cotización :id del proyecto :project',
     'quote_edited_error' => 'Cotización actualizada, pero no se pudo enviar el correo de notificación.',
 
+    // ─── Cotización Submitted (versión final técnico) ─────────────
+    'quote_submitted_subject' => 'El técnico ha enviado la versión final de la cotización :id del proyecto :project',
+    'quote_submitted_body' => 'El técnico ha marcado la cotización :id del proyecto :project como versión final y está lista para revisión.',
+    'quote_submitted_error' => 'Cotización enviada, pero no se pudo enviar el correo de notificación.',
+
+    // ─── Cotización Rejected (devuelta al técnico) ────────────────
+    'quote_rejected_subject' => 'La cotización :id del proyecto :project ha sido devuelta para revisión',
+    'quote_rejected_body' => 'El administrador ha devuelto la cotización :id del proyecto :project al técnico para que realice los ajustes necesarios.',
+    'quote_rejected_error' => 'Cotización devuelta, pero no se pudo enviar el correo de notificación.',
+
 ];

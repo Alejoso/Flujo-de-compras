@@ -194,15 +194,37 @@ class QuotationController extends Controller
             return redirect()->route('technician.quotation.versions', [$project->getId(), $quotation->getId()]);
         }
 
-        try {
-            $this->mailer->sendEditEmail($quotation, $project, QuotationVersion::findOrFail($newVersionId));
-        } catch (Exception $e) {
-            session()->flash('error', __('email.quote_edited_error'));
-        }
-
         session()->flash('success', __('technician_quotation.flash_update_success'));
 
         return redirect()->route('technician.quotation.versions', [$project->getId(), $quotation->getId()]);
     }
 
+    // Submits the quotation as the technician final version, then notifies by email.
+    public function submit(string $projectId, string $quotationId): RedirectResponse
+    {
+        $quotation = Quotation::findOrFail($quotationId);
+        $project = Project::findOrFail($projectId);
+
+        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
+            session()->flash('error', __('technician_quotation.flash_submit_invalid'));
+
+            return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
+        }
+
+        $quotation->setStatus('Technician Final');
+        $quotation->save();
+
+        try {
+            $currentVersion = $quotation->quotationVersions()->where('is_most_recent', true)->first();
+            if ($currentVersion) {
+                $this->mailer->sendSubmitEmail($quotation, $project, $currentVersion);
+            }
+        } catch (Exception $e) {
+            session()->flash('error', __('email.quote_submitted_error'));
+        }
+
+        session()->flash('success', __('technician_quotation.flash_submit_success'));
+
+        return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);
+    }
 }
