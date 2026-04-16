@@ -12,14 +12,14 @@
 
     <div class="login-container">
 
-        {{-- Marca --}}
+        {{-- Brand --}}
         <div class="login-brand">
             <div class="login-brand-icon">🏗️</div>
             <span class="login-brand-name">{{ config('app.name', 'Laravel') }}</span>
             <span class="login-brand-sub">Gestión de compras y proyectos</span>
         </div>
 
-        {{-- Tarjeta --}}
+        {{-- Card --}}
         <div class="login-card">
             <p class="login-card-title">Recuperar contraseña</p>
             <p class="login-card-subtitle">Ingresa tu correo y te enviaremos un enlace para restablecer tu contraseña</p>

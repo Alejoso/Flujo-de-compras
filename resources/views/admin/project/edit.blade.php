@@ -31,7 +31,7 @@
 
               <div class="row g-3">
 
-                {{-- Nombre --}}
+                {{-- Name --}}
                 <div class="col-12">
                   <label class="form-label">{{ __('project.name') }}</label>
                   <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
@@ -42,7 +42,7 @@
                   @enderror
                 </div>
 
-                {{-- Dirección --}}
+                {{-- Address --}}
                 <div class="col-12">
                   <label class="form-label">{{ __('project.address') }}</label>
                   <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
@@ -53,7 +53,7 @@
                   @enderror
                 </div>
 
-                {{-- Ciudad --}}
+                {{-- City --}}
                 <div class="col-md-6">
                   <label class="form-label">{{ __('project.city') }}</label>
                   <input type="text" name="city" class="form-control @error('city') is-invalid @enderror"
@@ -64,7 +64,7 @@
                   @enderror
                 </div>
 
-                {{-- Costo Total --}}
+                {{-- Total cost --}}
                 <div class="col-md-6">
                   <label class="form-label">{{ __('project.total_cost') }}</label>
                   <div class="input-group">
@@ -81,7 +81,7 @@
                   </div>
                 </div>
 
-                {{-- Cliente --}}
+                {{-- Client --}}
                 <div class="col-md-6">
                   <label class="form-label">{{ __('project.client') }}</label>
                   <select name="client_id" class="form-select @error('client_id') is-invalid @enderror">
@@ -124,13 +124,13 @@
 
               {{-- Actions --}}
               <div class="d-flex justify-content-between align-items-center mt-4">
-                {{-- Lado izquierdo: Eliminar --}}
+                {{-- Left side: Delete --}}
                 <button type="button" class="um-btn-icon um-btn-icon--delete px-3 py-2" data-bs-toggle="modal"
                   data-bs-target="#deleteProjectModal">
                   <i class="bi bi-trash me-1"></i> {{ __('project.delete') }}
                 </button>
 
-                {{-- Lado derecho: Cancelar + Guardar --}}
+                {{-- Right side: Cancel + Save --}}
                 <div class="d-flex gap-2">
                   <a href="{{ route('admin.project.index') }}" class="um-btn-icon um-btn-icon--edit px-3 py-2">
                     {{ __('project.cancel') }}

@@ -41,7 +41,7 @@ class OCRService
             throw new Exception('OCR error: '.$response->body());
         }
 
-        return $response->json('pages.0.markdown'); // ojo: índice 0, no 1
+        return $response->json('pages.0.markdown'); // index 0, not 1
     }
 
     public function structureData(string $markdown): array

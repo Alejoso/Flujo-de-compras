@@ -29,7 +29,7 @@
 
               <div class="row g-3">
 
-                {{-- Nombre --}}
+                {{-- Name --}}
                 <div class="col-12">
                   <label class="form-label">{{ __('project.name') }}</label>
                   <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
@@ -39,7 +39,7 @@
                   @enderror
                 </div>
 
-                {{-- Dirección --}}
+                {{-- Address --}}
                 <div class="col-12">
                   <label class="form-label">{{ __('project.address') }}</label>
                   <input type="text" name="address" class="form-control @error('address') is-invalid @enderror"
@@ -49,7 +49,7 @@
                   @enderror
                 </div>
 
-                {{-- Ciudad --}}
+                {{-- City --}}
                 <div class="col-md-6">
                   <label class="form-label">{{ __('project.city') }}</label>
                   <input type="text" name="city" class="form-control @error('city') is-invalid @enderror"
@@ -59,7 +59,7 @@
                   @enderror
                 </div>
 
-                {{-- Costo Total --}}
+                {{-- Total cost --}}
                 <div class="col-md-6">
                   <label class="form-label">{{ __('project.total_cost') }}</label>
                   <div class="input-group">
@@ -75,7 +75,7 @@
                   </div>
                 </div>
 
-                {{-- Cliente --}}
+                {{-- Client --}}
                 <div class="col-md-6">
                   <label class="form-label">{{ __('project.client') }}</label>
                   <select name="client_id" class="form-select @error('client_id') is-invalid @enderror">

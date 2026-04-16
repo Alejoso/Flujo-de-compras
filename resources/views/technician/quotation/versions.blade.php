@@ -25,14 +25,32 @@
       </a>
     </div>
 
-    <div class="cot-header-card mb-4">
-      <p class="cot-project-name">
-        <i class="bi bi-folder-fill cot-icon-primary me-2"></i>{{ $viewData['project']->getName() }}
-      </p>
-      <p class="cot-project-meta">
-        <i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCity() }} — {{ $viewData['project']->getAddress() }}
-      </p>
+    <div class="cot-header-card mb-4 text-center">
+      <p class="cot-project-label mb-1"><i class="bi bi-folder-fill cot-icon-primary me-1"></i>{{ __('technician_quotation.label_project') }}</p>
+      <h2 class="cot-project-title mb-2">{{ $viewData['project']->getName() }}</h2>
+      <span class="cot-estado-label cot-estado--{{ str_replace(' ', '-', strtolower($viewData['project']->getStatus())) }}">
+        {{ match($viewData['project']->getStatus()) {
+            'Negotiation' => __('project.status_negotiation'),
+            'In Progress'  => __('project.status_in_progress'),
+            default        => __('project.status_completed'),
+        } }}
+      </span>
+      <div class="cot-project-details justify-content-center mt-3">
+        <span><i class="bi bi-geo-alt me-1"></i>{{ $viewData['project']->getCity() }}, {{ $viewData['project']->getAddress() }}</span>
+        @if($viewData['project']->getClient())
+          <span><i class="bi bi-building me-1"></i>{{ $viewData['project']->getClient()->getName() }}</span>
+        @endif
+      </div>
     </div>
+
+    @if(in_array($viewData['quotation']->getStatus(), ['Technician', 'Technician Edited']) && $viewData['currentVersion'])
+      <div class="d-flex justify-content-end mb-3">
+        <a href="{{ route('technician.quotation.edit', [$viewData['project']->getId(), $viewData['currentVersion']->getId()]) }}"
+          class="um-btn-primary px-4 py-2">
+          <i class="bi bi-plus-lg me-1"></i> {{ __('technician_quotation.btn_new_version') }}
+        </a>
+      </div>
+    @endif
 
     <div class="cot-table-wrap">
       <table class="cot-table cot-versions-table">

@@ -88,7 +88,7 @@
               </span>
             </div>
 
-            {{-- Creado por --}}
+            {{-- Created by --}}
             <div class="mb-3">
               <span class="pj-meta-label">{{ __('project.created_by') }} </span>
               <span class="pj-meta-value">

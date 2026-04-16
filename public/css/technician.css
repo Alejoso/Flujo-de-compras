@@ -522,7 +522,7 @@
         padding: 0;
     }
 
-    /* col 1: Material / Especificación */
+    /* col 1: Material / Specification */
     .cot-edit-table td:nth-child(1) {
         grid-area: name;
         padding: 12px 12px 4px;
@@ -533,7 +533,7 @@
         line-height: 1.3;
     }
 
-    /* col 2: Presentación */
+    /* col 2: Presentation */
     .cot-edit-table td:nth-child(2) {
         grid-area: pres;
         padding: 2px 12px 4px;

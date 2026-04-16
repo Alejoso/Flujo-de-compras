@@ -30,7 +30,7 @@
 
                         <div class="row g-3">
 
-                            {{-- Nombre --}}
+                            {{-- Name --}}
                             <div class="col-12">
                                 <label class="form-label">{{ __('client.name') }}</label>
                                 <input type="text"
@@ -43,7 +43,7 @@
                                 @enderror
                             </div>
 
-                            {{-- Cedula --}}
+                            {{-- ID number --}}
                             <div class="col-12">
                                 <label class="form-label">{{ __('client.cedula') }}</label>
                                 <input type="text"
@@ -56,7 +56,7 @@
                                 @enderror
                             </div>
 
-                            {{-- Correo --}}
+                            {{-- Email --}}
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('client.email') }}</label>
                                 <input type="email"
@@ -69,7 +69,7 @@
                                 @enderror
                             </div>
 
-                            {{-- Celular --}}
+                            {{-- Phone --}}
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('client.phone') }}</label>
                                 <div class="input-group">
@@ -89,10 +89,10 @@
                         {{-- Actions --}}
                         <div class="d-flex justify-content-between align-items-center gap-2 mt-4">
 
-                            {{-- Placeholder para alinear el botón eliminar --}}
+                            {{-- Spacer to align the delete button --}}
                             <div></div>
 
-                            {{-- Cancelar + Guardar --}}
+                            {{-- Cancel + Save --}}
                             <div class="d-flex gap-2">
                                 <a href="{{ route('admin.client.index') }}"
                                 class="um-btn-icon um-btn-icon--edit px-3 py-2">
@@ -107,7 +107,7 @@
 
                     </form>
 
-                    {{-- Eliminar (fuera del form de edición) --}}
+                    {{-- Delete (outside the edit form) --}}
                     <form action="{{ route('admin.client.destroy', $viewData['client']->getId()) }}" method="POST" class="mt-2">
                         @csrf
                         @method('DELETE')

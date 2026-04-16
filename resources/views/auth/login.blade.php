@@ -12,14 +12,14 @@
 
     <div class="login-container">
 
-        {{-- Marca --}}
+        {{-- Brand --}}
         <div class="login-brand">
             <div class="login-brand-icon">🏗️</div>
             <span class="login-brand-name">{{ config('app.name', 'Laravel') }}</span>
             <span class="login-brand-sub">Gestión de compras y proyectos</span>
         </div>
 
-        {{-- Tarjeta --}}
+        {{-- Card --}}
         <div class="login-card">
             <p class="login-card-title">Bienvenido de vuelta</p>
             <p class="login-card-subtitle">Ingresa tus credenciales para continuar</p>
@@ -47,7 +47,7 @@
                     @enderror
                 </div>
 
-                {{-- Contraseña --}}
+                {{-- Password --}}
                 <div class="login-field">
                     <label for="password" class="login-label">Contraseña</label>
                     <input
@@ -64,18 +64,18 @@
                     @enderror
                 </div>
 
-                {{-- Recordarme --}}
+                {{-- Remember me --}}
                 <div class="login-remember">
                     <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                     <label for="remember">Recordar sesión</label>
                 </div>
 
-                {{-- Botón --}}
+                {{-- Button --}}
                 <button type="submit" class="login-btn">
                     Iniciar sesión
                 </button>
 
-                {{-- Olvidé contraseña --}}
+                {{-- Forgot password --}}
                 @if (Route::has('password.request'))
                     <a class="login-forgot" href="{{ route('password.request') }}">
                         ¿Olvidaste tu contraseña?

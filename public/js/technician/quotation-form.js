@@ -4,6 +4,11 @@
 
     const searchUrl = app.dataset.searchUrl;
     const hasEmptyRow = app.dataset.hasEmptyRow === '1';
+    const msgSelectMaterial = app.dataset.msgSelectMaterial;
+    const msgNoResults = app.dataset.msgNoResults;
+    const msgSelectPresentation = app.dataset.msgSelectPresentation;
+    const msgDuplicate = app.dataset.msgDuplicate;
+    const msgNoMaterials = app.dataset.msgNoMaterials;
 
     const materialSearch = document.getElementById('material-search');
     const acList = document.getElementById('autocomplete-list');
@@ -28,7 +33,7 @@
     function resetPresentation() {
         const opt = document.createElement('option');
         opt.value = '';
-        opt.textContent = '— elige material primero —';
+        opt.textContent = msgSelectMaterial;
         presentationSelect.replaceChildren(opt);
         presentationSelect.disabled = true;
         displayUnit.value = '';
@@ -44,7 +49,7 @@
         if (keys.length === 0) {
             const empty = document.createElement('div');
             empty.className = 'ac-empty';
-            empty.textContent = 'Sin resultados';
+            empty.textContent = msgNoResults;
             acList.appendChild(empty);
         } else {
             keys.forEach(function (tmId) {
@@ -76,14 +81,14 @@
         // Populate presentation selector with options for the chosen material
         const defaultOpt = document.createElement('option');
         defaultOpt.value = '';
-        defaultOpt.textContent = 'Seleccione presentación...';
+        defaultOpt.textContent = msgSelectPresentation;
         presentationSelect.replaceChildren(defaultOpt);
 
-        tmData[tmId].presentaciones.forEach(function (p) {
+        tmData[tmId].presentations.forEach(function (p) {
             const opt = document.createElement('option');
             opt.value = p.id;
-            opt.textContent = p.nombre;
-            opt.dataset.unit = p.unidad;
+            opt.textContent = p.name;
+            opt.dataset.unit = p.unit;
             presentationSelect.appendChild(opt);
         });
         presentationSelect.disabled = false;
@@ -196,7 +201,7 @@
         const label = tmData[selectedTmId].label;
 
         if (tbody.querySelector('tr[data-id="' + ptmId + '"]')) {
-            alert('Esta combinación ya está en la lista.');
+            alert(msgDuplicate);
             return;
         }
 
@@ -223,7 +228,7 @@
         quotationForm.addEventListener('submit', function (e) {
             if (tbody.querySelectorAll('tr[data-id]').length === 0) {
                 e.preventDefault();
-                alert('Debes agregar al menos un material antes de enviar.');
+                alert(msgNoMaterials);
             }
         });
     }

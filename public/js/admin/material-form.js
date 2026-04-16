@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
-  const tiposContainer = document.getElementById('tiposContainer');
-  const btnAddTipo = document.getElementById('btnAddTipo');
-  const tipoTemplate = document.getElementById('tipoTemplate');
-  const presTemplate = document.getElementById('presentacionTemplate');
+  const typesContainer = document.getElementById('typesContainer');
+  const btnAddType = document.getElementById('btnAddType');
+  const typeTemplate = document.getElementById('typeTemplate');
+  const presentationTemplate = document.getElementById('presentationTemplate');
 
-  let tipoIndex = 0;
+  let typeIndex = 0;
 
   // ── Toggle material mode ──
   const modeRadios = document.querySelectorAll('input[name="material_mode"]');
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function toggleMode() {
     const mode = document.querySelector('input[name="material_mode"]:checked').value;
-    newField.style.display = mode === 'new' ? '' : 'none';
-    existField.style.display = mode === 'existing' ? '' : 'none';
+    newField.classList.toggle('d-none', mode !== 'new');
+    existField.classList.toggle('d-none', mode !== 'existing');
   }
 
   modeRadios.forEach(function (r) {
@@ -22,46 +22,46 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   toggleMode();
 
-  // ── Agregar Tipo ──
-  btnAddTipo.addEventListener('click', function () {
-    addTipo();
+  // ── Add Type ──
+  btnAddType.addEventListener('click', function () {
+    addType();
   });
 
-  function addTipo() {
-    var clone = tipoTemplate.content.cloneNode(true);
-    var block = clone.querySelector('.tipo-block');
+  function addType() {
+    var clone = typeTemplate.content.cloneNode(true);
+    var block = clone.querySelector('.type-block');
 
-    block.querySelector('.tipo-number').textContent = tipoIndex + 1;
+    block.querySelector('.type-number').textContent = typeIndex + 1;
 
     block.querySelectorAll('[data-name]').forEach(function (el) {
-      el.setAttribute('name', el.getAttribute('data-name').replace('__INDEX__', tipoIndex));
+      el.setAttribute('name', el.getAttribute('data-name').replace('__INDEX__', typeIndex));
     });
 
-    block.querySelector('.btn-remove-tipo').addEventListener('click', function () {
+    block.querySelector('.btn-remove-type').addEventListener('click', function () {
       block.remove();
-      renumberTipos();
+      renumberTypes();
       updateAllTypeIndices();
     });
 
-    var presContainer = block.querySelector('.presentaciones-container');
-    var btnAddPres = block.querySelector('.btn-add-presentacion');
+    var presContainer = block.querySelector('.presentations-container');
+    var btnAddPres = block.querySelector('.btn-add-presentation');
     var presIndex = 0;
 
     btnAddPres.addEventListener('click', function () {
-      addPresentacion(presContainer, tipoIndex, presIndex);
+      addPresentation(presContainer, typeIndex, presIndex);
       presIndex++;
     });
 
-    addPresentacion(presContainer, tipoIndex, presIndex);
+    addPresentation(presContainer, typeIndex, presIndex);
     presIndex++;
 
-    tiposContainer.appendChild(block);
-    tipoIndex++;
+    typesContainer.appendChild(block);
+    typeIndex++;
   }
 
-  function addPresentacion(container, tIdx, pIdx) {
-    var clone = presTemplate.content.cloneNode(true);
-    var row = clone.querySelector('.presentacion-row');
+  function addPresentation(container, tIdx, pIdx) {
+    var clone = presentationTemplate.content.cloneNode(true);
+    var row = clone.querySelector('.presentation-row');
 
     row.querySelectorAll('[data-name]').forEach(function (el) {
       el.setAttribute('name',
@@ -71,22 +71,22 @@ document.addEventListener('DOMContentLoaded', function () {
       );
     });
 
-    row.querySelector('.btn-remove-presentacion').addEventListener('click', function () {
+    row.querySelector('.btn-remove-presentation').addEventListener('click', function () {
       row.remove();
     });
 
     container.appendChild(row);
   }
 
-  function renumberTipos() {
-    var blocks = tiposContainer.querySelectorAll('.tipo-block');
+  function renumberTypes() {
+    var blocks = typesContainer.querySelectorAll('.type-block');
     blocks.forEach(function (block, i) {
-      block.querySelector('.tipo-number').textContent = i + 1;
+      block.querySelector('.type-number').textContent = i + 1;
     });
   }
 
   function updateAllTypeIndices() {
-    var blocks = tiposContainer.querySelectorAll('.tipo-block');
+    var blocks = typesContainer.querySelectorAll('.type-block');
     blocks.forEach(function (block, newIdx) {
       block.querySelectorAll('[data-name]').forEach(function (el) {
         var originalName = el.getAttribute('data-name');
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
 
-      var presRows = block.querySelectorAll('.presentacion-row');
+      var presRows = block.querySelectorAll('.presentation-row');
       presRows.forEach(function (row, presIdx) {
         row.querySelectorAll('[data-name]').forEach(function (el) {
           var originalName = el.getAttribute('data-name');
@@ -109,9 +109,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
     });
-    tipoIndex = blocks.length;
+    typeIndex = blocks.length;
   }
 
-  // Agregar un tipo por defecto al cargar
-  addTipo();
+  // Add a default type on load
+  addType();
 });

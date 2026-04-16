@@ -29,7 +29,7 @@
 
                         <div class="row g-3">
 
-                            {{-- Nombre --}}
+                            {{-- Name --}}
                             <div class="col-12">
                                 <label class="form-label">{{ __('client.name') }}</label>
                                 <input type="text"
@@ -42,7 +42,7 @@
                                 @enderror
                             </div>
 
-                            {{-- Cedula --}}
+                            {{-- ID number --}}
                             <div class="col-12">
                                 <label class="form-label">{{ __('client.cedula') }}</label>
                                 <input type="text"
@@ -55,7 +55,7 @@
                                 @enderror
                             </div>
 
-                            {{-- Correo --}}
+                            {{-- Email --}}
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('client.email') }}</label>
                                 <input type="email"
@@ -68,7 +68,7 @@
                                 @enderror
                             </div>
 
-                            {{-- Celular --}}
+                            {{-- Phone --}}
                             <div class="col-md-6">
                                 <label class="form-label">{{ __('client.phone') }}</label>
                                 <div class="input-group">

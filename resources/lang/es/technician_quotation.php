@@ -48,6 +48,10 @@ return [
     'msg_add_materials_hint' => 'Agrega materiales usando los selectores de arriba',
     'msg_search_placeholder' => 'Escriba para buscar...',
     'msg_select_material_first' => '— elige material primero —',
+    'msg_no_results' => 'Sin resultados',
+    'msg_select_presentation' => 'Seleccione presentación...',
+    'msg_duplicate_material' => 'Esta combinación ya está en la lista.',
+    'msg_no_materials' => 'Debes agregar al menos un material antes de enviar.',
 
     // PDF view
     'pdf_intro' => 'A continuación se presenta una tabla con los materiales a cotizar:',
@@ -74,16 +78,21 @@ return [
 
     // Flash messages — error
     'flash_edit_blocked' => 'No puedes editar esta cotización porque ya fue procesada por el administrador.',
-    'btn_submit_final' => 'Enviar versión final',
     'flash_submit_success' => 'Versión final enviada al administrador para revisión.',
     'flash_submit_invalid' => 'Solo puedes enviar cotizaciones con estado Técnico o Técnico Editada.',
     'flash_store_error' => 'No se pudo crear la cotización: :error',
     'flash_store_pdf_error' => 'Cotización creada, pero no se pudo generar el PDF: :error',
     'flash_update_error' => 'No se pudo actualizar la cotización: :error',
     'flash_update_pdf_error' => 'Cotización actualizada, pero no se pudo generar el PDF: :error',
-    'flash_submit_success' => 'Versión final enviada al administrador para revisión.',
-    'flash_submit_invalid' => 'Solo puedes enviar cotizaciones con estado Técnico o Técnico Editada.',
-    'flash_edit_blocked' => 'No puedes editar esta cotización porque ya fue procesada por el administrador.',
+
+    // Validation messages
+    'validation_materials_required' => 'Debes agregar al menos un material.',
+    'validation_material_id_required' => 'Selecciona un material en cada fila.',
+    'validation_material_id_exists' => 'Uno de los materiales seleccionados no es válido.',
+    'validation_material_id_distinct' => 'No puedes agregar la misma combinación de material y presentación más de una vez.',
+    'validation_quantity_required' => 'Ingresa la cantidad de cada material.',
+    'validation_quantity_numeric' => 'La cantidad debe ser un número.',
+    'validation_quantity_min' => 'La cantidad debe ser mayor a 0.',
 
     // Heading with version number (used in edit)
     'new_version_from' => 'Nueva Versión desde v.:version',

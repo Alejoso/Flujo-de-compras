@@ -16,7 +16,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── Página completa ── */
+/* ── Full page ── */
 body.login-page {
     font-family: var(--font-primary);
     background-color: var(--dark-green);
@@ -188,7 +188,7 @@ body.login-page::before {
     user-select: none;
 }
 
-/* ── Botón principal ── */
+/* ── Primary button ── */
 .login-btn {
     display: block;
     width: 100%;
@@ -214,7 +214,7 @@ body.login-page::before {
     transform: translateY(0);
 }
 
-/* ── Link olvidé contraseña ── */
+/* ── Forgot password link ── */
 .login-forgot {
     display: block;
     text-align: center;

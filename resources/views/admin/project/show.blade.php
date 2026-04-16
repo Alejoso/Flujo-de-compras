@@ -12,7 +12,7 @@
       </a>
     </div>
 
-    {{-- Info General --}}
+    {{-- General info --}}
     <div class="um-card mb-4">
       <div class="um-card-header">
         <div class="d-flex align-items-center gap-2">
@@ -58,7 +58,7 @@
     {{-- KPIs --}}
     <div class="row g-3 mb-4">
 
-      {{-- Cotizaciones --}}
+      {{-- Quotations --}}
       <div class="col-md-4">
         <div class="um-card p-4 h-100">
           <div class="d-flex align-items-center gap-3">
@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      {{-- Facturas --}}
+      {{-- Invoices --}}
       <div class="col-md-4">
         <div class="um-card p-4 h-100">
           <div class="d-flex align-items-center gap-3">
@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      {{-- Costo --}}
+      {{-- Cost --}}
       <div class="col-md-4">
         <div class="um-card p-4 h-100">
           <div class="d-flex align-items-center gap-3 mb-3">
@@ -116,10 +116,10 @@
 
     </div>
 
-    {{-- Acciones --}}
+    {{-- Actions --}}
     <div class="row g-3">
 
-      {{-- Ver Gráficas --}}
+      {{-- View Charts --}}
       <div class="col-md-4">
         <a href="#" class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">
           <div class="pj-kpi-icon pj-kpi-icon--yellow">
@@ -133,7 +133,7 @@
         </a>
       </div>
 
-      {{-- Ver Cotizaciones --}}
+      {{-- View Quotations --}}
       <div class="col-md-4">
         <a href="{{ route('admin.project.showQuotations', $viewData['project']->getId()) }}"
           class="um-card pj-action-card p-4 d-flex align-items-center gap-3 text-decoration-none">

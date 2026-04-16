@@ -24,14 +24,14 @@ class UpdateQuotationRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'materials.required' => 'Debes agregar al menos un material.',
-            'materials.min' => 'Debes agregar al menos un material.',
-            'materials.*.presentation_material_type_id.required' => 'Selecciona un material en cada fila.',
-            'materials.*.presentation_material_type_id.exists' => 'Uno de los materiales seleccionados no es válido.',
-            'materials.*.presentation_material_type_id.distinct' => 'No puedes agregar la misma combinación de material y presentación más de una vez.',
-            'materials.*.quantity.required' => 'Ingresa la cantidad de cada material.',
-            'materials.*.quantity.numeric' => 'La cantidad debe ser un número.',
-            'materials.*.quantity.min' => 'La cantidad debe ser mayor a 0.',
+            'materials.required' => __('technician_quotation.validation_materials_required'),
+            'materials.min' => __('technician_quotation.validation_materials_required'),
+            'materials.*.presentation_material_type_id.required' => __('technician_quotation.validation_material_id_required'),
+            'materials.*.presentation_material_type_id.exists' => __('technician_quotation.validation_material_id_exists'),
+            'materials.*.presentation_material_type_id.distinct' => __('technician_quotation.validation_material_id_distinct'),
+            'materials.*.quantity.required' => __('technician_quotation.validation_quantity_required'),
+            'materials.*.quantity.numeric' => __('technician_quotation.validation_quantity_numeric'),
+            'materials.*.quantity.min' => __('technician_quotation.validation_quantity_min'),
         ];
     }
 }

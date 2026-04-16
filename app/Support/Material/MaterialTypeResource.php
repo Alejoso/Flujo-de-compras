@@ -12,7 +12,7 @@ class MaterialTypeResource extends JsonResource
     {
         return [
             'label' => $this->buildLabel(),
-            'presentaciones' => PresentationMaterialTypeResource::collection(
+            'presentations' => PresentationMaterialTypeResource::collection(
                 $this->resource->getPresentationMaterialTypes()
             ),
         ];

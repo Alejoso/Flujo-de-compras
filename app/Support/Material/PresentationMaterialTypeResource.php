@@ -13,8 +13,8 @@ class PresentationMaterialTypeResource extends JsonResource
 
         return [
             'id' => $this->resource->getId(),
-            'nombre' => $this->resource->getPresentation()->getName(),
-            'unidad' => $this->buildUnit($unitOfMeasure),
+            'name' => $this->resource->getPresentation()->getName(),
+            'unit' => $this->buildUnit($unitOfMeasure),
         ];
     }
 

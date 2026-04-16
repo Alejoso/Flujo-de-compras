@@ -1,9 +1,9 @@
 @if ($paginator->hasPages())
     <nav class="d-flex flex-column align-items-center gap-2">
         <p class="small text-muted mb-0">
-            Mostrando <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-            al <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-            de <span class="fw-semibold">{{ $paginator->total() }}</span> resultados
+            {{ __('messages.pagination_showing') }} <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
+            {{ __('messages.pagination_to') }} <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
+            {{ __('messages.pagination_of') }} <span class="fw-semibold">{{ $paginator->total() }}</span> {{ __('messages.pagination_results') }}
         </p>
 
         <ul class="pagination mb-0">

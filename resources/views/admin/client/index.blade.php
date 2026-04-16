@@ -24,18 +24,18 @@
         </div>
     </div>
 
-    {{-- cliente Cards Grid --}}
+    {{-- Client cards grid --}}
     <div class="row g-4">
         @forelse($viewData['clients'] as $client)
         <div class="col-md-6 col-xl-4">
             <div class="pj-card">
 
-                {{-- Nombre --}}
+                {{-- Name --}}
                 <div class="d-flex justify-content-center align-items-start mb-1">
                     <h5 class="pj-title">{{ $client->getName() }}</h5>
                 </div>
 
-                {{-- Cedula --}}
+                {{-- ID number --}}
                 <p class="mb-3">
                     <span class="pj-meta-label">{{ __('client.cedula_label') }} </span>
                     <span class="pj-meta-value">
@@ -47,7 +47,7 @@
                     </span>
                 </p>
 
-                {{-- Correo --}}
+                {{-- Email --}}
                 <div class="mb-3">
                     <span class="pj-meta-label">{{ __('client.email_label') }} </span>
                     <span class="pj-meta-value">
@@ -59,7 +59,7 @@
                     </span>
                 </div>
 
-                {{-- Celular --}}
+                {{-- Phone --}}
                 <div class="mb-3">
                     <span class="pj-meta-label">{{ __('client.phone_label') }} </span>
                     <span class="pj-meta-value">

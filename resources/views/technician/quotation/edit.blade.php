@@ -2,8 +2,15 @@
 @section('page-title', __('technician_quotation.title_edit'))
 
 @section('content')
-  <div class="pj-wrapper" id="quotation-app" data-search-url="{{ route('technician.materials.search') }}"
-    data-row-idx="{{ count($viewData['versionMaterials']) }}" data-has-empty-row="0">
+  <div class="pj-wrapper" id="quotation-app"
+    data-search-url="{{ route('technician.materials.search') }}"
+    data-row-idx="{{ count($viewData['versionMaterials']) }}"
+    data-has-empty-row="0"
+    data-msg-select-material="{{ __('technician_quotation.msg_select_material_first') }}"
+    data-msg-no-results="{{ __('technician_quotation.msg_no_results') }}"
+    data-msg-select-presentation="{{ __('technician_quotation.msg_select_presentation') }}"
+    data-msg-duplicate="{{ __('technician_quotation.msg_duplicate_material') }}"
+    data-msg-no-materials="{{ __('technician_quotation.msg_no_materials') }}">
 
     <div class="um-header">
       <h1 class="um-title">

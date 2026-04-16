@@ -634,7 +634,7 @@ body {
     opacity: 1;
 }
 
-/* Botón cancelar */
+/* Cancel button */
 .btn-secondary {
     background-color: transparent;
     border: 1px solid rgba(255,255,255,0.15);
@@ -647,7 +647,7 @@ body {
     color: #ffffff;
 }
 
-/* Botón agregar */
+/* Add button */
 .btn-primary {
     background-color: #F5C800;
     border: none;
@@ -922,7 +922,7 @@ body {
    Breakpoint principal: 768px
    ═══════════════════════════════════════ */
 
-/* Botón hamburguesa — oculto en desktop */
+/* Hamburger button — hidden on desktop */
 .sidebar-toggle {
     display: none;
     align-items: center;
@@ -1026,7 +1026,7 @@ body {
 
 @media (min-width: 768px) and (max-width: 991px) {
 
-    /* ── Sidebar más angosto en tablet ── */
+    /* ── Narrower sidebar on tablet ── */
     .admin-sidebar  { width: 200px; }
     .admin-main     { margin-left: 200px; }
     .brand-name     { font-size: 0.95rem; }
@@ -1083,7 +1083,7 @@ body {
     /* Avatar oculto — el nombre ya identifica al usuario */
     .um-td-avatar { display: none; }
 
-    /* Estado vacío */
+    /* Empty state */
     .um-table td.um-empty {
         justify-content: center;
         text-align: center;
@@ -1145,20 +1145,20 @@ body {
     cursor: not-allowed;
 }
 
-/* Forzar tamaño de los SVG de las flechas prev/next */
+/* Force SVG size for prev/next arrows */
 .page-link svg {
     width: 16px;
     height: 16px;
 }
 
-/* Texto entre paginación (Showing X to Y of Z) */
+/* Pagination text (Showing X to Y of Z) */
 .pagination + div,
 nav + div {
     color: rgba(255,255,255,0.4);
     font-size: 0.8rem;
 }
 
-/* Wrapper de paginación de Laravel (Tailwind default) */
+/* Laravel pagination wrapper (Tailwind default) */
 nav[role="navigation"] {
     color: rgba(255,255,255,0.5);
     font-size: 0.85rem;

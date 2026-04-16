@@ -52,10 +52,10 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::delete('/admin/cliente/{id}', $controllerRoute.'\Admin\ClientController@destroy')->name('admin.client.destroy');
 
     // Material routes
-    Route::get('admin/material', $controllerRoute.'\Admin\MaterialController@index')->name('admin.material.index');
-    Route::get('admin/material/create', $controllerRoute.'\Admin\MaterialController@create')->name('admin.material.create');
-    Route::post('admin/material', $controllerRoute.'\Admin\MaterialController@save')->name('admin.material.save');
-    Route::delete('admin/material/{id}', $controllerRoute.'\Admin\MaterialController@destroy')->name('admin.material.destroy');
+    Route::get('/admin/material', $controllerRoute.'\Admin\MaterialController@index')->name('admin.material.index');
+    Route::get('/admin/material/create', $controllerRoute.'\Admin\MaterialController@create')->name('admin.material.create');
+    Route::post('/admin/material', $controllerRoute.'\Admin\MaterialController@save')->name('admin.material.save');
+    Route::delete('/admin/material/{id}', $controllerRoute.'\Admin\MaterialController@destroy')->name('admin.material.destroy');
 });
 
 // Routes exclusively for technician

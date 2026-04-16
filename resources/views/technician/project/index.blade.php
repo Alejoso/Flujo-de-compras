@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    {{-- proyecto Cards Grid --}}
+    {{-- Project cards grid --}}
     <div class="row g-4">
       @forelse($viewData['projects'] as $project)
         <div class="col-md-6 col-xl-4">
