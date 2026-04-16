@@ -83,7 +83,7 @@ class QuotationMailer
         );
     }
 
-    // Returns the Spanish label for a given quotation status.
+    // Returns the translated label for a given quotation status.
     private function translateStatus(string $status): string
     {
         return match ($status) {

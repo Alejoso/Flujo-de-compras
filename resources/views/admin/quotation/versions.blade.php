@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    {{-- Technician Final: admin acepta (En Proceso), rechaza (devuelve con correo) o edita --}}
+    {{-- Technician Final: admin accepts (In Process), rejects (returns with email) or edits --}}
     @if ($viewData['currentVersion'] && $viewData['status'] === 'Technician Final')
       <div class="d-flex justify-content-between mb-3">
         <div class="d-flex gap-2">
@@ -62,7 +62,7 @@
       </div>
     @endif
 
-    {{-- Admin Edited: devuelve al técnico, acepta (En Proceso) o sigue editando --}}
+    {{-- Admin Edited: returns to technician, accepts (In Process) or keeps editing --}}
     @if ($viewData['currentVersion'] && $viewData['status'] === 'Admin Edited')
       <div class="d-flex justify-content-between mb-3">
         <div class="d-flex gap-2">
