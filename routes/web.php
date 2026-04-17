@@ -51,6 +51,14 @@ Route::middleware('admin')->group(function () use ($controllerRoute) {
     Route::patch('/admin/cliente/{id}', $controllerRoute.'\Admin\ClientController@update')->name('admin.client.update');
     Route::delete('/admin/cliente/{id}', $controllerRoute.'\Admin\ClientController@destroy')->name('admin.client.destroy');
 
+    // Supplier routes
+    Route::get('/admin/proveedor', $controllerRoute.'\Admin\SupplierController@index')->name('admin.supplier.index');
+    Route::get('/admin/proveedor/crear', $controllerRoute.'\Admin\SupplierController@create')->name('admin.supplier.create');
+    Route::post('/admin/proveedor/guardar', $controllerRoute.'\Admin\SupplierController@save')->name('admin.supplier.save');
+    Route::get('/admin/proveedor/{id}/editar', $controllerRoute.'\Admin\SupplierController@edit')->name('admin.supplier.edit');
+    Route::patch('/admin/proveedor/{id}', $controllerRoute.'\Admin\SupplierController@update')->name('admin.supplier.update');
+    Route::delete('/admin/proveedor/{id}', $controllerRoute.'\Admin\SupplierController@destroy')->name('admin.supplier.destroy');
+
     // Material routes
     Route::get('/admin/material', $controllerRoute.'\Admin\MaterialController@index')->name('admin.material.index');
     Route::get('/admin/material/crear', $controllerRoute.'\Admin\MaterialController@create')->name('admin.material.create');
