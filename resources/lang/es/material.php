@@ -43,6 +43,10 @@ return [
     'label_unit' => 'Unidad de medida',
     'label_optional' => '(opcional)',
     'option_none' => '— Ninguna —',
+    'placeholder_unit_name' => 'Ej: Metro, Kilogramo...',
+    'placeholder_unit_abbreviation' => 'Ej: m, kg...',
+    'validation_unit_name_required' => 'El nombre de la unidad de medida es obligatorio.',
+    'validation_unit_abbreviation_required' => 'La abreviatura de la unidad de medida es obligatoria.',
 
     'label_presentations' => 'Presentaciones',
     'label_presentation' => 'Presentación',

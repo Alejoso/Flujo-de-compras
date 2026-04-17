@@ -150,22 +150,51 @@
 
       {{-- NEW type fields --}}
       <div class="type-new-fields">
-        <div class="row g-2 g-md-3 mb-2 mb-md-3">
+        <div class="row g-2 g-md-3 mb-2 mb-md-3 align-items-md-end">
           <div class="col-12 col-md-7">
             <label class="form-label mat-type-field-label">{{ __('material.label_specification') }}</label>
             <input type="text" class="form-control mat-type-field-input" data-name="types[__INDEX__][specification]"
               placeholder="{{ __('material.placeholder_specification') }}">
           </div>
           <div class="col-12 col-md-5">
-            <label class="form-label mat-type-field-label">{{ __('material.label_unit') }}
-              <small class="mat-optional">{{ __('material.label_optional') }}</small></label>
-            <select class="form-select mat-type-field-input" data-name="types[__INDEX__][unit_of_measure_id]">
-              <option value="">{{ __('material.option_none') }}</option>
-              @foreach ($viewData['unitOfMeasures'] as $unidad)
-                <option value="{{ $unidad->getId() }}">{{ $unidad->getName() }} ({{ $unidad->getAbbreviation() }})
-                </option>
-              @endforeach
-            </select>
+            {{-- Label + unit mode toggle on the same line --}}
+            <div class="d-flex align-items-center gap-3 flex-wrap mb-2">
+              <label class="form-label mat-type-field-label mb-0">{{ __('material.label_unit') }}
+                <small class="mat-optional">{{ __('material.label_optional') }}</small></label>
+              <div class="d-flex gap-2 flex-wrap">
+                <div class="form-check mb-0">
+                  <input class="form-check-input unit-mode-radio" type="radio"
+                    data-name="types[__INDEX__][unit_mode]" value="existing" checked>
+                  <label class="form-check-label mat-check-label">{{ __('material.mode_existing') }}</label>
+                </div>
+                <div class="form-check mb-0">
+                  <input class="form-check-input unit-mode-radio" type="radio"
+                    data-name="types[__INDEX__][unit_mode]" value="new">
+                  <label class="form-check-label mat-check-label">{{ __('material.mode_new') }}</label>
+                </div>
+              </div>
+            </div>
+
+            {{-- Existing --}}
+            <div class="unit-existing-field">
+              <select class="form-select mat-type-field-input unit-existing-select"
+                data-name="types[__INDEX__][unit_of_measure_id]">
+                <option value="">{{ __('material.option_none') }}</option>
+                @foreach ($viewData['unitOfMeasures'] as $unidad)
+                  <option value="{{ $unidad->getId() }}">{{ $unidad->getName() }} ({{ $unidad->getAbbreviation() }})</option>
+                @endforeach
+              </select>
+            </div>
+
+            {{-- New --}}
+            <div class="unit-new-field d-none">
+              <input type="text" class="form-control mat-type-field-input mb-1"
+                data-name="types[__INDEX__][unit_name]"
+                placeholder="{{ __('material.placeholder_unit_name') }}">
+              <input type="text" class="form-control mat-type-field-input"
+                data-name="types[__INDEX__][unit_abbreviation]"
+                placeholder="{{ __('material.placeholder_unit_abbreviation') }}">
+            </div>
           </div>
         </div>
       </div>

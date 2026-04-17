@@ -7,6 +7,7 @@ use App\Models\MaterialType;
 use App\Models\Presentation;
 use App\Models\PresentationMaterialType;
 use App\Models\Type;
+use App\Models\UnitOfMeasure;
 use Illuminate\Support\Facades\DB;
 
 class MaterialCreationService
@@ -45,9 +46,19 @@ class MaterialCreationService
             return Type::findOrFail($typeData['type_id']);
         }
 
+        $unitId = $typeData['unit_of_measure_id'] ?? null;
+
+        if (($typeData['unit_mode'] ?? 'existing') === 'new' && !empty($typeData['unit_name'])) {
+            $unit = UnitOfMeasure::create([
+                'name'         => $typeData['unit_name'],
+                'abbreviation' => $typeData['unit_abbreviation'],
+            ]);
+            $unitId = $unit->getId();
+        }
+
         return Type::create([
-            'specification' => $typeData['specification'],
-            'unit_of_measure_id' => $typeData['unit_of_measure_id'] ?? null,
+            'specification'    => $typeData['specification'],
+            'unit_of_measure_id' => $unitId,
         ]);
     }
 

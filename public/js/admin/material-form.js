@@ -103,10 +103,30 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
+    // Unit mode toggle
+    var unitModeRadios = block.querySelectorAll('.unit-mode-radio');
+    var unitExistingField = block.querySelector('.unit-existing-field');
+    var unitNewField = block.querySelector('.unit-new-field');
+    var unitSelect = block.querySelector('.unit-existing-select');
+    var unitTomSelect = null;
+
+    unitModeRadios.forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        var isExisting = this.value === 'existing';
+        unitExistingField.classList.toggle('d-none', !isExisting);
+        unitNewField.classList.toggle('d-none', isExisting);
+
+        if (isExisting && !unitTomSelect) {
+          unitTomSelect = initTomSelect(unitSelect);
+        }
+      });
+    });
+
     // Remove type
     block.querySelector('.btn-remove-type').addEventListener('click', function () {
       // Destroy Tom Select instances before removing the block
       destroyTomSelect(existingSelect);
+      if (unitTomSelect) destroyTomSelect(unitSelect);
       block.querySelectorAll('.pres-existing-select').forEach(function (sel) {
         destroyTomSelect(sel);
       });
@@ -130,6 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
     presIndex++;
 
     typesContainer.appendChild(block);
+    unitTomSelect = initTomSelect(unitSelect);
     typeIndex++;
   }
 
