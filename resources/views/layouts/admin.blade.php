@@ -46,18 +46,24 @@
           <span>Clientes</span>
         </a>
 
+        <a href="{{ route('admin.material.index') }}"
+          class="sidebar-link {{ request()->routeIs('admin.material*') ? 'active' : '' }}">
+          <i class="bi bi-box-seam"></i>
+          <span>Materiales</span>
+        </a>
+
+        <a href="{{ route('admin.supplier.index') }}"
+          class="sidebar-link {{ request()->routeIs('admin.supplier*') ? 'active' : '' }}">
+          <i class="bi bi-truck"></i>
+          <span>Proveedores</span>
+        </a>
+
         <div class="nav-section-label mt-3">Configuración</div>
 
         <a href="{{ route('admin.notification.index') }}"
           class="sidebar-link {{ request()->routeIs('admin.notification*') ? 'active' : '' }}">
           <i class="bi bi-bell-fill"></i>
           <span>Notificaciones</span>
-        </a>
-
-        <a href="{{ route('admin.material.index') }}"
-          class="sidebar-link {{ request()->routeIs('admin.material*') ? 'active' : '' }}">
-          <i class="bi bi-box-seam"></i>
-          <span>Materiales</span>
         </a>
       </nav>
 
