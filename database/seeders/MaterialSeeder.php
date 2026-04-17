@@ -12,7 +12,7 @@ class MaterialSeeder extends Seeder
         DB::table('materials')->insert([
             ['description' => 'Alambre #12', 'created_at' => now(), 'updated_at' => now()],  // id 1
             ['description' => 'Tubo Conduit', 'created_at' => now(), 'updated_at' => now()],  // id 2
-            ['description' => 'Cable', 'created_at' => now(), 'updated_at' => now()],  // id 3
+            ['description' => 'Cable #12', 'created_at' => now(), 'updated_at' => now()],  // id 3
             ['description' => 'Panel LED', 'created_at' => now(), 'updated_at' => now()],  // id 4
             ['description' => 'Autoconector Cónico', 'created_at' => now(), 'updated_at' => now()],  // id 5
             ['description' => 'Cerrucho', 'created_at' => now(), 'updated_at' => now()],  // id 6
@@ -27,6 +27,7 @@ class MaterialSeeder extends Seeder
             ['description' => 'Tapa', 'created_at' => now(), 'updated_at' => now()],  // id 15
             ['description' => 'Tornillo drywall', 'created_at' => now(), 'updated_at' => now()],  // id 16
             ['description' => 'Curva', 'created_at' => now(), 'updated_at' => now()],  // id 17
+            ['description' => 'Cable #10', 'created_at' => now(), 'updated_at' => now()],  // id 18
         ]);
     }
 }

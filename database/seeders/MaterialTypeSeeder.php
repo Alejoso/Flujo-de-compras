@@ -15,13 +15,13 @@ class MaterialTypeSeeder extends Seeder
             ['material_id' => 1,  'type_id' => 3,  'created_at' => now(), 'updated_at' => now()],  // id 3:  Alambre #12 Blanco
             ['material_id' => 1,  'type_id' => 4,  'created_at' => now(), 'updated_at' => now()],  // id 4:  Alambre #12 Verde
             ['material_id' => 2,  'type_id' => 5,  'created_at' => now(), 'updated_at' => now()],  // id 5:  Tubo Conduit PVC
-            ['material_id' => 3,  'type_id' => 6,  'created_at' => now(), 'updated_at' => now()],  // id 6:  Cable # 12 NEGRO
-            ['material_id' => 3,  'type_id' => 7,  'created_at' => now(), 'updated_at' => now()],  // id 7:  Cable # 12 ROJO
-            ['material_id' => 3,  'type_id' => 8,  'created_at' => now(), 'updated_at' => now()],  // id 8:  Cable # 12 VERDE
-            ['material_id' => 3,  'type_id' => 9,  'created_at' => now(), 'updated_at' => now()],  // id 9:  Cable # 12 BLANCO
-            ['material_id' => 3,  'type_id' => 10, 'created_at' => now(), 'updated_at' => now()],  // id 10: Cable # 10 NEGRO
-            ['material_id' => 3,  'type_id' => 11, 'created_at' => now(), 'updated_at' => now()],  // id 11: Cable # 10 ROJO
-            ['material_id' => 3,  'type_id' => 12, 'created_at' => now(), 'updated_at' => now()],  // id 12: Cable # 10 VERDE
+            ['material_id' => 3,  'type_id' => 6,  'created_at' => now(), 'updated_at' => now()],  // id 6:  Cable #12 Negro
+            ['material_id' => 3,  'type_id' => 7,  'created_at' => now(), 'updated_at' => now()],  // id 7:  Cable #12 Rojo
+            ['material_id' => 3,  'type_id' => 8,  'created_at' => now(), 'updated_at' => now()],  // id 8:  Cable #12 Verde
+            ['material_id' => 3,  'type_id' => 9,  'created_at' => now(), 'updated_at' => now()],  // id 9:  Cable #12 Blanco
+            ['material_id' => 18, 'type_id' => 10, 'created_at' => now(), 'updated_at' => now()],  // id 10: Cable #10 Negro
+            ['material_id' => 18, 'type_id' => 11, 'created_at' => now(), 'updated_at' => now()],  // id 11: Cable #10 Rojo
+            ['material_id' => 18, 'type_id' => 12, 'created_at' => now(), 'updated_at' => now()],  // id 12: Cable #10 Verde
             ['material_id' => 4,  'type_id' => 13, 'created_at' => now(), 'updated_at' => now()],  // id 13: Panel LED 12 Watts
             ['material_id' => 5,  'type_id' => 14, 'created_at' => now(), 'updated_at' => now()],  // id 14: Autoconector Cónico AMARILLOS
             ['material_id' => 6,  'type_id' => 15, 'created_at' => now(), 'updated_at' => now()],  // id 15: Cerrucho PARA DRYWALL

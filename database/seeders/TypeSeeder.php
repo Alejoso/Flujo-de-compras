@@ -15,13 +15,13 @@ class TypeSeeder extends Seeder
             ['specification' => 'Blanco', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 3
             ['specification' => 'Verde', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 4
             ['specification' => 'PVC', 'unit_of_measure_id' => 2, 'created_at' => now(), 'updated_at' => now()],  // id 5
-            ['specification' => '# 12 NEGRO', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 6
-            ['specification' => '# 12 ROJO', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 7
-            ['specification' => '# 12 VERDE', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 8
-            ['specification' => '# 12 BLANCO', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 9
-            ['specification' => '# 10 NEGRO', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 10
-            ['specification' => '# 10 ROJO', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 11
-            ['specification' => '# 10 VERDE', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 12
+            ['specification' => 'Negro', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 6  — Cable #12
+            ['specification' => 'Rojo',  'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 7  — Cable #12
+            ['specification' => 'Verde', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 8  — Cable #12
+            ['specification' => 'Blanco', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 9  — Cable #12
+            ['specification' => 'Negro', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 10 — Cable #10
+            ['specification' => 'Rojo',  'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 11 — Cable #10
+            ['specification' => 'Verde', 'unit_of_measure_id' => 1, 'created_at' => now(), 'updated_at' => now()],  // id 12 — Cable #10
             ['specification' => '12 Watts', 'unit_of_measure_id' => 3, 'created_at' => now(), 'updated_at' => now()],  // id 13
             ['specification' => 'AMARILLOS', 'unit_of_measure_id' => null, 'created_at' => now(), 'updated_at' => now()],  // id 14
             ['specification' => 'PARA DRYWALL', 'unit_of_measure_id' => null, 'created_at' => now(), 'updated_at' => now()],  // id 15

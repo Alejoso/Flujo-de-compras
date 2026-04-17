@@ -34,26 +34,26 @@ class PresentationMaterialTypeSeeder extends Seeder
             ['presentation_id' => 3, 'material_type_id' => 5, 'presentation_quantity' => '1/2', 'created_at' => now(), 'updated_at' => now()],  // Unidad 1/2 pulg
 
             // Cable # 12 NEGRO (material_type_id 6)
-            ['presentation_id' => 4, 'material_type_id' => 6,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 6,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 6,  'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 6,  'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Cable # 12 ROJO (material_type_id 7)
-            ['presentation_id' => 4, 'material_type_id' => 7,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 7,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 7,  'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 7,  'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Cable # 12 VERDE (material_type_id 8)
-            ['presentation_id' => 4, 'material_type_id' => 8,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 8,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 8,  'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 8,  'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Cable # 12 BLANCO (material_type_id 9)
-            ['presentation_id' => 4, 'material_type_id' => 9,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 9,  'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 9,  'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 9,  'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Cable # 10 NEGRO (material_type_id 10)
-            ['presentation_id' => 4, 'material_type_id' => 10, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 10, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 10, 'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 10, 'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Cable # 10 ROJO (material_type_id 11)
-            ['presentation_id' => 4, 'material_type_id' => 11, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 11, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 11, 'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 11, 'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Cable # 10 VERDE (material_type_id 12)
-            ['presentation_id' => 4, 'material_type_id' => 12, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
-            ['presentation_id' => 3, 'material_type_id' => 12, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 4, 'material_type_id' => 12, 'presentation_quantity' => '100', 'created_at' => now(), 'updated_at' => now()],
+            ['presentation_id' => 3, 'material_type_id' => 12, 'presentation_quantity' => '1',   'created_at' => now(), 'updated_at' => now()],
             // Panel LED 12 Watts (material_type_id 13)
             ['presentation_id' => 3, 'material_type_id' => 13, 'presentation_quantity' => '1', 'created_at' => now(), 'updated_at' => now()],
             // Autoconector Cónico AMARILLOS (material_type_id 14)
