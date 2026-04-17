@@ -36,7 +36,7 @@
       <div class="um-card mb-3 mb-md-4">
         <div class="um-card-header mat-col">
           <div>
-            <p class="um-card-title">{{ __('material.section_material_title') }}</p>
+            <h2 class="um-card-title">{{ __('material.section_material_title') }}</h2>
             <p class="um-card-subtitle">{{ __('material.section_material_subtitle') }}</p>
           </div>
         </div>
@@ -93,7 +93,7 @@
       <div class="um-card mb-3 mb-md-4">
         <div class="um-card-header mat-col">
           <div>
-            <p class="um-card-title">{{ __('material.section_types_title') }}</p>
+            <h2 class="um-card-title">{{ __('material.section_types_title') }}</h2>
             <p class="um-card-subtitle">{{ __('material.section_types_subtitle') }}</p>
           </div>
           <button type="button" class="um-btn-primary" id="btnAddType">
@@ -124,9 +124,9 @@
   <template id="typeTemplate">
     <div class="type-block mat-type-block mb-2 mb-md-3">
       <div class="d-flex justify-content-between align-items-center mb-2 mb-md-3 flex-wrap gap-2">
-        <strong class="mat-type-label">
+        <h3 class="mat-type-label">
           <i class="bi bi-tag"></i> Tipo #<span class="type-number">1</span>
-        </strong>
+        </h3>
         <button type="button" class="um-btn-icon um-btn-icon--delete btn-remove-type mat-type-remove p-1"
           title="{{ __('material.btn_delete_type_title') }}">
           <i class="bi bi-x-lg"></i>
@@ -154,7 +154,7 @@
       {{-- Presentations for this type --}}
       <div class="mat-pres-section">
         <div class="d-flex justify-content-between align-items-center mb-2 gap-2 flex-wrap">
-          <span class="mat-pres-label">{{ __('material.label_presentations') }}</span>
+          <h4 class="mat-pres-label">{{ __('material.label_presentations') }}</h4>
           <button type="button" class="btn-add-presentation mat-add-pres-btn">
             <i class="bi bi-plus"></i> <span class="d-none d-sm-inline">{{ __('material.btn_add_presentation') }}</span>
           </button>
