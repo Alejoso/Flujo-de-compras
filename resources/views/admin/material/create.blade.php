@@ -1,13 +1,12 @@
 @extends('layouts.admin')
 @section('page-title', __('material.title_create'))
-
 @push('styles')
   <link rel="stylesheet" href="{{ asset('css/materiales.css') }}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/css/tom-select.min.css">
+  <link rel="stylesheet" href="{{ asset('css/tom-select-dark.css') }}">
 @endpush
-
 @section('content')
   <div class="um-wrapper">
-
     {{-- Header --}}
     <div class="um-header mat-responsive">
       <h1 class="um-title"><i class="bi bi-box-seam"></i>
@@ -29,7 +28,8 @@
       </div>
     @endif
 
-    <form action="{{ route('admin.material.save') }}" method="POST" id="materialForm">
+    <form action="{{ route('admin.material.save') }}" method="POST" id="materialForm"
+      data-existing-types="{{ $viewData['typesJson'] }}">
       @csrf
 
       {{-- ═══ SECTION 1: MATERIAL ═══ --}}
@@ -42,7 +42,6 @@
         </div>
         <div class="p-2 p-sm-3 p-md-4">
           <div class="row g-2 g-md-3">
-
             {{-- Mode --}}
             <div class="col-12">
               <div class="d-flex gap-2 gap-md-3 flex-wrap">
@@ -54,7 +53,8 @@
                 <div class="form-check">
                   <input class="form-check-input" type="radio" name="material_mode" id="modeExisting" value="existing"
                     {{ old('material_mode') === 'existing' ? 'checked' : '' }}>
-                  <label class="form-check-label mat-check-label" for="modeExisting">{{ __('material.mode_existing') }}</label>
+                  <label class="form-check-label mat-check-label"
+                    for="modeExisting">{{ __('material.mode_existing') }}</label>
                 </div>
               </div>
             </div>
@@ -62,7 +62,8 @@
             {{-- New --}}
             <div class="col-12" id="newMaterialField">
               <label class="form-label mat-label">{{ __('material.label_description') }}</label>
-              <input type="text" name="description" class="form-control mat-input @error('description') is-invalid @enderror"
+              <input type="text" name="description"
+                class="form-control mat-input @error('description') is-invalid @enderror"
                 value="{{ old('description') }}" placeholder="{{ __('material.placeholder_description') }}">
               @error('description')
                 <div class="invalid-feedback mat-invalid">{{ $message }}</div>
@@ -72,7 +73,8 @@
             {{-- Existing --}}
             <div class="col-12 d-none" id="existingMaterialField">
               <label class="form-label mat-label">{{ __('material.label_existing_material') }}</label>
-              <select name="material_id" class="form-select mat-input @error('material_id') is-invalid @enderror">
+              <select name="material_id" id="materialSelect"
+                class="form-select mat-input @error('material_id') is-invalid @enderror">
                 <option value="">{{ __('material.option_select') }}</option>
                 @foreach ($viewData['materials'] as $mat)
                   <option value="{{ $mat->getId() }}" {{ old('material_id') == $mat->getId() ? 'selected' : '' }}>
@@ -84,7 +86,6 @@
                 <div class="invalid-feedback mat-invalid">{{ $message }}</div>
               @enderror
             </div>
-
           </div>
         </div>
       </div>
@@ -107,7 +108,8 @@
 
       {{-- ═══ ACTIONS ═══ --}}
       <div class="d-flex justify-content-end gap-2 flex-column-reverse flex-sm-row">
-        <a href="{{ route('admin.material.index') }}" class="um-btn-icon um-btn-icon--edit mat-btn-cancel px-2 px-md-3 py-2">
+        <a href="{{ route('admin.material.index') }}"
+          class="um-btn-icon um-btn-icon--edit mat-btn-cancel px-2 px-md-3 py-2">
           {{ __('material.btn_cancel') }}
         </a>
         <button type="submit" class="um-btn-primary mat-btn">
@@ -115,7 +117,6 @@
         </button>
       </div>
     </form>
-
   </div>
 
   {{-- ═══ TEMPLATES (hidden, cloned via JS) ═══ --}}
@@ -133,21 +134,52 @@
         </button>
       </div>
 
-      <div class="row g-2 g-md-3 mb-2 mb-md-3">
-        <div class="col-12 col-md-7">
-          <label class="form-label mat-type-field-label">{{ __('material.label_specification') }}</label>
-          <input type="text" class="form-control mat-type-field-input" data-name="types[__INDEX__][specification]"
-            placeholder="{{ __('material.placeholder_specification') }}">
+      {{-- Type mode toggle --}}
+      <div class="d-flex gap-2 gap-md-3 flex-wrap mb-2 mb-md-3">
+        <div class="form-check">
+          <input class="form-check-input type-mode-radio" type="radio" data-name="types[__INDEX__][type_mode]"
+            value="new" checked>
+          <label class="form-check-label mat-check-label">{{ __('material.mode_new') }}</label>
         </div>
-        <div class="col-12 col-md-5">
-          <label class="form-label mat-type-field-label">{{ __('material.label_unit') }}
-            <small class="mat-optional">{{ __('material.label_optional') }}</small></label>
-          <select class="form-select mat-type-field-input" data-name="types[__INDEX__][unit_of_measure_id]">
-            <option value="">{{ __('material.option_none') }}</option>
-            @foreach ($viewData['unitOfMeasures'] as $unidad)
-              <option value="{{ $unidad->getId() }}">{{ $unidad->getName() }} ({{ $unidad->getAbbreviation() }})</option>
-            @endforeach
-          </select>
+        <div class="form-check">
+          <input class="form-check-input type-mode-radio" type="radio" data-name="types[__INDEX__][type_mode]"
+            value="existing">
+          <label class="form-check-label mat-check-label">{{ __('material.mode_existing') }}</label>
+        </div>
+      </div>
+
+      {{-- NEW type fields --}}
+      <div class="type-new-fields">
+        <div class="row g-2 g-md-3 mb-2 mb-md-3">
+          <div class="col-12 col-md-7">
+            <label class="form-label mat-type-field-label">{{ __('material.label_specification') }}</label>
+            <input type="text" class="form-control mat-type-field-input" data-name="types[__INDEX__][specification]"
+              placeholder="{{ __('material.placeholder_specification') }}">
+          </div>
+          <div class="col-12 col-md-5">
+            <label class="form-label mat-type-field-label">{{ __('material.label_unit') }}
+              <small class="mat-optional">{{ __('material.label_optional') }}</small></label>
+            <select class="form-select mat-type-field-input" data-name="types[__INDEX__][unit_of_measure_id]">
+              <option value="">{{ __('material.option_none') }}</option>
+              @foreach ($viewData['unitOfMeasures'] as $unidad)
+                <option value="{{ $unidad->getId() }}">{{ $unidad->getName() }} ({{ $unidad->getAbbreviation() }})
+                </option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {{-- EXISTING type fields --}}
+      <div class="type-existing-fields d-none">
+        <div class="row g-2 g-md-3 mb-2 mb-md-3">
+          <div class="col-12">
+            <label class="form-label mat-type-field-label">{{ __('material.label_existing_type') }}</label>
+            <select class="form-select mat-type-field-input type-existing-select" data-name="types[__INDEX__][type_id]">
+              <option value="">{{ __('material.option_select') }}</option>
+              {{-- Options injected via JS from data attribute --}}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -156,7 +188,8 @@
         <div class="d-flex justify-content-between align-items-center mb-2 gap-2 flex-wrap">
           <span class="mat-pres-label">{{ __('material.label_presentations') }}</span>
           <button type="button" class="btn-add-presentation mat-add-pres-btn">
-            <i class="bi bi-plus"></i> <span class="d-none d-sm-inline">{{ __('material.btn_add_presentation') }}</span>
+            <i class="bi bi-plus"></i> <span
+              class="d-none d-sm-inline">{{ __('material.btn_add_presentation') }}</span>
           </button>
         </div>
         <div class="presentations-container"></div>
@@ -166,32 +199,61 @@
 
   {{-- Template for a Presentation row --}}
   <template id="presentationTemplate">
-    <div class="presentation-row d-flex gap-2 align-items-end mb-2 flex-wrap">
-      <div class="flex-grow-1 mat-pres-field">
-        <label class="form-label mat-pres-row-label">{{ __('material.label_presentation') }}</label>
-        <select class="form-select form-select-sm mat-pres-input"
-          data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_id]">
-          <option value="">{{ __('material.option_select') }}</option>
-          @foreach ($viewData['presentations'] as $pres)
-            <option value="{{ $pres->getId() }}">{{ $pres->getName() }}</option>
-          @endforeach
-        </select>
+    <div class="presentation-row mb-2">
+      {{-- Presentation mode toggle --}}
+      <div class="d-flex gap-2 flex-wrap mb-2">
+        <div class="form-check">
+          <input class="form-check-input pres-mode-radio" type="radio"
+            data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_mode]" value="existing"
+            checked>
+          <label class="form-check-label mat-check-label">{{ __('material.mode_existing') }}</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input pres-mode-radio" type="radio"
+            data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_mode]" value="new">
+          <label class="form-check-label mat-check-label">{{ __('material.mode_new') }}</label>
+        </div>
       </div>
-      <div class="mat-pres-qty-field">
-        <label class="form-label mat-pres-row-label">{{ __('material.label_quantity') }}</label>
-        <input type="text" class="form-control form-control-sm mat-pres-input"
-          data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_quantity]"
-          placeholder="{{ __('material.placeholder_quantity') }}">
+
+      <div class="d-flex gap-2 align-items-end flex-wrap">
+        {{-- EXISTING presentation --}}
+        <div class="flex-grow-1 mat-pres-field pres-existing-field">
+          <label class="form-label mat-pres-row-label">{{ __('material.label_presentation') }}</label>
+          <select class="form-select form-select-sm mat-pres-input pres-existing-select"
+            data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_id]">
+            <option value="">{{ __('material.option_select') }}</option>
+            @foreach ($viewData['presentations'] as $pres)
+              <option value="{{ $pres->getId() }}">{{ $pres->getName() }}</option>
+            @endforeach
+          </select>
+        </div>
+
+        {{-- NEW presentation --}}
+        <div class="flex-grow-1 mat-pres-field pres-new-field d-none">
+          <label class="form-label mat-pres-row-label">{{ __('material.label_presentation_name') }}</label>
+          <input type="text" class="form-control form-control-sm mat-pres-input"
+            data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_name]"
+            placeholder="{{ __('material.placeholder_presentation_name') }}">
+        </div>
+
+        {{-- Quantity (always visible) --}}
+        <div class="mat-pres-qty-field">
+          <label class="form-label mat-pres-row-label">{{ __('material.label_quantity') }}</label>
+          <input type="text" class="form-control form-control-sm mat-pres-input"
+            data-name="types[__TIPO_INDEX__][presentations][__PRES_INDEX__][presentation_quantity]"
+            placeholder="{{ __('material.placeholder_quantity') }}">
+        </div>
+
+        <button type="button" class="um-btn-icon um-btn-icon--delete btn-remove-presentation mat-pres-remove"
+          title="{{ __('material.btn_delete') }}">
+          <i class="bi bi-dash-circle"></i>
+        </button>
       </div>
-      <button type="button" class="um-btn-icon um-btn-icon--delete btn-remove-presentation mat-pres-remove"
-        title="{{ __('material.btn_delete') }}">
-        <i class="bi bi-dash-circle"></i>
-      </button>
     </div>
   </template>
-
 @endsection
 
 @push('scripts')
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.1/dist/js/tom-select.complete.min.js"></script>
   <script src="{{ asset('js/admin/material-form.js') }}"></script>
 @endpush

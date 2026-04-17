@@ -5,19 +5,21 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Material\StoreMaterialRequest;
 use App\Models\Material;
-use App\Models\MaterialType;
 use App\Models\Presentation;
-use App\Models\PresentationMaterialType;
 use App\Models\Type;
 use App\Models\UnitOfMeasure;
+use App\Services\Admin\MaterialCreationService;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class MaterialController extends Controller
 {
+    public function __construct(
+        private readonly MaterialCreationService $materialCreationService
+    ) {}
+
     public function index(Request $request): View
     {
         $search = $request->query('search', '');
@@ -38,6 +40,14 @@ class MaterialController extends Controller
         $viewData['materials'] = Material::orderBy('description')->get();
         $viewData['unitOfMeasures'] = UnitOfMeasure::orderBy('name')->get();
         $viewData['presentations'] = Presentation::orderBy('name')->get();
+        $viewData['types'] = Type::with('unitOfMeasure')->orderBy('specification')->get();
+        $viewData['typesJson'] = $viewData['types']->map(fn ($type) => [
+        'id' => $type->getId(),
+        'specification' => $type->getSpecification(),
+        'unit' => $type->unitOfMeasure
+            ? $type->unitOfMeasure->getName() . ' (' . $type->unitOfMeasure->getAbbreviation() . ')'
+            : null,
+        ])->toJson();
 
         return view('admin.material.create')->with('viewData', $viewData);
     }
@@ -45,43 +55,14 @@ class MaterialController extends Controller
     public function save(StoreMaterialRequest $request): RedirectResponse
     {
         $data = $request->validated();
-
+ 
         try {
-            DB::beginTransaction();
-
-            if ($data['material_mode'] === 'new') {
-                $material = Material::create(['description' => $data['description']]);
-            } else {
-                $material = Material::findOrFail($data['material_id']);
-            }
-
-            foreach ($data['types'] as $typeData) {
-                $type = Type::create([
-                    'specification' => $typeData['specification'],
-                    'unit_of_measure_id' => $typeData['unit_of_measure_id'] ?? null,
-                ]);
-
-                $materialType = MaterialType::create([
-                    'material_id' => $material->getId(),
-                    'type_id' => $type->getId(),
-                ]);
-
-                foreach ($typeData['presentations'] as $presData) {
-                    PresentationMaterialType::create([
-                        'presentation_quantity' => $presData['presentation_quantity'],
-                        'presentation_id' => $presData['presentation_id'],
-                        'material_type_id' => $materialType->getId(),
-                    ]);
-                }
-            }
-
-            DB::commit();
+            $material = $this->materialCreationService->createFullMaterial($data);
             session()->flash('success', __('material.success_created', ['name' => $material->getDescription()]));
         } catch (Exception $e) {
-            DB::rollBack();
             session()->flash('error', __('material.error_create', ['error' => $e->getMessage()]));
         }
-
+ 
         return redirect()->route('admin.material.index');
     }
 
@@ -91,7 +72,9 @@ class MaterialController extends Controller
             $material = Material::findOrFail($id);
             $description = $material->getDescription();
             $material->delete();
+
             session()->flash('success', __('material.success_deleted', ['name' => $description]));
+
         } catch (Exception $e) {
             session()->flash('error', __('material.error_delete', ['error' => $e->getMessage()]));
         }

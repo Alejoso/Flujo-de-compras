@@ -1,0 +1,150 @@
+/* ══════════════════════════════════════════
+   Tom Select — Dark theme overrides
+   Matches the admin panel's dark UI
+   ══════════════════════════════════════════ */
+
+/* ── Main control (the input wrapper) ── */
+.ts-wrapper.single .ts-control,
+.ts-wrapper.multi .ts-control,
+.ts-wrapper .ts-control {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  color: #e0e0e0 !important;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-height: 42px;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease;
+}
+
+.ts-wrapper.single .ts-control:hover,
+.ts-wrapper.multi .ts-control:hover {
+  border-color: #555 !important;
+}
+
+.ts-wrapper.single.focus .ts-control,
+.ts-wrapper.multi.focus .ts-control,
+.ts-wrapper.focus .ts-control {
+  border-color: #f5c518 !important;
+  box-shadow: 0 0 0 2px rgba(245, 197, 24, 0.15) !important;
+  outline: none;
+}
+
+/* ── Search input inside the control ── */
+.ts-wrapper .ts-control > input,
+.ts-wrapper.single .ts-control > input {
+  color: #e0e0e0 !important;
+}
+
+/* ── Placeholder text ── */
+.ts-control > input::placeholder,
+.ts-wrapper .ts-control > input::placeholder {
+  color: #777 !important;
+}
+
+/* ── The selected value text ── */
+.ts-wrapper .ts-control .item,
+.ts-wrapper.single .ts-control .item {
+  color: #e0e0e0 !important;
+}
+
+/* ── The caret/arrow ── */
+.ts-wrapper.single .ts-control::after {
+  border-color: #777 transparent transparent transparent !important;
+}
+
+/* ── Dropdown menu ── */
+.ts-dropdown,
+.ts-dropdown.single,
+.ts-dropdown.multi {
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  border-radius: 0.5rem;
+  margin-top: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  color: #e0e0e0 !important;
+}
+
+/* ── Dropdown options ── */
+.ts-dropdown .option,
+.ts-dropdown [data-selectable] {
+  color: #e0e0e0 !important;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 0.15s ease;
+  background: transparent !important;
+}
+
+.ts-dropdown .option:hover,
+.ts-dropdown .option.active,
+.ts-dropdown [data-selectable]:hover {
+  background: #2a2a2a !important;
+  color: #e0e0e0 !important;
+}
+
+.ts-dropdown .option.selected,
+.ts-dropdown .active.selected {
+  background: rgba(245, 197, 24, 0.15) !important;
+  color: #f5c518 !important;
+}
+
+/* ── "No results" message ── */
+.ts-dropdown .no-results {
+  color: #777 !important;
+  padding: 0.5rem 0.75rem;
+  background: transparent !important;
+}
+
+/* ── Scrollable content ── */
+.ts-dropdown .ts-dropdown-content {
+  max-height: 250px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
+}
+
+.ts-dropdown .ts-dropdown-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ts-dropdown .ts-dropdown-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ts-dropdown .ts-dropdown-content::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 3px;
+}
+
+/* ── Remove the default focus outline on the wrapper ── */
+.ts-wrapper {
+  border: none !important;
+  padding: 0;
+}
+
+/* ── Small variant (for presentation selects) ── */
+.ts-wrapper.form-select-sm .ts-control,
+.presentation-row .ts-wrapper .ts-control {
+  min-height: 36px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.875rem;
+}
+
+.ts-wrapper .ts-control,
+.ts-wrapper .ts-control > input,
+.ts-dropdown .option {
+  font-size: 1rem !important;
+}
+
+.ts-wrapper .ts-control > .item,
+.ts-wrapper .ts-control > input {
+  line-height: 1.5 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  vertical-align: middle !important;
+}
+
+.ts-wrapper .ts-control {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap;
+}

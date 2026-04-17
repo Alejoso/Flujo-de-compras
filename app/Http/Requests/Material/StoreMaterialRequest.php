@@ -19,11 +19,15 @@ class StoreMaterialRequest extends FormRequest
             'description' => 'required_if:material_mode,new|nullable|string|max:255',
 
             'types' => 'required|array|min:1',
-            'types.*.specification' => 'required|string|max:255',
+            'types.*.type_mode' => 'required|in:new,existing',
+            'types.*.type_id' => 'required_if:types.*.type_mode,existing|nullable|exists:types,id',
+            'types.*.specification' => 'required_if:types.*.type_mode,new|nullable|string|max:255',
             'types.*.unit_of_measure_id' => 'nullable|exists:unit_of_measures,id',
 
             'types.*.presentations' => 'required|array|min:1',
-            'types.*.presentations.*.presentation_id' => 'required|exists:presentations,id',
+            'types.*.presentations.*.presentation_mode' => 'required|in:new,existing',
+            'types.*.presentations.*.presentation_id' => 'required_if:types.*.presentations.*.presentation_mode,existing|nullable|exists:presentations,id',
+            'types.*.presentations.*.presentation_name' => 'required_if:types.*.presentations.*.presentation_mode,new|nullable|string|max:255',
             'types.*.presentations.*.presentation_quantity' => 'required|string|max:50',
         ];
     }
@@ -32,9 +36,13 @@ class StoreMaterialRequest extends FormRequest
     {
         return [
             'types.required' => __('material.validation_types_required'),
-            'types.*.specification.required' => __('material.validation_type_specification_required'),
+            'types.*.type_mode.required' => __('material.validation_type_mode_required'),
+            'types.*.specification.required_if' => __('material.validation_type_specification_required'),
+            'types.*.type_id.required_if' => __('material.validation_type_id_required'),
             'types.*.presentations.required' => __('material.validation_type_presentations_required'),
-            'types.*.presentations.*.presentation_id.required' => __('material.validation_presentation_required'),
+            'types.*.presentations.*.presentation_mode.required' => __('material.validation_presentation_mode_required'),
+            'types.*.presentations.*.presentation_id.required_if' => __('material.validation_presentation_required'),
+            'types.*.presentations.*.presentation_name.required_if' => __('material.validation_presentation_name_required'),
             'types.*.presentations.*.presentation_quantity.required' => __('material.validation_presentation_quantity_required'),
             'description.required_if' => __('material.validation_description_required'),
             'material_id.required_if' => __('material.validation_material_required'),

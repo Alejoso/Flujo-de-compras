@@ -62,4 +62,13 @@ return [
     'validation_presentation_quantity_required' => 'La cantidad por presentación es obligatoria.',
     'validation_description_required' => 'La descripción del material es obligatoria.',
     'validation_material_required' => 'Seleccione un material existente.',
+
+    'label_existing_type' => 'Tipo existente',
+    'validation_type_mode_required' => 'Seleccione si desea crear o seleccionar un tipo.',
+    'validation_type_id_required' => 'Seleccione un tipo existente.',
+
+    'label_presentation_name' => 'Nombre de la presentación',
+    'placeholder_presentation_name' => 'Ej: Rollo, Paquete, Caja...',
+    'validation_presentation_mode_required' => 'Seleccione si desea crear o seleccionar una presentación.',
+    'validation_presentation_name_required' => 'Ingrese el nombre de la nueva presentación.',
 ];
