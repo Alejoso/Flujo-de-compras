@@ -21,7 +21,7 @@
       <div class="um-card-header">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-person-badge pj-header-icon"></i>
-          <span class="um-card-title um-card-title--sm">{{ __('client.client_info') }}</span>
+          <h2 class="um-card-title um-card-title--sm">{{ __('client.client_info') }}</h2>
         </div>
       </div>
 
@@ -49,7 +49,7 @@
       <div class="um-card-header">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-folder-fill pj-header-icon"></i>
-          <span class="um-card-title um-card-title--sm">{{ __('project.projects') }}</span>
+          <h2 class="um-card-title um-card-title--sm">{{ __('project.projects') }}</h2>
         </div>
       </div>
 
@@ -58,7 +58,7 @@
           <div class="pj-card mb-3">
             <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
               <div>
-                <h5 class="pj-title mb-2">{{ $project->getName() }}</h5>
+                <h3 class="pj-title mb-2">{{ $project->getName() }}</h3>
                 <div class="text-white-50 mb-1">{{ __('project.address') }}: {{ $project->getAddress() }}</div>
                 <div class="text-white-50">{{ __('project.city') }}: {{ $project->getCity() }}</div>
               </div>
