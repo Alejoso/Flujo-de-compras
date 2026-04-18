@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['Technician', 'Technician Edited', 'Pending', 'Technician Final', 'Admin Edited', 'In Process', 'Invoiced', 'Cancelled'])->default('Technician');
+            $table->enum('status', ['Technician', 'Technician Edited', 'Technician Final', 'Admin Edited', 'In Process', 'Invoiced', 'Cancelled'])->default('Technician');
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
