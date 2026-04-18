@@ -38,6 +38,11 @@ class MaterialController extends Controller
         $viewData['materials'] = Material::orderBy('description')->get();
         $viewData['unitOfMeasures'] = UnitOfMeasure::orderBy('name')->get();
         $viewData['presentations'] = Presentation::orderBy('name')->get();
+        $viewData['typesJson'] = Type::with('unitOfMeasure')->get()->map(fn ($t) => [
+            'id'            => $t->getId(),
+            'specification' => $t->getSpecification(),
+            'unit'          => $t->getUnitOfMeasure()?->getAbbreviation(),
+        ])->toJson();
 
         return view('admin.material.create')->with('viewData', $viewData);
     }
