@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\SaveUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
@@ -25,18 +26,14 @@ class UserController extends Controller
         return view('admin.user.create');
     }
 
-    public function save(Request $request): RedirectResponse
+    public function save(SaveUserRequest $request): RedirectResponse
     {
-        // TODO: update Blade form input names to match new column names (role, id_number, salary, phone_number, receives_notifications)
-        $validatedUserData = $request->only(['name', 'email', 'password', 'role', 'id_number', 'salary', 'phone_number', 'receives_notifications']);
-        $validatedUserData['password'] = Hash::make($validatedUserData['password']);
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+        $data['receives_notifications'] = $request->has('receives_notifications') ? 1 : 0;
 
-        try {
-            User::create($validatedUserData);
-            session()->flash('success', __('admin_user.flash_store_success'));
-        } catch (Exception $e) {
-            session()->flash('error', __('admin_user.flash_store_error', ['error' => $e->getMessage()]));
-        }
+        User::create($data);
+        session()->flash('success', __('admin_user.flash_store_success'));
 
         return redirect()->route('admin.user.index');
     }
@@ -49,24 +46,21 @@ class UserController extends Controller
         return view('admin.user.edit')->with('viewData', $viewData);
     }
 
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(UpdateUserRequest $request, int $id): RedirectResponse
     {
         $user = User::findOrFail($id);
 
-        // TODO: update Blade form input names to match new column names (role, id_number, salary, phone_number, receives_notifications)
-        $data = $request->only(['name', 'email', 'role', 'id_number', 'salary', 'phone_number', 'receives_notifications']);
+        $data = $request->validated();
         $data['receives_notifications'] = $request->has('receives_notifications') ? 1 : 0;
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->input('password'));
+        if (!empty($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
         }
 
-        try {
-            $user->update($data);
-            session()->flash('success', __('admin_user.flash_update_success'));
-        } catch (Exception $e) {
-            session()->flash('error', __('admin_user.flash_update_error', ['error' => $e->getMessage()]));
-        }
+        $user->update($data);
+        session()->flash('success', __('admin_user.flash_update_success'));
 
         return redirect()->route('admin.user.index');
     }
