@@ -11,14 +11,15 @@ use Illuminate\Support\Facades\Auth;
 
 class QuotationMailer
 {
+    public function __construct(private readonly EmailService $emailService) {}
+
     // Sends an email notifying the creation of a quotation.
     public function sendCreationEmail(Quotation $quotation, Project $project, QuotationVersion $version): void
     {
-        $emailService = new EmailService;
         $user = User::findOrFail(Auth::id());
         $position = $this->positionInProject($quotation, $project);
 
-        $emailService->send(
+        $this->emailService->send(
             $quotation->getStatus(),
             __('email.quote_created_subject', ['project' => $project->getName()]),
             __('email.quote_created_body', ['id' => $position, 'project' => $project->getName()]),
@@ -32,11 +33,10 @@ class QuotationMailer
     // Sends an email notifying the editing of a quotation.
     public function sendEditEmail(Quotation $quotation, Project $project, QuotationVersion $version): void
     {
-        $emailService = new EmailService;
         $user = User::findOrFail(Auth::id());
         $position = $this->positionInProject($quotation, $project);
 
-        $emailService->send(
+        $this->emailService->send(
             $quotation->getStatus(),
             __('email.quote_edited_subject', ['project' => $project->getName()]),
             __('email.quote_edited_body', ['id' => $position, 'project' => $project->getName()]),
