@@ -48,16 +48,16 @@ class MaterialCreationService
 
         $unitId = $typeData['unit_of_measure_id'] ?? null;
 
-        if (($typeData['unit_mode'] ?? 'existing') === 'new' && !empty($typeData['unit_name'])) {
+        if (($typeData['unit_mode'] ?? 'existing') === 'new' && ! empty($typeData['unit_name'])) {
             $unit = UnitOfMeasure::create([
-                'name'         => $typeData['unit_name'],
+                'name' => $typeData['unit_name'],
                 'abbreviation' => $typeData['unit_abbreviation'],
             ]);
             $unitId = $unit->getId();
         }
 
         return Type::create([
-            'specification'    => $typeData['specification'],
+            'specification' => $typeData['specification'],
             'unit_of_measure_id' => $unitId,
         ]);
     }

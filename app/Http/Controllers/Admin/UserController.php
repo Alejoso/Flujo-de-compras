@@ -53,7 +53,7 @@ class UserController extends Controller
         $data = $request->validated();
         $data['receives_notifications'] = $request->has('receives_notifications') ? 1 : 0;
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         } else {
             unset($data['password']);

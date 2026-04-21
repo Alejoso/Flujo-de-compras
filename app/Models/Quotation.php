@@ -14,7 +14,7 @@ class Quotation extends Model
     /**
      * QUOTATION ATTRIBUTES
      * $this->attributes['id'] - int - contains the primary key
-        * $this->attributes['status'] - enum('Technician', 'Technician Edited', 'Technician Final', 'Admin Edited', 'In Process', 'Invoiced', 'Cancelled') - contains the status of the quotation
+     * $this->attributes['status'] - enum('Technician', 'Technician Edited', 'Technician Final', 'Admin Edited', 'In Process', 'Invoiced', 'Cancelled') - contains the status of the quotation
      * $this->attributes['project_id'] - int - contains the foreign key of the project
      * $this->attributes['created_by'] - int - contains the foreign key of the user who created it
      * $this->attributes['invoice_id'] - int|null - contains the foreign key of the invoice

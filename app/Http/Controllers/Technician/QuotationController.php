@@ -136,7 +136,7 @@ class QuotationController extends Controller
         ])->findOrFail($versionId);
 
         $quotationStatus = $viewData['version']->quotation->getStatus();
-        if (!in_array($quotationStatus, ['Technician', 'Technician Edited'])) {
+        if (! in_array($quotationStatus, ['Technician', 'Technician Edited'])) {
             session()->flash('error', __('technician_quotation.flash_edit_blocked'));
 
             return redirect()->route('technician.quotation.versions', [$projectId, $viewData['version']->quotation->getId()]);
@@ -166,7 +166,7 @@ class QuotationController extends Controller
         $currentVersion = QuotationVersion::findOrFail($versionId);
         $quotation = $currentVersion->quotation;
 
-        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
+        if (! in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
             session()->flash('error', __('technician_quotation.flash_edit_blocked'));
 
             return redirect()->route('technician.quotation.versions', [$projectId, $quotation->getId()]);
@@ -205,7 +205,7 @@ class QuotationController extends Controller
         $quotation = Quotation::findOrFail($quotationId);
         $project = Project::findOrFail($projectId);
 
-        if (!in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
+        if (! in_array($quotation->getStatus(), ['Technician', 'Technician Edited'])) {
             session()->flash('error', __('technician_quotation.flash_submit_invalid'));
 
             return redirect()->route('technician.quotation.versions', [$projectId, $quotationId]);

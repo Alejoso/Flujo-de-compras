@@ -10,8 +10,8 @@ use App\Models\Quotation;
 use App\Models\QuotationVersion;
 use App\Services\QuotationService;
 use App\Support\Quotation\QuotationBuilder;
-use App\Support\Quotation\QuotationPdfBuilder;
 use App\Support\Quotation\QuotationMailer;
+use App\Support\Quotation\QuotationPdfBuilder;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -122,7 +122,7 @@ class QuotationController extends Controller
     {
         $quotation = Quotation::findOrFail($quotationId);
 
-        if (!in_array($quotation->getStatus(), ['Technician Final', 'Admin Edited'])) {
+        if (! in_array($quotation->getStatus(), ['Technician Final', 'Admin Edited'])) {
             session()->flash('error', __('project.flash_accept_invalid_status'));
 
             return redirect()->route('admin.quotation.versions', [$projectId, $quotationId]);
@@ -142,7 +142,7 @@ class QuotationController extends Controller
         $quotation = Quotation::findOrFail($quotationId);
         $project = Project::findOrFail($projectId);
 
-        if (!in_array($quotation->getStatus(), ['Technician Final', 'Admin Edited'])) {
+        if (! in_array($quotation->getStatus(), ['Technician Final', 'Admin Edited'])) {
             session()->flash('error', __('project.flash_reject_invalid_status'));
 
             return redirect()->route('admin.quotation.versions', [$projectId, $quotationId]);

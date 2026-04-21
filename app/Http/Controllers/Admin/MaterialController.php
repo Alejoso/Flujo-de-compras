@@ -42,11 +42,11 @@ class MaterialController extends Controller
         $viewData['presentations'] = Presentation::orderBy('name')->get();
         $viewData['types'] = Type::with('unitOfMeasure')->orderBy('specification')->get();
         $viewData['typesJson'] = $viewData['types']->map(fn ($type) => [
-        'id' => $type->getId(),
-        'specification' => $type->getSpecification(),
-        'unit' => $type->unitOfMeasure
-            ? $type->unitOfMeasure->getName() . ' (' . $type->unitOfMeasure->getAbbreviation() . ')'
-            : null,
+            'id' => $type->getId(),
+            'specification' => $type->getSpecification(),
+            'unit' => $type->unitOfMeasure
+                ? $type->unitOfMeasure->getName().' ('.$type->unitOfMeasure->getAbbreviation().')'
+                : null,
         ])->toJson();
 
         return view('admin.material.create')->with('viewData', $viewData);
@@ -55,14 +55,14 @@ class MaterialController extends Controller
     public function save(StoreMaterialRequest $request): RedirectResponse
     {
         $data = $request->validated();
- 
+
         try {
             $material = $this->materialCreationService->createFullMaterial($data);
             session()->flash('success', __('material.success_created', ['name' => $material->getDescription()]));
         } catch (Exception $e) {
             session()->flash('error', __('material.error_create', ['error' => $e->getMessage()]));
         }
- 
+
         return redirect()->route('admin.material.index');
     }
 
